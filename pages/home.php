@@ -5,13 +5,14 @@
 
     include "../server/connection.php";
     include "../functions/insert.functions.php";
+    include "../functions/select.functions.php";
 
     $db = new Connection();
     $insert = new Insert($db);
+    $select = new Select($db);
 
     $insert->insertCustomer("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus@gmail.com", "Mandaue", "Tabok", "St. Philip", "6014", "123");
     $insert->insertEmployee("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus@gmail.com", "Mandaue", "Tabok", "St. Philip", "6014", "123");
-
 
     $insert->insertProduct("Soap");
     $insert->insertVariation("Soap", "Green", "Meow", "image.jpg", 200, 10.00, 1);
@@ -21,6 +22,12 @@
 
     $insert->insertDelivery(10.00, 1, 1);
     $insert->insertDeliveredProducts(10, 1, 1);
+
+    $result = $select->selectAllDeliveries();
+
+    while($row = $result->fetch_assoc()) {
+        alert($row['VariationName']);
+    }
 
     $db->killConnection();
 

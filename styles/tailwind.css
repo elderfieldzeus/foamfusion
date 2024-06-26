@@ -818,10 +818,6 @@ video {
   display: none;
 }
 
-.h-screen {
-  height: 100vh;
-}
-
 .w-\[this-is\\\\\] {
   width: this-is\\;
 }
@@ -1797,11 +1793,6 @@ video {
   background-color: rgb(255 0 0 / var(--tw-bg-opacity));
 }
 
-.bg-blue-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(96 165 250 / var(--tw-bg-opacity));
-}
-
 .decoration-slice {
   -webkit-box-decoration-break: slice;
           box-decoration-break: slice;
@@ -1966,16 +1957,6 @@ video {
 
 .align-super {
   vertical-align: super;
-}
-
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.text-9xl {
-  font-size: 8rem;
-  line-height: 1;
 }
 
 .font-bold {

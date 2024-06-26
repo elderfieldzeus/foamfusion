@@ -7,4 +7,8 @@
             </script>";
     }
 
+    function Location($location) {
+        header("Location: ". $location);
+    }
+
 ?>

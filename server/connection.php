@@ -1,5 +1,5 @@
 <?php
-    include "../utilities/functions.php";
+    include "../functions/general.functions.php";
     include "../utilities/tables.php";
 
     class Connection {
@@ -7,7 +7,6 @@
         private $connected = FALSE;
 
         function __construct() {
-            $this->connectServer();
             $this->connectServer();
         }
 
@@ -20,15 +19,15 @@
             $this->conn = new mysqli($servername, $username, $password, '', $port);
 
             if($this->conn->connect_error) {
-                die("Connection failed: " . $conn->error);
+                die("Connection failed: " . $this->conn->error);
             }
 
-            if($this->connected === FALSE) {
+            if($this->connected == FALSE) {
                 $this->createDatabase();
                 $this->createTables();
+                $this->connected = TRUE;
             }
 
-            $this->connected = TRUE;
         }
 
         function killConnection() {
@@ -39,16 +38,24 @@
 
         function createDatabase() {
             $this->query("CREATE DATABASE IF NOT EXISTS foamfusion_db;");
-            $this->conn->select_db('foamfusion_db');
-        }
-
-        function query($query) {
-            if(!$this->conn->query($query)) {
-                alert("Failed to load query: " . $query);
+            if(!$this->conn->select_db('foamfusion_db')) {
+                alert("Failed to select Database");
             }
         }
 
+        function query($query) {
+            $q = null;
+            
+            if(!($q = $this->conn->query($query))) {
+                alert("Failed to load query: " . $query);
+            }
+            
+            return $q;
+        }
+
         function createTables() {
+            global $tables;
+
             foreach( $tables as $table ) {
                 $this->query("CREATE TABLE IF NOT EXISTS " . $table . ";");
             }

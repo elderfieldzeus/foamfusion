@@ -11,7 +11,7 @@
         "Contact(
             ContactID" . $primary_key . ",
             PhoneNum VARCHAR(255) NOT NULL,
-            Email VARCHAR(255) NOT NULL,
+            Email VARCHAR(255) NOT NULL
         )",
 
         "Address(
@@ -19,13 +19,13 @@
             City VARCHAR(255) NOT NULL,
             Barangay VARCHAR(255) NOT NULL,
             Street VARCHAR(255) NOT NULL,
-            PostalCode VARCHAR(255) NOT NULL,
+            PostalCode VARCHAR(255) NOT NULL
         )",
 
         "Account(
             AccountID" . $primary_key . ",
             Password VARCHAR(255) NOT NULL,
-            Role ENUM('Customer', 'Admin'),
+            Role ENUM('Customer', 'Admin') DEFAULT 'Customer',
             CreatedAt DATE DEFAULT CURRENT_DATE
         )",
 
@@ -39,7 +39,7 @@
             FOREIGN KEY(NameID) REFERENCES Name(NameID),
             FOREIGN KEY(ContactID) REFERENCES Contact(ContactID),
             FOREIGN KEY(AddressID) REFERENCES Address(AddressID),
-            FOREIGN KEY(AccountID) REFERENCES Account(AccountID),
+            FOREIGN KEY(AccountID) REFERENCES Account(AccountID)
         )",
 
         "Products(
@@ -51,7 +51,10 @@
             VariationID" . $primary_key . ",
             VariationName VARCHAR(255),
             VariationDescription VARCHAR(255),
+            VariationImage VARCHAR(255),
             MassInOZ INT NOT NULL,
+            UnitPrice DECIMAL(10, 2) NOT NULL,
+            InStock INT NOT NULL DEFAULT 0,
             ProductID INT NOT NULL,
             FOREIGN KEY(ProductID) REFERENCES Products(ProductID)
         )",
@@ -66,30 +69,46 @@
             FOREIGN KEY(NameID) REFERENCES Name(NameID),
             FOREIGN KEY(ContactID) REFERENCES Contact(ContactID),
             FOREIGN KEY(AddressID) REFERENCES Address(AddressID),
-            FOREIGN KEY(AccountID) REFERENCES Account(AccountID),
+            FOREIGN KEY(AccountID) REFERENCES Account(AccountID)
         )",
 
-        "Order(
+        "Orders(
             OrderID" . $primary_key . ",
             OrderTime DATETIME DEFAULT CURRENT_TIMESTAMP,
-            OrderStatus ENUM('Pending', 'Failed', 'Success'),
+            OrderStatus ENUM('Pending', 'Failed', 'Success') DEFAULT 'Pending',
             TotalPrice DECIMAL(10, 2) NOT NULL,
             CustomerID INT NOT NULL,
-            FOREIGN KEY(CustomerID) REFERENCES Customers(CustomerID),
+            FOREIGN KEY(CustomerID) REFERENCES Customers(CustomerID)
         )",
 
-        "Delivery(
+        "Deliveries(
             DeliveryID" . $primary_key . ",
             DeliveryTime DATETIME DEFAULT CURRENT_TIMESTAMP,
-            DeliveryStatus ENUM('Pending', 'Failed', 'Success'),
+            DeliveryStatus ENUM('Pending', 'Failed', 'Success') DEFAULT 'Pending',
             TotalPrice DECIMAL(10, 2) NOT NULL,
-            CustomerID INT NOT NULL,
             EmployeeID INT NOT NULL,
-            FOREIGN KEY(CustomerID) REFERENCES Customers(CustomerID),
-            FOREIGN KEY(EmployeeID) REFERENCES Employees(EmployeeID)
+            OrderID INT NOT NULL,
+            FOREIGN KEY(EmployeeID) REFERENCES Employees(EmployeeID),
+            FOREIGN KEY(OrderID) REFERENCES Orders(OrderID)
         )",
 
-        ""
-    ]
+        "OrderedProducts(
+            OrderedProductID" . $primary_key . ",
+            OrderedQuantity INT NOT NULL CHECK (OrderedQuantity > 0),
+            OrderID INT NOT NULL,
+            VariationID INT NOT NULL,
+            FOREIGN KEY(OrderID) REFERENCES Orders(OrderID),
+            FOREIGN KEY(VariationID) REFERENCES Variations(VariationID)
+        )",
+
+        "DeliveredProducts(
+            DeliveredProductID" . $primary_key . ",
+            DeliveredQuantity INT NOT NULL CHECK (DeliveredQuantity >= 0),
+            DeliveryID INT NOT NULL,
+            VariationID INT NOT NULL,
+            FOREIGN KEY(DeliveryID) REFERENCES Deliveries(DeliveryID),
+            FOREIGN KEY(VariationID) REFERENCES Variations(VariationID)
+        )"
+    ];
 
 ?>

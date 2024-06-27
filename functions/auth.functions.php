@@ -32,8 +32,8 @@
             $this->HashedPassword = password_hash($Password, PASSWORD_BCRYPT);
             
             switch($Role) {
-                case 'Customer': $this->insert->insertCustomer($FirstName, $LastName, $MiddleName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password); break;
-                case 'Admin': $this->insert->insertEmployee($FirstName, $LastName, $MiddleName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password); break;
+                case 'Customer': $this->insert->insertCustomer($FirstName, $LastName, $MiddleName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $this->HashedPassword); break;
+                case 'Admin': $this->insert->insertEmployee($FirstName, $LastName, $MiddleName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $this->HashedPassword); break;
                 default: return FALSE;
             }
 
@@ -56,7 +56,6 @@
                 return FALSE;
             }
 
-            $this->Row = $this->Result->fetch_assoc();
             $this->ID = $this->Row[($Role == 'Customer') ? 'CustomerID' : 'EmployeeID'];
             
             return TRUE;

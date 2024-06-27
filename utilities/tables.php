@@ -8,11 +8,11 @@
             MiddleName VARCHAR(255)
         )",
 
-        "Contact(
-            ContactID" . $primary_key . ",
-            PhoneNum VARCHAR(255) NOT NULL,
-            Email VARCHAR(255) NOT NULL
-        )",
+        // "Contact(
+        //     ContactID" . $primary_key . ",
+        //     PhoneNum VARCHAR(255) NOT NULL,
+        //     Email VARCHAR(255) NOT NULL
+        // )",
 
         "Address(
             AddressID" . $primary_key . ",
@@ -24,6 +24,7 @@
 
         "Account(
             AccountID" . $primary_key . ",
+            Email VARCHAR(255) NOT NULL,
             Password VARCHAR(255) NOT NULL,
             Role ENUM('Customer', 'Admin') DEFAULT 'Customer',
             CreatedAt DATE DEFAULT CURRENT_DATE
@@ -32,12 +33,11 @@
         "Customers(
             CustomerID" . $primary_key . ",
             BirthDate DATE NOT NULL,
+            PhoneNum VARCHAR(255) NOT NULL,
             NameID INT NOT NULL,
-            ContactID INT NOT NULL,
             AddressID INT NOT NULL,
             AccountID INT NOT NULL,
             FOREIGN KEY(NameID) REFERENCES Name(NameID),
-            FOREIGN KEY(ContactID) REFERENCES Contact(ContactID),
             FOREIGN KEY(AddressID) REFERENCES Address(AddressID),
             FOREIGN KEY(AccountID) REFERENCES Account(AccountID)
         )",
@@ -62,12 +62,11 @@
         "Employees(
             EmployeeID" . $primary_key . ",
             BirthDate DATE NOT NULL,
+            PhoneNum VARCHAR(255) NOT NULL,
             NameID INT NOT NULL,
-            ContactID INT NOT NULL,
             AddressID INT NOT NULL,
             AccountID INT NOT NULL,
             FOREIGN KEY(NameID) REFERENCES Name(NameID),
-            FOREIGN KEY(ContactID) REFERENCES Contact(ContactID),
             FOREIGN KEY(AddressID) REFERENCES Address(AddressID),
             FOREIGN KEY(AccountID) REFERENCES Account(AccountID)
         )",

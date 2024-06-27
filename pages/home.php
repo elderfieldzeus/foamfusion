@@ -6,13 +6,19 @@
     include "../server/connection.php";
     include "../functions/insert.functions.php";
     include "../functions/select.functions.php";
+    include "../functions/auth.functions.php";
 
     $db = new Connection();
     $insert = new Insert($db);
     $select = new Select($db);
+    $auth = new Authentication($db);
 
-    $insert->insertCustomer("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus@gmail.com", "Mandaue", "Tabok", "St. Philip", "6014", "123");
-    $insert->insertEmployee("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus@gmail.com", "Mandaue", "Tabok", "St. Philip", "6014", "123");
+    if(!$auth->signup("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus24@gmail.com", "Mandaue", "Basak", "St. John", "6014", "123", "123", "Customer")) {
+        alert("Failed");
+    }
+
+    // $insert->insertCustomer("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus@gmail.com", "Mandaue", "Tabok", "St. Philip", "6014", "123");
+    // $insert->insertEmployee("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus@gmail.com", "Mandaue", "Tabok", "St. Philip", "6014", "123");
 
     $insert->insertProduct("Soap");
     $insert->insertVariation("Soap", "Green", "Meow", "image.jpg", 200, 10.00, 1);

@@ -25,10 +25,6 @@
 
     $result = $select->selectAllDeliveries();
 
-    while($row = $result->fetch_assoc()) {
-        alert($row['VariationName']);
-    }
-
     $db->killConnection();
 
 

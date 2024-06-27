@@ -44,20 +44,43 @@
         function selectAllDeliveries() {
             $this->sql = "SELECT *
                         FROM DeliveredProducts
-                        LEFT JOIN Deliveries ON DeliveredProducts.DeliveryID 
-                        LEFT JOIN Variations ON DeliveredProducts.VariationID
-                        LEFT JOIN Employees ON Deliveries.EmployeeID
-                        LEFT JOIN Orders ON Deliveries.OrderID
-                        LEFT JOIN Customers ON Orders.CustomerID;";
+                        LEFT JOIN Deliveries ON DeliveredProducts.DeliveryID = Deliveries.DeliveryID
+                        LEFT JOIN Variations ON DeliveredProducts.VariationID = Variations.VariationID
+                        LEFT JOIN Employees ON Deliveries.EmployeeID = Employees.EmployeeID
+                        LEFT JOIN Orders ON Deliveries.OrderID = Orders.OrderID
+                        LEFT JOIN Customers ON Orders.CustomerID = Customers.CustomerID;";
 
             return $this->db->query($this->sql);
         }
 
         function selectCustomerOrders($CustomerID) {
-            $this->sql = "SELECT * FROM OrderedProducts
-                        LEFT JOIN Orders ON OrderedProducts.OrderID
-                        LEFT JOIN Variation ON OrderedProducts.VariationID
-                        WHERE Orders.CustomerID='$CustomerID';";
+            $this->sql = "SELECT * FROM Orders 
+                        LEFT JOIN OrderedProducts ON OrderedProducts.OrderID = Orders.OrderID
+                        LEFT JOIN Variations ON OrderedProducts.VariationID = Variations.VariationID
+                        WHERE Orders.CustomerID = '$CustomerID';
+                        ";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectCustomerDeliveries($CustomerID) {
+            $this->sql = "SELECT * FROM Deliveries
+                        LEFT JOIN DeliveredProducts ON DeliveredProducts.DeliveryID = Deliveries.DeliveryID
+                        LEFT JOIN Variations ON Variations.VariationID = DeliveredProducts.VariationID
+                        LEFT JOIN Orders ON Orders.OrderID = Deliveries.DeliveryID
+                        WHERE Orders.CustomerID = '$CustomerID';
+                        ";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectEmployeeDeliveries($EmployeeID) {
+            $this->sql = "SELECT * FROM Deliveries
+                        LEFT JOIN DeliveredProducts ON DeliveredProducts.DeliveryID = Deliveries.DeliveryID
+                        LEFT JOIN Variations ON Variations.VariationID = DeliveredProducts.VariationID
+                        LEFT JOIN Orders ON Orders.OrderID = Deliveries.DeliveryID
+                        WHERE Deliveries.EmployeeID = '$EmployeeID';
+                        ";
 
             return $this->db->query($this->sql);
         }

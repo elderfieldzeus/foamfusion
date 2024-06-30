@@ -43,7 +43,7 @@
             }
         }
 
-        function query($query) {
+        function query($query) { //safer query
             $q = null;
             
             if(!($q = $this->conn->query($query))) {

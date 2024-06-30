@@ -8,14 +8,17 @@
 
         private $select;
         private $insert;
+        private $session;
 
         public $ID = null;
 
-        function __construct($db) {
+        function __construct($db, $session) {
             $this->db = $db;
+            $this->session = $session;
 
             $this->insert = new Insert($db);
             $this->select = new Select($db);
+
         }
 
         //Returns TRUE if successful, and FALSE if email already found
@@ -57,8 +60,16 @@
             }
 
             $this->ID = $this->Row[($Role == 'Customer') ? 'CustomerID' : 'EmployeeID'];
+
+            //Set session
+            $this->session->beginSession($this->ID, $Role);
             
             return TRUE;
+        }
+
+        function signout() {
+            //End session
+            return $this->session->endSession();
         }
     }
 

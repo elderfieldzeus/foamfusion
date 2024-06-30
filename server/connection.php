@@ -1,6 +1,6 @@
 <?php
-    include "../functions/general.functions.php";
-    include "../utilities/tables.php";
+    require "../functions/general.functions.php";
+    require "../utilities/tables.php";
 
     class Connection {
         public $conn;
@@ -36,7 +36,7 @@
             }
         }
 
-        function createDatabase() {
+        private function createDatabase() {
             $this->query("CREATE DATABASE IF NOT EXISTS foamfusion_db;");
             if(!$this->conn->select_db('foamfusion_db')) {
                 alert("Failed to select Database");
@@ -53,7 +53,7 @@
             return $q;
         }
 
-        function createTables() {
+        private function createTables() {
             global $tables;
 
             foreach( $tables as $table ) {

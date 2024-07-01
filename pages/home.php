@@ -45,8 +45,6 @@
     $result = $select->selectAllDeliveries();
 
     $db->killConnection();
-
-
 ?>
 
 <head>

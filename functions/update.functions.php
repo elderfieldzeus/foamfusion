@@ -37,7 +37,7 @@
         }
 
         function updateDelivery($ID, $Column, $New) {
-            return $this->update("Deliveries", "DeliveryID" $ID, $Column, $New);
+            return $this->update("Deliveries", "DeliveryID", $ID, $Column, $New);
         }
         
         function updateProductVariation($ID, $Column, $New) {

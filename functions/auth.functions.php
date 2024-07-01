@@ -6,6 +6,7 @@
         private $Result;
         private $Row;
 
+        private $db;
         private $select;
         private $insert;
         private $session;

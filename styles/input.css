@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .dashboard--icon {
+        @apply size-6 bg-white;
+    }
+
+    .dashboard--div {
+        @apply p-2 w-44 gap-4 flex ml-4;
+    }
+
+    .hovered--div {
+        @apply hover:active--icon;
+    }
+
+    .active--icon {
+        @apply p-2 bg-gray-700 rounded-xl hover:cursor-pointer;
+    }
+
+    .dashboard--header {
+        @apply w-10 text-white;
+    }
+}

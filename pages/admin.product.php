@@ -40,10 +40,7 @@
                     <h2 class="product-card--text text-gray-400">Add a Product</h2>
                 </a>
                 <?php
-
-                    include "../functions/admin.functions.php";
                     
-                    $admin = new Admin($select);
                     $admin->displayAdminProducts();
 
                 ?>

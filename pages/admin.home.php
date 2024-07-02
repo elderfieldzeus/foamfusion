@@ -18,11 +18,13 @@
     <link rel="stylesheet" href="../styles/tailwind.css">
     <link rel="stylesheet" href="../styles/svg.css">
     <link rel="stylesheet" href="../styles/admin.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 <body>
     <?php
 
         include_once "../components/admin.navbar.php";
+
         AdminNavBar("Home");
 
     ?>
@@ -38,7 +40,8 @@
             <div class="grid grid-cols-3 gap-10">
                 <div class="bg-white rounded-lg shadow-md hover:shadow-lg h-48">
                     <?php
-                        
+                        $result = $select->selectProductsSorted();
+                        $admin->displayChart($result, "ProductName", "NumOfVariations");
                     ?>
                 </div>
                 <div class="bg-white rounded-lg shadow-md hover:shadow-lg h-48">

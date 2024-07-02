@@ -116,6 +116,16 @@
 
             return $this->db->query($this->sql);
         }
+
+        function selectProductsSorted() {
+            $this->sql = "SELECT ProductName, COUNT(*) AS NumOfVariations FROM Products
+                        LEFT JOIN Variations ON Products.ProductID = Variations.ProductID
+                        GROUP BY Products.ProductID
+                        ORDER BY NumOfVariants DESC;
+                        ";
+
+            return $this->db->query($this->sql);
+        }
     }
 
 ?>

@@ -118,10 +118,50 @@
         }
 
         function selectProductsSorted() {
-            $this->sql = "SELECT ProductName, COUNT(*) AS NumOfVariations FROM Products
+            $this->sql = "SELECT ProductName, COUNT(Variations.ProductID) AS NumOfVariations FROM Products
                         LEFT JOIN Variations ON Products.ProductID = Variations.ProductID
                         GROUP BY Products.ProductID
-                        ORDER BY NumOfVariants DESC;
+                        ORDER BY NumOfVariations DESC;
+                        ";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectProductCount() {
+            $this->sql = "SELECT COUNT(Variations.ProductID) AS NumOfVariations FROM Products
+                        LEFT JOIN Variations ON Products.ProductID = Variations.ProductID;
+                        ";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectOrderStatus() {
+            $this->sql = "SELECT OrderStatus, COUNT(OrderID) AS NumOfOrders FROM Orders
+                        GROUP BY OrderStatus
+                        ORDER BY NumOfOrders;
+                    ";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectOrderCount() {
+            $this->sql = "SELECT COUNT(OrderID) AS NumOfOrders FROM Orders;
+                        ";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectDeliveryStatus() {
+            $this->sql = "SELECT DeliveryStatus, COUNT(DeliveryID) AS NumOfDeliveries FROM Deliveries
+                        GROUP BY DeliveryStatus
+                        ORDER BY NumOfDeliveries;
+                    ";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectDeliveryCount() {
+            $this->sql = "SELECT COUNT(DeliveryID) AS NumOfDeliveries FROM Deliveries;
                         ";
 
             return $this->db->query($this->sql);

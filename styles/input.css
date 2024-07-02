@@ -23,6 +23,10 @@
         @apply w-10 text-white;
     }
 
+    .home-card {
+        @apply bg-white py-4 px-6 rounded-lg shadow-md hover:shadow-lg h-48 flex justify-between hover:cursor-pointer;
+    }
+
     .product-card {
         @apply bg-white rounded-lg shadow-md hover:shadow-lg h-56 overflow-hidden flex flex-col items-start hover:cursor-pointer;
     }

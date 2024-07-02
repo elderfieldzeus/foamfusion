@@ -22,13 +22,19 @@
 
         function displayChart($result, $name, $value) {
             echo '
-                <canvas id="' . $name .'"></canvas>
-            ';
-
-            echo '
             <script>
-                const xValues = [];
-                const yValues = [];
+                const xValues_' . $name . ' = [];
+                const yValues_' . $name . ' = [];
+                const barColors_' . $name . ' = [];
+
+                function randomColor() {
+                    const letters = "0123456789ABCDEF";
+                    let color = "#";
+                    for (let i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)];
+                    }
+                    return color;
+                }
                 ';
     
                 $i = 0;
@@ -36,28 +42,23 @@
             while ($row = $result->fetch_assoc()) {
                 if ($i >= 5) break;
                 echo '
-                    xValues.push("' . $row[$name]  . '");
-                    yValues.push(' . $row[$value] . ');
+                    xValues_' . $name . '.push("' . $row[$name]  . '");
+                    yValues_' . $name . '.push(' . $row[$value] . ');
+                    barColors_' . $name . '.push(randomColor());
                 ';
                 $i++;
             }
     
             echo '
-            const barColors = [
-            "#b91d47",
-            "#00aba9",
-            "#2b5797",
-            "#e8c3b9",
-            "#1e7145"
-            ];
+            
 
             new Chart(document.getElementById("' . $name . '"), {
-                type: "pie",
+                type: "doughnut",
                 data: {
-                    labels: xValues,
+                    labels: xValues_' . $name . ',
                     datasets: [{
-                    backgroundColor: barColors,
-                    data: yValues
+                        backgroundColor: barColors_' . $name . ',
+                        data: yValues_' . $name . '
                     }]
                 }
             });

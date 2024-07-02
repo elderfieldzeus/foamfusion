@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="../styles/tailwind.css">
     <link rel="stylesheet" href="../styles/svg.css">
     <link rel="stylesheet" href="../styles/admin.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 <body>
     <?php
@@ -38,26 +37,63 @@
             <hr class="my-5">
 
             <div class="grid grid-cols-3 gap-10">
-                <div class="bg-white rounded-lg shadow-md hover:shadow-lg h-48">
-                    <?php
-                        $result = $select->selectProductsSorted();
-                        $admin->displayChart($result, "ProductName", "NumOfVariations");
-                    ?>
-                </div>
-                <div class="bg-white rounded-lg shadow-md hover:shadow-lg h-48">
-                    <?php
+                <a href="./admin.product.php" class="home-card">
+                    <div>
+                        <p class="text-4xl ">Products</p>
+                        <p class="text-xl text-gray-400">
+                            <?php
+                                $result = $select->selectProductCount();
+                                $row = $result->fetch_assoc();
+                                echo $row['NumOfVariations'] . " Variations";
+                            ?>
+                        </p>
+                    </div>
+                    <canvas id="ProductName"></canvas>
+                </a>
 
-                    ?>
-                </div>
-                <div class="bg-white rounded-lg shadow-md hover:shadow-lg h-48">
-                    <?php
+                <a href="./admin.order.php" class="home-card">
+                    <div>
+                        <p class="text-4xl ">Orders</p>
+                        <p class="text-xl text-gray-400">
+                            <?php
+                                $result = $select->selectOrderCount();
+                                $row = $result->fetch_assoc();
+                                echo $row['NumOfOrders'] . " Orders";
+                            ?>
+                        </p>
+                    </div>
+                    <canvas id="OrderStatus"></canvas>
+                </a>
 
-                    ?>
-                </div>
-            </div>
-            
+                <a href="./admin.delivery.php" class="home-card">
+                    <div>
+                        <p class="text-4xl ">Deliveries</p>
+                        <p class="text-xl text-gray-400">
+                            <?php
+                                $result = $select->selectDeliveryCount();
+                                $row = $result->fetch_assoc();
+                                echo $row['NumOfDeliveries'] . " Deliveries";
+                            ?>
+                        </p>
+                    </div>
+                    <canvas id="DeliveryStatus"></canvas>
+                </a>
+            </div>          
         </div>
+        
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <?php
+        $prod_result = $select->selectProductsSorted();
+        $admin->displayChart($prod_result, "ProductName", "NumOfVariations");
+
+        $order_result = $select->selectOrderStatus();
+        $admin->displayChart($order_result, "OrderStatus", "NumOfOrders");
+
+        $delivery_result = $select->selectDeliveryStatus();
+        $admin->displayChart($delivery_result, "DeliveryStatus", "NumOfDeliveries");
+    ?>
 </body>
+    
 </html>

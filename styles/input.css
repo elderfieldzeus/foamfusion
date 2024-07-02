@@ -16,7 +16,7 @@
     }
 
     .active--icon {
-        @apply p-2 bg-gray-700 rounded-xl hover:cursor-pointer;
+        @apply p-2 bg-gray-700 rounded-xl hover:cursor-pointer transition-all duration-500;
     }
 
     .dashboard--header {

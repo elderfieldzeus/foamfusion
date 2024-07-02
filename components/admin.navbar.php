@@ -1,65 +1,64 @@
-<nav class="navbar">            
-    <div class="navbar-container">
-        <!--logo div-->
-        <div class="navbar-logo-div">
-            <a class="navbar-logo-link" href="#">
-                <i class="fas fa-shield-dog"></i>
-            </a>
-            <button class="navbar-toggler"><i class='fas fa-solid fa-bars'></i></button>
-        </div>
+<?php
+    function AdminNavbar ($page) {
+            global $select, $session;
 
-        <!--search input-->
-        <input type="search" name="search" placeholder="Search..."
-            class="navbar-search" id="search">
+            echo '
+                <nav id="admin_nav" class="fixed left-0 w-52 h-screen bg-gray-800 flex flex-col items-start py-5 gap-5 transition-all">
+                    <div id="dashboard__icon" class="dashboard--div mb-8">
+                        <span class="dashboard--svg dashboard--icon"></span>
+                        <p class="dashboard--header">Dashboard</p>
+                    </div>
+
+                    <a href="./admin.home.php" id="home_dashboard" class="dashboard--div hovered--div ' . ($page == "Home" ? "active--icon": "") . '">
+                        <span class="home--svg dashboard--icon"></span>
+                        <p class="dashboard--header">Home</p>
+                    </a>
+
+                    <a href="./admin.product.php" id="product_dashboard" class="dashboard--div hovered--div ' . ($page == "Product" ? "active--icon": "") . '">
+                        <span class="product--svg dashboard--icon"></span>
+                        <p class="dashboard--header">Products</p>
+                    </a>
+
+                    <a href="./admin.order.php" id="order_dashboard" class="dashboard--div hovered--div ' . ($page == "Order" ? "active--icon": "") . '">
+                        <span class="order--svg dashboard--icon"></span>
+                        <p class="dashboard--header">Orders</p>
+                    </a>
+
+                    <a href="./admin.delivery.php" id="delivery_dashboard" class="dashboard--div hovered--div ' . ($page == "Delivery" ? "active--icon": "") . '">
+                        <span class="delivery--svg dashboard--icon"></span>
+                        <p class="dashboard--header">Deliveries</p>
+                    </a>
+
+                    <a href="./admin.customer.php" id="customer_dashboard" class="dashboard--div hovered--div ' . ($page == "Customer" ? "active--icon": "") . '">
+                        <span class="customer--svg dashboard--icon"></span>
+                        <p class="dashboard--header">Customers</p>
+                    </a>
+
+                    <a href="./admin.settings.php" id="settings_dashboard" class="dashboard--div hovered--div ' . ($page == "Settings" ? "active--icon": "") . '">
+                        <span class="settings--svg dashboard--icon"></span>
+                        <p class="dashboard--header">Settings</p>
+                    </a>
+
+                    <div id="account_dashboard" class="hover:cursor-pointer flex gap-4 absolute bottom-0 p-4 w-full bg-gray-700 overflow-ellipsis">
+                        <span class="admin--svg dashboard--icon"></span>
+                        <p class="dashboard--header">';
+
+        $result = $select->selectEmployeeData($session->ID);
+        $row = $result->fetch_assoc();
+
+        if($row != NULL) {
+            echo $row["FirstName"] . "&nbsp" . $row["LastName"];
+        }
+        else {
+            echo "NULL";
+        }
         
-        <i id='icon-search' class="fas fa-regular fa-magnifying-glass"></i>
+        echo'
+                            </p>
+                    </div>
+                </nav>
+            ';
+        }
 
-        <!--item list-->
-        <ul class="menu-list">   
-            <li class="menu-item">                        
-                <a class="menu-link" href="#"> 
-                    <i class="fas fa-solid fa-table"></i>
-                    <span class="menu-link-text">Dashboard</span>                            
-                </a>
-            </li>
-            <li class="menu-item">                        
-                <a class="menu-link" href="#">
-                    <i class="fas fa-solid fa-paw"></i>
-                    <span class="menu-link-text">Pets</span>    
-                </a>
-            </li>
-            <li class="menu-item">                        
-                <a class="menu-link" class="menu-link" href="#">
-                    <i class="fas fa-solid fa-user"></i>
-                    <span class="menu-link-text">Customers</span>    
-                </a>
-            </li>
-            <li class="menu-item">                            
-                <a class="menu-link" href="#">
-                    <i class="fas fa-regular fa-stethoscope"></i>
-                    <span class="menu-link-text">Vets</span>    
-                </a>
-            </li>
-            <li class="menu-item">                        
-                <a class="menu-link" href="#">
-                    <i class="fas fa-duotone fa-gear"></i>
-                    <span class="menu-link-text">Settings</span>    
-                </a>
-            </li>
-        </ul>
-    </div>
+?>
 
-    <!--div user info-->
-    <div class="user-container">
-        <div class="user-info">
-            <i class="fas fa-solid fa-user-secret"></i>
-            <div class="user-details">
-                <h3 class="user-name">Eleanor Pena</h3>
-                <p class="user-occupation">Veterinary</p>
-            </div>
-        </div>
-        <a class="logout-btn" href="#">
-            <i class="fas fa-sharp fa-regular fa-arrow-right-from-bracket"></i>
-        </a>
-    </div>
-</nav>

@@ -3,32 +3,27 @@
 
 <?php
 
-    require "../utilities/include.php";
+    require_once "../utilities/include.php";
+    require_once "../utilities/var.sql.php";
 
-    $db = new Connection(); //stores connection to database
-    $session = new Session($db); //stores session info and session functions
-    $insert = new Insert($db); //stores insert functions
-    $select = new Select($db); //stores select functions
-    $auth = new Authentication($db, $session); //stores authentification functions
+    // if(!$auth->signup("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus24@gmail.com", "Mandaue", "Basak", "St. John", "6014", "123", "123", "Customer")) {
+    //     alert("Failed");
+    // }
 
-    /*if(!$auth->signup("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus24@gmail.com", "Mandaue", "Basak", "St. John", "6014", "123", "123", "Customer")) {
-        alert("Failed");
-    }
+    // if(!$auth->signup("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus24@gmail.com", "Mandaue", "Basak", "St. John", "6014", "123", "123", "Admin")) {
+    //     alert("Failed");
+    // }
 
-    if(!$auth->signup("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus24@gmail.com", "Mandaue", "Basak", "St. John", "6014", "123", "123", "Admin")) {
-        alert("Failed");
-    }
+    // if($auth->login("elderfieldzeus24@gmail.com", "123", "Admin")) {
+    //     alert("Logged In Successfully");
+    // }
+    // else {
+    //     alert("Failed to Login");
+    // }
 
-    if($auth->login("elderfieldzeus24@gmail.com", "123", "Admin")) {
-        alert("Logged In Successfully");
-    }
-    else {
-        alert("Failed to Login");
-    }
-
-    if($auth->signout()) {
-        alert("Logged out successfully");
-    }*/
+    // if($auth->signout()) {
+    //     alert("Logged out successfully");
+    // }
 
     // $insert->insertCustomer("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus@gmail.com", "Mandaue", "Tabok", "St. Philip", "6014", "123");
     // $insert->insertEmployee("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus@gmail.com", "Mandaue", "Tabok", "St. Philip", "6014", "123");

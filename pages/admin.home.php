@@ -36,7 +36,7 @@
             <h1 class="text-4xl">Home</h1>
             <hr class="my-5">
 
-            <div class="grid grid-cols-3 gap-10">
+            <div class="grid grid-cols-[repeat(auto-fit,_26rem)] gap-10">
                 <a href="./admin.product.php" class="home-card">
                     <div>
                         <p class="text-4xl ">Products</p>
@@ -44,7 +44,7 @@
                             <?php
                                 $result = $select->selectProductCount();
                                 $row = $result->fetch_assoc();
-                                echo $row['NumOfVariations'] . " Variations";
+                                echo $row['NumOfVariations'] . ($row['NumOfVariations'] == 1 ? " Variation" :" Variations");
                             ?>
                         </p>
                     </div>
@@ -58,7 +58,7 @@
                             <?php
                                 $result = $select->selectOrderCount();
                                 $row = $result->fetch_assoc();
-                                echo $row['NumOfOrders'] . " Orders";
+                                echo $row['NumOfOrders'] . ($row['NumOfOrders'] == 1 ? " Order" :" Orders");
                             ?>
                         </p>
                     </div>
@@ -72,11 +72,25 @@
                             <?php
                                 $result = $select->selectDeliveryCount();
                                 $row = $result->fetch_assoc();
-                                echo $row['NumOfDeliveries'] . " Deliveries";
+                                echo $row['NumOfDeliveries'] . ($row['NumOfDeliveries'] == 1 ? " Delivery" :" Deliveries");
                             ?>
                         </p>
                     </div>
                     <canvas id="DeliveryStatus"></canvas>
+                </a>
+
+                <a href="./admin.customer.php" class="home-card">
+                    <div>
+                        <p class="text-4xl ">Customers</p>
+                        <p class="text-xl text-gray-400">
+                            <?php
+                                $result = $select->selectCustomerCount();
+                                $row = $result->fetch_assoc();
+                                echo $row['NumOfCustomers'] . ($row['NumOfCustomers'] == 1 ? " Customer" :" Customers");
+                            ?>
+                        </p>
+                    </div>
+                    <canvas id="CustomerStatus"></canvas>
                 </a>
             </div>          
         </div>
@@ -93,6 +107,9 @@
 
         $delivery_result = $select->selectDeliveryStatus();
         $admin->displayChart($delivery_result, "DeliveryStatus", "NumOfDeliveries");
+
+        $customer_result = $select->selectCustomerStatus();
+        $admin->displayChart($customer_result, "CustomerStatus", "NumOfCustomers");
     ?>
 </body>
     

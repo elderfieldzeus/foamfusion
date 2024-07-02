@@ -166,6 +166,21 @@
 
             return $this->db->query($this->sql);
         }
+
+        function selectCustomerCount() {
+            $this->sql = "SELECT COUNT(CustomerID) AS NumOfCustomers FROM Customers;";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectCustomerStatus() {
+            $this->sql = "SELECT MONTHNAME(Account.CreatedAt) AS CustomerStatus, COUNT(Customers.CustomerID) AS NumOfCustomers FROM Customers
+                        LEFT JOIN Account ON Customers.AccountID = Account.AccountID
+                        GROUP BY CustomerStatus
+                        ORDER BY NumOfCustomers;";
+
+            return $this->db->query($this->sql);
+        }
     }
 
 ?>

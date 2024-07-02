@@ -37,7 +37,7 @@
                 }
                 ';
     
-                $i = 0;
+            $i = 0;
     
             while ($row = $result->fetch_assoc()) {
                 if ($i >= 5) break;

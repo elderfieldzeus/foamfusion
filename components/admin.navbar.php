@@ -43,6 +43,7 @@
                         <span class="admin--svg dashboard--icon"></span>
                         <p class="dashboard--header">';
 
+        $session->continueSession();
         $result = $select->selectEmployeeData($session->ID);
         $row = $result->fetch_assoc();
 
@@ -51,6 +52,8 @@
         }
         else {
             echo "NULL";
+            $session->endSession();
+            Location("./home.php");
         }
         
         echo'

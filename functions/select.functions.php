@@ -108,6 +108,14 @@
 
             return $this->db->query($this->sql);
         }
+
+        function selectAllVariations() { //Returns all products
+            $this->sql = "SELECT * FROM Variations
+                        LEFT JOIN Products ON Variations.ProductID = Products.ProductID;
+                        ";
+
+            return $this->db->query($this->sql);
+        }
     }
 
 ?>

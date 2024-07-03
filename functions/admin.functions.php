@@ -40,7 +40,7 @@
             $i = 0;
     
             while ($row = $result->fetch_assoc()) {
-                if ($i >= 5) break;
+                if ($i >= 3) break;
                 echo '
                     xValues_' . $name . '.push("' . $row[$name]  . '");
                     yValues_' . $name . '.push(' . $row[$value] . ');
@@ -64,6 +64,36 @@
             });
             </script>
             ';
+        }
+
+        function displayAdminOrders() {
+            $result = $this->select->selectOrderTable();
+
+            $i = 0;
+            
+            while($row = $result->fetch_assoc()) {
+                echo '
+                    <tr class="' . ($i % 2 == 0 ? "bg-gray-200" : "bg-white")  . ' border-b">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">' .
+                            $row['OrderID']
+                        . '</td>
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
+                            $row['OrderStatus']
+                        . '</td>
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
+                            $row['CustomerName']
+                        . '</td>
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
+                            $row['OrderTime']
+                        . '</td>
+                        <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap">
+                            <button class="bg-blue-700 text-white py-2 w-full rounded-md">Details</button>
+                        </td>
+                    </tr>
+                ';
+                
+                $i++;
+            }
         }
     }
 

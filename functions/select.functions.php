@@ -181,6 +181,33 @@
 
             return $this->db->query($this->sql);
         }
+
+        function selectTotalSales() {
+            $this->sql = "SELECT SUM(TotalPrice) AS TotalSales
+                        FROM Deliveries
+                        WHERE DeliveryStatus = 'Success';";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectSalesStatus() {
+            $this->sql = "SELECT MONTHNAME(DeliveryTime) AS SalesStatus, SUM(TotalPrice) AS TotalSales
+                        FROM Deliveries 
+                        WHERE DeliveryStatus = 'Success'
+                        GROUP BY SalesStatus
+                        ORDER BY TotalSales DESC;";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectOrderTable() {
+            $this->sql = "SELECT OrderID, OrderStatus, CONCAT(Name.LastName, ', ', Name.FirstName) AS CustomerName, OrderTime
+                        FROM Orders
+                        LEFT JOIN Customers ON Orders.OrderID = Customers.CustomerID
+                        LEFT JOIN Name ON Customers.NameID = Name.NameID;
+                        ";
+            return $this->db->query($this->sql);
+        }
     }
 
 ?>

@@ -3,10 +3,11 @@
     require_once "../utilities/include.php";
     require_once "../utilities/var.sql.php";
 
-    if(!$auth->login("elderfieldzeus24@gmail.com", "123", "Admin")) {
-        alert("Logged In Failed");
-    }
+    // if(!$auth->login("elderfieldzeus24@gmail.com", "123", "Admin")) {
+    //     alert("Logged In Failed");
+    // }
 
+    $auth->login("henry.harris@example.com", "123", "Admin");
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +37,7 @@
             <h1 class="text-4xl">Home</h1>
             <hr class="my-5">
 
-            <div class="grid grid-cols-[repeat(auto-fit,_26rem)] gap-10">
+            <div class="grid grid-cols-[repeat(auto-fit,_22rem)] gap-10">
                 <a href="./admin.product.php" class="home-card">
                     <div>
                         <p class="text-4xl ">Products</p>
@@ -92,6 +93,20 @@
                     </div>
                     <canvas id="CustomerStatus"></canvas>
                 </a>
+
+                <a href="./admin.order.php" class="home-card">
+                    <div>
+                        <p class="text-4xl ">Sales</p>
+                        <p class="text-xl text-gray-400 w-20">
+                            <?php
+                                $result = $select->selectTotalSales();
+                                $row = $result->fetch_assoc();
+                                echo 'Php&nbsp' . (($sales = $row['TotalSales']) ? $sales : '0.00');
+                            ?>
+                        </p>
+                    </div>
+                    <canvas id="SalesStatus"></canvas>
+                </a>
             </div>          
         </div>
         
@@ -110,6 +125,9 @@
 
         $customer_result = $select->selectCustomerStatus();
         $admin->displayChart($customer_result, "CustomerStatus", "NumOfCustomers");
+
+        $sales_result = $select->selectSalesStatus();
+        $admin->displayChart($sales_result, "SalesStatus", "TotalSales");
     ?>
 </body>
     

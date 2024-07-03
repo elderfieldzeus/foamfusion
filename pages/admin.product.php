@@ -3,7 +3,7 @@
     require_once "../utilities/include.php";
     require_once "../utilities/var.sql.php";
 
-    $insert->insertVariation("Soaaaap", "Green soap", "It is a green soap", "liquidsoap.avif", 12, 10.0, 1);
+    $insert->insertVariation("Soap", "Green soap", "It is a green soap", "liquidsoap.avif", 12, 10.0, 1);
 
 ?>
 

@@ -57,6 +57,7 @@
 
             if($this->Result->num_rows != 1
                 || !password_verify($Password, $this->HashedPassword)) {
+                $this->signout();
                 return FALSE;
             }
 

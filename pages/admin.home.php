@@ -3,11 +3,11 @@
     require_once "../utilities/include.php";
     require_once "../utilities/var.sql.php";
 
-    // if(!$auth->login("elderfieldzeus24@gmail.com", "123", "Admin")) {
-    //     alert("Logged In Failed");
-    // }
+    if(!$auth->login("elderfieldzeus24@gmail.com", "123", "Admin")) {
+        alert("Logged In Failed");
+    }
 
-    $auth->login("henry.harris@example.com", "123", "Admin");
+    // $auth->login("henry.harris@example.com", "123", "Admin");
 ?>
 
 <!DOCTYPE html>
@@ -94,7 +94,7 @@
                     <canvas id="CustomerStatus"></canvas>
                 </a>
 
-                <a href="./admin.order.php" class="home-card">
+                <a href="./admin.delivery.php" class="home-card">
                     <div>
                         <p class="text-4xl ">Sales</p>
                         <p class="text-xl text-gray-400 w-20">

@@ -74,7 +74,7 @@
         "Orders(
             OrderID" . $primary_key . ",
             OrderTime DATETIME DEFAULT CURRENT_TIMESTAMP,
-            OrderStatus ENUM('Pending', 'Failed', 'Success') DEFAULT 'Pending',
+            OrderStatus ENUM('Failed', 'Pending', 'Success') DEFAULT 'Pending',
             TotalPrice DECIMAL(10, 2) NOT NULL,
             CustomerID INT NOT NULL,
             FOREIGN KEY(CustomerID) REFERENCES Customers(CustomerID)
@@ -83,7 +83,7 @@
         "Deliveries(
             DeliveryID" . $primary_key . ",
             DeliveryTime DATETIME DEFAULT CURRENT_TIMESTAMP,
-            DeliveryStatus ENUM('Pending', 'Failed', 'Success') DEFAULT 'Pending',
+            DeliveryStatus ENUM('Failed', 'Pending', 'Success') DEFAULT 'Pending',
             TotalPrice DECIMAL(10, 2) NOT NULL,
             EmployeeID INT NOT NULL,
             OrderID INT NOT NULL,

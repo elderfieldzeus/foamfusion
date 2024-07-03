@@ -203,9 +203,38 @@
         function selectOrderTable() {
             $this->sql = "SELECT OrderID, OrderStatus, CONCAT(Name.LastName, ', ', Name.FirstName) AS CustomerName, OrderTime
                         FROM Orders
-                        LEFT JOIN Customers ON Orders.OrderID = Customers.CustomerID
-                        LEFT JOIN Name ON Customers.NameID = Name.NameID;
+                        LEFT JOIN Customers ON Orders.CustomerID = Customers.CustomerID
+                        LEFT JOIN Name ON Customers.NameID = Name.NameID
+                        ORDER BY OrderStatus ASC, OrderID ASC;
                         ";
+            return $this->db->query($this->sql);
+        }
+
+        function selectDeliveryTable() {
+            $this->sql = "SELECT DeliveryID, DeliveryStatus, CONCAT(CustName.LastName, ', ', CustName.FirstName) AS CustomerName, 
+                        CONCAT(EmpName.LastName, ', ', EmpName.FirstName) AS EmployeeName
+                        FROM Deliveries
+                        LEFT JOIN Orders ON Deliveries.OrderID = Orders.OrderID
+                        LEFT JOIN Employees ON Deliveries.EmployeeID = Employees.EmployeeID
+                        LEFT JOIN Customers ON Orders.CustomerID = Customers.CustomerID
+                        LEFT JOIN Name AS CustName ON Customers.NameID = CustName.NameID 
+                        LEFT JOIN Name AS EmpName ON Employees.NameID = EmpName.NameID
+                        ORDER BY DeliveryStatus ASC, DeliveryID ASC;
+                        ";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectCustomerTable() {
+            $this->sql = "SELECT CustomerID, CONCAT(Name.LastName, ', ', Name.FirstName) AS CustomerName,
+                        Account.Email, PhoneNum, CONCAT(Address.Street, ' ', Address.Barangay, ' ', Address.City, ', ', Address.PostalCode) AS FullAddress
+                        FROM Customers
+                        LEFT JOIN Name ON Customers.NameID = Name.NameID
+                        LEFT JOIN Address ON Customers.AddressID = Address.AddressID
+                        LEFT JOIN Account ON Customers.AccountID = Account.AccountID
+                        ORDER BY CustomerID ASC;
+                        ";
+
             return $this->db->query($this->sql);
         }
     }

@@ -77,7 +77,15 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">' .
                             $row['OrderID']
                         . '</td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
+                        <td class="text-sm ';
+
+                switch(($status = $row['OrderStatus'])) {
+                    case 'Pending': echo 'text-blue-900'; break;
+                    case 'Failed': echo 'text-red-900'; break;
+                    case 'Success': echo 'text-green-900'; break;
+                }
+
+                echo    ' font-bold px-6 py-4 whitespace-nowrap">' .
                             $row['OrderStatus']
                         . '</td>
                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
@@ -95,6 +103,73 @@
                 $i++;
             }
         }
-    }
 
+        function displayAdminDeliveries() {
+            $result = $this->select->selectDeliveryTable();  
+
+            $i = 0;
+            
+            while($row = $result->fetch_assoc()) {
+                echo '
+                    <tr class="' . ($i % 2 == 0 ? "bg-gray-200" : "bg-white")  . ' border-b">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">' .
+                            $row['DeliveryID']
+                        . '</td>
+                        <td class="text-sm ';
+
+                switch(($status = $row['DeliveryStatus'])) {
+                    case 'Pending': echo 'text-blue-900'; break;
+                    case 'Failed': echo 'text-red-900'; break;
+                    case 'Success': echo 'text-green-900'; break;
+                }
+
+                echo    ' font-bold px-6 py-4 whitespace-nowrap">' .
+                            $row['DeliveryStatus']
+                        . '</td>
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
+                            $row['CustomerName']
+                        . '</td>
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
+                            $row['EmployeeName']
+                        . '</td>
+                        <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap">
+                            <button class="bg-blue-700 text-white py-2 w-full rounded-md">Details</button>
+                        </td>
+                    </tr>
+                ';
+                
+                $i++;
+            }
+        }
+
+        function displayAdminCustomers() {
+            $result = $this->select->selectCustomerTable();  
+
+            $i = 0;
+            
+            while($row = $result->fetch_assoc()) {
+                echo '
+                    <tr class="' . ($i % 2 == 0 ? "bg-gray-200" : "bg-white")  . ' border-b">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">' .
+                            $row['CustomerID']
+                        . '</td>
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
+                            $row['CustomerName']
+                        . '</td>
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
+                            $row['Email']
+                        . '</td>
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
+                            $row['PhoneNum']
+                        . '</td>
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
+                            $row['FullAddress']
+                        . '</td>
+                    </tr>
+                ';
+                
+                $i++;
+            }
+        }
+    }
 ?>

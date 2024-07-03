@@ -14,7 +14,10 @@
                 echo '
                     <div class="product-card">
                         <img src="../assets/' . $row['VariationImage'] . '" class="product-card--images">
-                        <h2 class="product-card--text">' . $row['VariationName'] . '</h2>
+                        <div class="flex flex-col">
+                            <h2 class="text-xl px-3">' . $row['VariationName'] . '</h2>
+                            <h2 class="text-sm px-3 hover:cursor-pointer text-gray-400">' . $row['ProductName'] . '</h2>
+                        </div>
                     </div>
                 ';
             }

@@ -32,6 +32,6 @@
     }
 
     .product-card--text {
-        @apply text-xl mb-2 px-3 pt-2 hover:cursor-pointer;
+        @apply text-xl px-3 hover:cursor-pointer;
     }
 }

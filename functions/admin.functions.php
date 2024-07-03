@@ -82,14 +82,14 @@
                         . '</td>
                         <td class="text-sm ';
 
-                switch(($status = $row['OrderStatus'])) {
-                    case 'Pending': echo 'text-blue-900'; break;
-                    case 'Failed': echo 'text-red-900'; break;
-                    case 'Success': echo 'text-green-900'; break;
+                switch(($row['OrderStatus'])) {
+                    case 'Pending': echo 'text-blue-500'; break;
+                    case 'Failed': echo 'text-red-500'; break;
+                    case 'Success': echo 'text-green-500'; break;
                 }
 
                 echo    ' font-bold px-6 py-4 whitespace-nowrap">' .
-                            $row['OrderStatus']
+                            strtoupper($row['OrderStatus'])
                         . '</td>
                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
                             $row['CustomerName']
@@ -97,8 +97,8 @@
                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
                             $row['OrderTime']
                         . '</td>
-                        <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap">
-                            <button class="bg-blue-700 text-white py-2 w-full rounded-md">Details</button>
+                        <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap text-center">
+                            <button onclick="openDetails(' . $row['OrderID'] . ', \'Order\')" class="bg-blue-700 text-white py-2 px-8 rounded-md">Details</button>
                         </td>
                     </tr>
                 ';
@@ -120,14 +120,14 @@
                         . '</td>
                         <td class="text-sm ';
 
-                switch(($status = $row['DeliveryStatus'])) {
-                    case 'Pending': echo 'text-blue-900'; break;
-                    case 'Failed': echo 'text-red-900'; break;
-                    case 'Success': echo 'text-green-900'; break;
+                switch(($row['DeliveryStatus'])) {
+                    case 'Pending': echo 'text-blue-500'; break;
+                    case 'Failed': echo 'text-red-500'; break;
+                    case 'Success': echo 'text-green-500'; break;
                 }
 
                 echo    ' font-bold px-6 py-4 whitespace-nowrap">' .
-                            $row['DeliveryStatus']
+                        strtoupper($row['DeliveryStatus'])
                         . '</td>
                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
                             $row['CustomerName']
@@ -135,10 +135,16 @@
                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">' .
                             $row['EmployeeName']
                         . '</td>
-                        <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap">
-                            <button class="bg-blue-700 text-white py-2 w-full rounded-md">Details</button>
+                        <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap text-center">
+                            <button onclick="openDialog(' . $row['DeliveryID'] . ')" class="bg-blue-700 text-white py-2 px-8 rounded-md">Details</button>
                         </td>
                     </tr>
+                    <div id="delivery_dialog_' . $row['DeliveryID'] . '" class="dialog">
+                        <div class="inner_dialog">
+                            <h1>Delivery #' . $row['DeliveryID'] . ' </h1>
+                            <h1>' . $row['DeliveryID'] . ' </h1>
+                        <div>
+                    </div>
                 ';
                 
                 $i++;

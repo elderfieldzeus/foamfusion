@@ -28,10 +28,18 @@
     }
 
     .product-card {
-        @apply bg-white rounded-lg shadow-md hover:shadow-lg h-56 overflow-hidden flex flex-col items-start hover:cursor-pointer;
+        @apply bg-white rounded-lg shadow-md hover:shadow-lg h-56 overflow-hidden flex flex-col items-start hover:cursor-pointer pb-1;
     }
 
     .product-card--text {
         @apply text-xl px-3 hover:cursor-pointer;
+    }
+
+    .dialog {
+        @apply fixed top-0 left-0 w-full h-full bg-black bg-opacity-5;
+    }
+
+    .inner_dialog {
+        @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8/12 h-5/6 bg-white rounded-md;
     }
 }

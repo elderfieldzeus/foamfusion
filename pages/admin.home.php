@@ -7,7 +7,6 @@
         alert("Logged In Failed");
     }
 
-    // $auth->login("henry.harris@example.com", "123", "Admin");
 ?>
 
 <!DOCTYPE html>

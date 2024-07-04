@@ -41,7 +41,10 @@
                 $sql = "UPDATE Deliveries SET DeliveryTime=NOW() WHERE DeliveryID='$ID';";
                 $this->db->query($sql);
             }
-            
+            else if($New == 'Failed' || $New == 'Pending') {
+                $sql = "UPDATE Deliveries SET DeliveryTime=NULL WHERE DeliveryID='$ID';";
+                $this->db->query($sql);
+            }  
 
             return $this->update("Deliveries", "DeliveryID", $ID, $Column, $New);
         }

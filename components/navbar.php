@@ -6,9 +6,9 @@
                 </div>
                 <div class="hidden md:flex md:space-x-8">
                     <a href="../pages/home.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">Home</a>
-                    <a href="../pages/about.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">About</a>
+                    <a href="../pages/about.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">About</a>
                     <a href="../pages/product.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">Product</a>
-                    <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">Contact</a>
+                    <a href="../pages/contact.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">Contact</a>
                 </div>
                 <div class="flex items-center md:space-x-4">
                     <a href="#" id="user-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
@@ -31,9 +31,20 @@
             </div>
         </div>
         <div id="mobile-menu" class="hidden md:hidden">
-            <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white">Home</a>
-            <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white">About</a>
-            <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white">Product</a>
-            <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white">Contact</a>
+            <a href="../pages/home.php" class="block px-4 py-2 text-gray-300 hover:text-white">Home</a>
+            <a href="../pages/about.php" class="block px-4 py-2 text-gray-300 hover:text-white">About</a>
+            <a href="../pages/product.php" class="block px-4 py-2 text-gray-300 hover:text-white">Product</a>
+            <a href="../pages/contact.php" class="block px-4 py-2 text-gray-300 hover:text-white">Contact</a>
         </div>
     </nav>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    });
+</script>

@@ -111,9 +111,9 @@ while($row = $result->fetch_assoc()): ?>
                     </div>
 
                     <div class="flex justify-center gap-5 m-5">
-                        <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Failed" class="py-2 px-8 font-bold bg-red-500 hover:bg-red-800 transition-colors text-white rounded-md">FAILED</a>
-                            <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Pending" class="py-2 px-8 font-bold bg-blue-500 hover:bg-blue-800 transition-colors text-white rounded-md">PENDING</a>
-                            <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Success" class="py-2 px-8 font-bold bg-green-500 hover:bg-green-800 transition-colors text-white rounded-md">SUCCESS</a>
+                        <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Failed" class="py-2 w-36 text-center font-bold bg-red-500 hover:bg-red-800 transition-colors text-white rounded-md">FAILED</a>
+                            <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Pending" class="py-2 w-36 text-center font-bold bg-blue-500 hover:bg-blue-800 transition-colors text-white rounded-md">PENDING</a>
+                            <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Success" class="py-2 w-36 text-center font-bold bg-green-500 hover:bg-green-800 transition-colors text-white rounded-md">SUCCESS</a>
                     </div>
 
                     <div class="flex justify-center">

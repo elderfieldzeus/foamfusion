@@ -34,7 +34,7 @@
             <p class="mt-4 text-base md:text-lg text-black">Feel free to reach out to us with any questions, feedback, or suggestions. We love hearing from our customers and are always here to help.</p>
         </div>
         <div class="w-full md:w-1/2 flex justify-center p-6 md:p-20">
-            <img src="../assets/logo/logo.png" alt="FoamFusion Soap Image" class="rounded-lg shadow-lg">
+            <img src="../assets/logo/logo_transparent_black.png" alt="FoamFusion Soap Image" class="rounded-lg shadow-lg">
         </div>
     </section>
 

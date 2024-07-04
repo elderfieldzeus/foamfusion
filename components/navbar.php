@@ -38,7 +38,7 @@
         </div>
     </nav>
 
-        <div id="search-modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden z-50">
+    <div id="search-modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden z-50">
         <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
             <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
                 <div>
@@ -52,13 +52,13 @@
                 </button>
             </div>
             <div class="px-4 py-5 sm:p-6">
-                <form id="search-form" class="space-y-6">
+                <form id="search-form" action="search.php" method="GET" class="space-y-6">
                     <div>
                         <label for="search" class="block text-sm font-medium text-gray-700">Search</label>
-                        <input id="search" name="search" type="text" required class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <input id="search" name="search_query" type="text" required class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     </div>
                     <div>
-                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Search</button>
+                        <button type="submit" value="Search" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Search</button>
                     </div>
                 </form>
             </div>

@@ -37,6 +37,12 @@
         }
 
         function updateDelivery($ID, $Column, $New) {
+            if($New == 'Success') {
+                $sql = "UPDATE Deliveries SET DeliveryTime=NOW() WHERE DeliveryID='$ID';";
+                $this->db->query($sql);
+            }
+            
+
             return $this->update("Deliveries", "DeliveryID", $ID, $Column, $New);
         }
         

@@ -82,7 +82,7 @@
 
         "Deliveries(
             DeliveryID" . $primary_key . ",
-            DeliveryTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+            DeliveryTime DATETIME DEFAULT NULL,
             DeliveryStatus ENUM('Failed', 'Pending', 'Success') DEFAULT 'Pending',
             TotalPrice DECIMAL(10, 2) NOT NULL,
             EmployeeID INT NOT NULL,

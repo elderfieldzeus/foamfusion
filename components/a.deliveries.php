@@ -39,7 +39,7 @@ $i = 0;
             $c = $this->select->selectCustomerData($id);
             $c_result = $c->fetch_assoc();
 
-            $cd_result = $this->select->selectCustomerDeliveries($id);
+            $cd_result = $this->select->selectDeliveredProducts($row['DeliveryID']);
         ?>
         <div id="delivery_dialog_<?= $row['DeliveryID'] ?>" class="dialog hidden">
             <div class="inner_dialog">
@@ -119,19 +119,19 @@ $i = 0;
 
                     <div class="flex justify-between">
                             <p class="text-gray-500">Delivery Time: </p>
-                            <p class="text-gray-500"><?= $row['DeliveryTime'] ?></p>
+                            <p class="text-gray-500"><?= ($row['DeliveryStatus'] == 'Success') ? $row['DeliveryTime'] : 'N/A' ?></p>
                     </div>
 
                     <div class="flex justify-center gap-5 m-5">
-                            <button class="py-2 px-8 font-bold bg-red-500 hover:bg-red-800 transition-colors text-white rounded-md">FAILED</button>
-                            <button class="py-2 px-8 font-bold bg-blue-500 hover:bg-blue-800 transition-colors text-white rounded-md">PENDING</button>
-                            <button class="py-2 px-8 font-bold bg-green-500 hover:bg-green-800 transition-colors text-white rounded-md">SUCCESS</button>
+                        <a href="../utilities/updatestatus.php?id=<?=$row['DeliveryID']?>&type=Delivery&status=Failed" class="py-2 px-8 font-bold bg-red-500 hover:bg-red-800 transition-colors text-white rounded-md">FAILED</a>
+                            <a href="../utilities/updatestatus.php?id=<?=$row['DeliveryID']?>&type=Delivery&status=Pending" class="py-2 px-8 font-bold bg-blue-500 hover:bg-blue-800 transition-colors text-white rounded-md">PENDING</a>
+                            <a href="../utilities/updatestatus.php?id=<?=$row['DeliveryID']?>&type=Delivery&status=Success" class="py-2 px-8 font-bold bg-green-500 hover:bg-green-800 transition-colors text-white rounded-md">SUCCESS</a>
                     </div>
 
                     <div class="flex justify-center">
-                        <button class="font-bold bg-yellow-500 hover:bg-yellow-800 transition-colors pt-2 pb-1 px-2 rounded-md">
+                        <a href="../utilities/deleteod.php?id=<?= $row['DeliveryID'] ?>&type=Delivery" class="font-bold bg-yellow-500 hover:bg-yellow-800 transition-colors pt-2 pb-1 px-2 rounded-md">
                             <span class="delete--svg bg-white size-6"></span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             <div>

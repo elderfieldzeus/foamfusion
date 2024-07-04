@@ -6,4 +6,6 @@
     $select = new Select($db); //stores select functions
     $auth = new Authentication($db, $session); //stores authentification functions
     $admin = new Admin($select);
+    $update = new Update($db);
+    $delete = new Delete($db);
 ?>

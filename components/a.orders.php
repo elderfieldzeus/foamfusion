@@ -25,9 +25,105 @@ while($row = $result->fetch_assoc()): ?>
                 <?=$row['OrderTime']?>
             </td>
             <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap text-center">
-                <button onclick="openDetails(<?=$row['OrderID'] ?>, 'Order')" class="bg-blue-700 text-white py-2 px-8 rounded-md">Details</button>
+                <button onclick="openDialog(<?=$row['OrderID'] ?>)" class="bg-blue-700 text-white py-2 px-8 rounded-md">Details</button>
             </td>
         </tr>
+        <?php
+            $id = $row['CustomerID'];
+
+            $c = $this->select->selectCustomerData($id);
+            $c_result = $c->fetch_assoc();
+
+            $cd_result = $this->select->selectOrderedProducts($row['OrderID']);
+        ?>
+        <div id="order_dialog_<?= $row['OrderID'] ?>" class="dialog hidden">
+            <div class="inner_dialog">
+                <span id="close_dialog_<?= $row['OrderID'] ?>" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>
+                <h1 class="font-bold underline text-xl">Order #<?= $row['OrderID']?></h1>
+                <div>
+                    <h1>Customer Information</h1>
+                    <hr class="mb-1">
+                    <div class="flex justify-between">
+                        <p class="text-gray-500">Customer Name: </p>
+                        <p class="text-gray-500"><?= $row['CustomerName'] ?></p>
+                    </div>
+                    <div class="flex justify-between">
+                        <p class="text-gray-500">Address: </p>
+                        <p class="text-gray-500"><?= $c_result['FullAddress'] ?></p>
+                    </div>
+                    <div class="flex justify-between">
+                        <p class="text-gray-500">Contact Number: </p>
+                        <p class="text-gray-500"><?= $c_result['PhoneNum'] ?></p>
+                    </div>
+                    <div class="flex justify-between">
+                        <p class="text-gray-500">Email:</p>
+                        <p class="text-gray-500"><?= $c_result['Email'] ?></p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h1>Products Information</h1>
+                    <hr class="mb-1">
+                            
+                    <?php 
+                    $total_price = 0;
+
+                    while($cd_row = $cd_result->fetch_assoc()): 
+                        $sale = $cd_row['UnitPrice'] * $cd_row['OrderedQuantity'];
+                        $total_price += $sale;
+                    ?>
+                        <div class="flex justify-between">
+                            <p class="text-gray-500"><?= $cd_row['ProductName'] . ', '  . $cd_row['VariationName']  ?> @Php<?= $cd_row['UnitPrice'] ?> x <?= $cd_row['OrderedQuantity'] ?>pc/s</p>
+                            <p class="text-gray-500">Php <?= number_format($sale, 2) ?></p>
+                        </div>
+                    <?php endwhile; ?>
+
+                    <hr class="mb-1">
+                    <div class="flex justify-between">
+                        <p class="text-gray-800">Total: </p>
+                        <p class="text-gray-800">Php <?= number_format($total_price, 2) ?></p>
+                    </div>
+                </div>
+                <div>
+                    <h1>Order Information</h1>
+                    <hr>
+
+                    <div class="flex justify-between">
+                        <p class="text-gray-500">Order Status:</p>
+                        <p class="font-bold 
+                        
+                        <?php
+
+                            switch(($row['OrderStatus'])) {
+                                case 'Pending': echo 'text-blue-500'; break;
+                                case 'Failed': echo 'text-red-500'; break;
+                                case 'Success': echo 'text-green-500'; break;
+                            }
+
+                        ?>
+                        
+                        "><?= strtoupper($row['OrderStatus']) ?></p>
+                    </div>
+
+                    <div class="flex justify-between">
+                            <p class="text-gray-500">Order Time: </p>
+                            <p class="text-gray-500"><?= $row['OrderTime'] ?></p>
+                    </div>
+
+                    <div class="flex justify-center gap-5 m-5">
+                        <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Failed" class="py-2 px-8 font-bold bg-red-500 hover:bg-red-800 transition-colors text-white rounded-md">FAILED</a>
+                            <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Pending" class="py-2 px-8 font-bold bg-blue-500 hover:bg-blue-800 transition-colors text-white rounded-md">PENDING</a>
+                            <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Success" class="py-2 px-8 font-bold bg-green-500 hover:bg-green-800 transition-colors text-white rounded-md">SUCCESS</a>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <a href="../utilities/deleteod.php?id=<?= $row['OrderID'] ?>&type=Order" class="font-bold bg-yellow-500 hover:bg-yellow-800 transition-colors pt-2 pb-1 px-2 rounded-md">
+                            <span class="delete--svg bg-white size-6"></span>
+                        </a>
+                    </div>
+                </div>
+            <div>
+        </div>
 
 <?php $i++; ?>
 <?php endwhile; ?>

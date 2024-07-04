@@ -6,5 +6,7 @@
     require_once "../functions/auth.functions.php";
     require_once "../functions/session.functions.php";
     require_once "../functions/admin.functions.php";
+    require_once "../functions/update.functions.php";
+    require_once "../functions/delete.functions.php";
 
 ?>

@@ -184,8 +184,10 @@
         }
 
         function selectTotalSales() {
-            $this->sql = "SELECT SUM(TotalPrice) AS TotalSales
-                        FROM Deliveries
+            $this->sql = "SELECT SUM(DeliveredQuantity * UnitPrice) AS TotalSales
+                        FROM DeliveredProducts
+                        LEFT JOIN Deliveries ON DeliveredProducts.DeliveryID = Deliveries.DeliveryID
+                        LEFT JOIN Variations ON DeliveredProducts.VariationID = Variations.VariationID
                         WHERE DeliveryStatus = 'Success';";
 
             return $this->db->query($this->sql);
@@ -202,7 +204,7 @@
         }
 
         function selectOrderTable() {
-            $this->sql = "SELECT OrderID, OrderStatus, CONCAT(Name.LastName, ', ', Name.FirstName) AS CustomerName, OrderTime
+            $this->sql = "SELECT OrderID, OrderStatus, CONCAT(Name.LastName, ', ', Name.FirstName) AS CustomerName, OrderTime, Customers.CustomerID
                         FROM Orders
                         LEFT JOIN Customers ON Orders.CustomerID = Customers.CustomerID
                         LEFT JOIN Name ON Customers.NameID = Name.NameID
@@ -235,6 +237,30 @@
                         LEFT JOIN Address ON Customers.AddressID = Address.AddressID
                         LEFT JOIN Account ON Customers.AccountID = Account.AccountID
                         ORDER BY CustomerID ASC;
+                        ";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectDeliveredProducts($ID) {
+            $this->sql = "SELECT * FROM
+                        DeliveredProducts
+                        LEFT JOIN Deliveries ON DeliveredProducts.DeliveryID = Deliveries.DeliveryID
+                        LEFT JOIN Variations ON Variations.VariationID = DeliveredProducts.VariationID
+                        LEFT JOIN Products ON Products.ProductID = Variations.ProductID
+                        WHERE Deliveries.DeliveryID = '$ID';
+                        ";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectOrderedProducts($ID) {
+            $this->sql = "SELECT * FROM
+                        OrderedProducts
+                        LEFT JOIN Orders ON OrderedProducts.OrderID = Orders.OrderID
+                        LEFT JOIN Variations ON Variations.VariationID = OrderedProducts.VariationID
+                        LEFT JOIN Products ON Products.ProductID = Variations.ProductID
+                        WHERE Orders.OrderID = '$ID';
                         ";
 
             return $this->db->query($this->sql);

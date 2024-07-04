@@ -13,6 +13,7 @@
     <title>FoamFusion - Admin</title>
     <link rel="stylesheet" href="../styles/tailwind.css">
     <link rel="stylesheet" href="../styles/svg.css">
+    <link rel="stylesheet" href="../styles/admin.css">
 </head>
 <body>
     <?php
@@ -66,5 +67,19 @@
             </div>
         </div>
     </main>
+
+    <script>
+        function openDialog(ID) {
+            const dialogName = `order_dialog_${ID}`;
+            const closeName = `close_dialog_${ID}`;
+            const dialog = document.getElementById(dialogName);
+
+            dialog.classList.remove("hidden");
+
+            document.getElementById(closeName).addEventListener("click", () => {
+                dialog.classList.add("hidden");
+            });
+        }
+    </script>
 </body>
 </html>

@@ -35,12 +35,16 @@ $i = 0;
         </tr>
         <?php
             $id = $row['CustomerID'];
+
+            $c = $this->select->selectCustomerData($id);
+            $c_result = $c->fetch_assoc();
+
             $cd_result = $this->select->selectCustomerDeliveries($id);
         ?>
         <div id="delivery_dialog_<?= $row['DeliveryID'] ?>" class="dialog hidden">
             <div class="inner_dialog">
-                <span id="close_dialog_<?= $row['DeliveryID'] ?>" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800"></span>
-                <h1 class="font-bold underline">Delivery #<?= $row['DeliveryID']?></h1>
+                <span id="close_dialog_<?= $row['DeliveryID'] ?>" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>
+                <h1 class="font-bold underline text-xl">Delivery #<?= $row['DeliveryID']?></h1>
                 <div>
                     <h1>Customer Information</h1>
                     <hr class="mb-1">
@@ -50,22 +54,22 @@ $i = 0;
                     </div>
                     <div class="flex justify-between">
                         <p class="text-gray-500">Address: </p>
-                        <p class="text-gray-500"><?= $row['FullAddress'] ?></p>
+                        <p class="text-gray-500"><?= $c_result['FullAddress'] ?></p>
                     </div>
                     <div class="flex justify-between">
                         <p class="text-gray-500">Contact Number: </p>
-                        <p class="text-gray-500"><?= $row['PhoneNum'] ?></p>
+                        <p class="text-gray-500"><?= $c_result['PhoneNum'] ?></p>
                     </div>
                     <div class="flex justify-between">
                         <p class="text-gray-500">Email:</p>
-                        <p class="text-gray-500"><?= $row['Email'] ?></p>
+                        <p class="text-gray-500"><?= $c_result['Email'] ?></p>
                     </div>
                 </div>
                 <div>
                     <h1>Employee Information</h1>
                     <hr class="mb-1">
                     <div class="flex justify-between">
-                        <p class="text-gray-500">Employee In Charge:</p>
+                        <p class="text-gray-500">Designated Employee:</p>
                         <p class="text-gray-500"><?= $row['EmployeeName'] ?></p>
                     </div>
                 </div>
@@ -73,16 +77,61 @@ $i = 0;
                     <h1>Products Information</h1>
                     <hr class="mb-1">
                             
-                    <?php while($cd_row = $cd_result->fetch_assoc()): ?>
-                        <div class="flex w-full justify-between">
-                            <p class="text-gray-500"><?= $cd_row['ProductName'] . ', '  . $cd_row['VariationName']  ?> @<?= $cd_row['UnitPrice'] ?> x <?= $cd_row['DeliveredQuantity'] ?>pc/s</p>
-                            <p class="text-gray-500"><?= number_format($cd_row['UnitPrice'] * $cd_row['DeliveredQuantity'], 2) ?></p>
+                    <?php 
+                    $total_price = 0;
+
+                    while($cd_row = $cd_result->fetch_assoc()): 
+                        $sale = $cd_row['UnitPrice'] * $cd_row['DeliveredQuantity'];
+                        $total_price += $sale;
+                    ?>
+                        <div class="flex justify-between">
+                            <p class="text-gray-500"><?= $cd_row['ProductName'] . ', '  . $cd_row['VariationName']  ?> @Php<?= $cd_row['UnitPrice'] ?> x <?= $cd_row['DeliveredQuantity'] ?>pc/s</p>
+                            <p class="text-gray-500">Php <?= number_format($sale, 2) ?></p>
                         </div>
                     <?php endwhile; ?>
+
                     <hr class="mb-1">
-                    <div class="flex w-full justify-between">
+                    <div class="flex justify-between">
                         <p class="text-gray-800">Total: </p>
-                        <p class="text-gray-800"><?= number_format($row['TotalPrice'], 2) ?></p>
+                        <p class="text-gray-800">Php <?= number_format($total_price, 2) ?></p>
+                    </div>
+                </div>
+                <div>
+                    <h1>Delivery Information</h1>
+                    <hr>
+
+                    <div class="flex justify-between">
+                        <p class="text-gray-500">Delivery Status:</p>
+                        <p class="font-bold 
+                        
+                        <?php
+
+                            switch(($row['DeliveryStatus'])) {
+                                case 'Pending': echo 'text-blue-500'; break;
+                                case 'Failed': echo 'text-red-500'; break;
+                                case 'Success': echo 'text-green-500'; break;
+                            }
+
+                        ?>
+                        
+                        "><?= strtoupper($row['DeliveryStatus']) ?></p>
+                    </div>
+
+                    <div class="flex justify-between">
+                            <p class="text-gray-500">Delivery Time: </p>
+                            <p class="text-gray-500"><?= $row['DeliveryTime'] ?></p>
+                    </div>
+
+                    <div class="flex justify-center gap-5 m-5">
+                            <button class="py-2 px-8 bg-red-500 hover:bg-red-800 transition-colors text-white rounded-md">FAILED</button>
+                            <button class="py-2 px-8 bg-blue-500 hover:bg-blue-800 transition-colors text-white rounded-md">PENDING</button>
+                            <button class="py-2 px-8 bg-green-500 hover:bg-green-800 transition-colors text-white rounded-md">SUCCESS</button>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <button class="bg-yellow-500 hover:bg-yellow-800 transition-colors pt-2 pb-1 px-2 rounded-md">
+                            <span class="delete--svg bg-white size-6"></span>
+                        </button>
                     </div>
                 </div>
             <div>

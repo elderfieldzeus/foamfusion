@@ -37,7 +37,7 @@
         }
 
         function selectCustomerData($CustomerID) { //Returns Customer Data
-            $this->sql = "SELECT * FROM Customers 
+            $this->sql = "SELECT *, CONCAT(Address.Street, ' ', Address.Barangay, ' ', Address.City, ', ', Address.PostalCode) AS FullAddress FROM Customers 
                         LEFT JOIN Name ON Customers.NameID = Name.NameID
                         LEFT JOIN Address ON Customers.AddressID = Address.AddressID
                         LEFT JOIN Account ON Customers.AccountID = Account.AccountID
@@ -213,7 +213,8 @@
 
         function selectDeliveryTable() {
             $this->sql = "SELECT DeliveryID, DeliveryStatus, CONCAT(CustName.LastName, ', ', CustName.FirstName) AS CustomerName, 
-                        CONCAT(EmpName.LastName, ', ', EmpName.FirstName) AS EmployeeName, Orders.CustomerID AS CustomerID, Deliveries.TotalPrice AS TotalPrice
+                        CONCAT(EmpName.LastName, ', ', EmpName.FirstName) AS EmployeeName, Orders.CustomerID AS CustomerID, Deliveries.TotalPrice AS TotalPrice,
+                        DeliveryTime
                         FROM Deliveries
                         LEFT JOIN Orders ON Deliveries.OrderID = Orders.OrderID
                         LEFT JOIN Employees ON Deliveries.EmployeeID = Employees.EmployeeID

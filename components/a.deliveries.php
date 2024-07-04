@@ -123,13 +123,13 @@ $i = 0;
                     </div>
 
                     <div class="flex justify-center gap-5 m-5">
-                            <button class="py-2 px-8 bg-red-500 hover:bg-red-800 transition-colors text-white rounded-md">FAILED</button>
-                            <button class="py-2 px-8 bg-blue-500 hover:bg-blue-800 transition-colors text-white rounded-md">PENDING</button>
-                            <button class="py-2 px-8 bg-green-500 hover:bg-green-800 transition-colors text-white rounded-md">SUCCESS</button>
+                            <button class="py-2 px-8 font-bold bg-red-500 hover:bg-red-800 transition-colors text-white rounded-md">FAILED</button>
+                            <button class="py-2 px-8 font-bold bg-blue-500 hover:bg-blue-800 transition-colors text-white rounded-md">PENDING</button>
+                            <button class="py-2 px-8 font-bold bg-green-500 hover:bg-green-800 transition-colors text-white rounded-md">SUCCESS</button>
                     </div>
 
                     <div class="flex justify-center">
-                        <button class="bg-yellow-500 hover:bg-yellow-800 transition-colors pt-2 pb-1 px-2 rounded-md">
+                        <button class="font-bold bg-yellow-500 hover:bg-yellow-800 transition-colors pt-2 pb-1 px-2 rounded-md">
                             <span class="delete--svg bg-white size-6"></span>
                         </button>
                     </div>

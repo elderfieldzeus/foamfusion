@@ -25,7 +25,7 @@
     <div class="bg-white shadow-md rounded-lg w-full max-w-5xl mx-auto flex flex-col md:flex-row">
         <div class="w-full md:w-1/2 p-6">
             <div class="h-64 w-full bg-gray-300 rounded-lg overflow-hidden">
-                <iframe class="w-full h-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509083!2d144.9537363153072!3d-37.81627977975185!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf57769c3432b4f45!2sVictoria%20Harbour%20Promenade%2C%20Docklands%20VIC%203008%2C%20Australia!5e0!3m2!1sen!2sus!4v1636665257600!5m2!1sen!2sus" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15699.487803155169!2d123.89421433210374!3d10.352122376846252!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a99894d1b6ae25%3A0xc2d9b9e99316c59d!2sUniversity%20of%20San%20Carlos%20-%20Talamban%20Campus!5e0!3m2!1sen!2sph!4v1720075680632!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>            
             </div>
             <div class="mt-6 space-y-4">
                 <div>

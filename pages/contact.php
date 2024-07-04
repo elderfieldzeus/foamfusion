@@ -14,7 +14,7 @@
         }
     </style>
 </head>
-<body class="bg-custom min-h-screen flex items-center justify-center p-4">
+<body class="bg-custom min-h-screen flex items-center justify-center p-4 mt-10">
 
     <!--navbar--> 
     <?php include_once "../components/navbar.php"; ?>   

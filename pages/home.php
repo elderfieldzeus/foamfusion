@@ -6,13 +6,13 @@
     require_once "../utilities/include.php";
     require_once "../utilities/var.sql.php";
 
-    if(!$auth->signup("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus24@gmail.com", "Mandaue", "Basak", "St. John", "6014", "123", "123", "Customer")) {
-        alert("Failed");
-    }
+    // if(!$auth->signup("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus24@gmail.com", "Mandaue", "Basak", "St. John", "6014", "123", "123", "Customer")) {
+    //     alert("Failed");
+    // }
 
-    if(!$auth->signup("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus24@gmail.com", "Mandaue", "Basak", "St. John", "6014", "123", "123", "Admin")) {
-        alert("Failed");
-    }
+    // if(!$auth->signup("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus24@gmail.com", "Mandaue", "Basak", "St. John", "6014", "123", "123", "Admin")) {
+    //     alert("Failed");
+    // }
 
     // if($auth->login("elderfieldzeus24@gmail.com", "123", "Admin")) {
     //     alert("Logged In Successfully");
@@ -57,7 +57,45 @@
 
 <body class="bg-gray-100">
     <!-- Navbar -->
-    <?php include_once "../components/navbar.php"; ?>
+    <nav class="bg-gray-800 fixed left-4 right-4 top-4 z-10 shadow-md rounded-lg">
+    <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center">
+                <a href="#" class="text-white text-2xl font-bold">Logo</a>
+            </div>
+            <div class="hidden md:flex md:space-x-8">
+                <a href="../pages/home.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">Home</a>
+                <a href="../pages/about.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">About</a>
+                <a href="../pages/product.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">Product</a>
+                <a href="../pages/contact.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">Contact</a>
+            </div>
+            <div class="flex items-center md:space-x-4">
+                <a href="#" id="user-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                    <i class="gg-user"></i>
+                </a>
+                <a href="#" id="search-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                    <i class="gg-search"></i>
+                </a>
+                <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                    <i class="gg-shopping-cart"></i>
+                </a>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden">
+        <a href="../pages/home.php" class="block px-4 py-2 text-gray-300 hover:text-white">Home</a>
+        <a href="../pages/about.php" class="block px-4 py-2 text-gray-300 hover:text-white">About</a>
+        <a href="../pages/product.php" class="block px-4 py-2 text-gray-300 hover:text-white">Product</a>
+        <a href="../pages/contact.php" class="block px-4 py-2 text-gray-300 hover:text-white">Contact</a>
+    </div>
+</nav>
 
     <!-- Hero Section -->
     <section class="h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('../assets/sink.png'); background-attachment: fixed;">
@@ -67,62 +105,6 @@
             <a href="#products" class="mt-8 inline-block bg-indigo-600 text-white px-6 py-3 rounded-full text-lg font-medium hover:bg-indigo-700 transition duration-300">Shop Now</a>
         </div>
     </section>
-
-    <!-- Product Section -->
-    <section id="products" class="py-16 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-8">Our Products</h2>
-            <div class="relative px-8">
-                <!-- Added padding here -->
-                <div id="carousel" class="flex space-x-4 overflow-hidden">
-                    <div class="flex-none w-64 bg-white shadow-md rounded-lg p-4">
-                        <img src="https://via.placeholder.com/256x256" alt="Product 1" class="w-full h-48 object-cover rounded-md">
-                        <h3 class="mt-4 text-lg font-medium">Product 1</h3>
-                        <p class="mt-2 text-gray-600">₱0,000</p>
-                        <a href="#" class="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-indigo-700 transition duration-300">Add to Cart</a>
-                    </div>
-                    <div class="flex-none w-64 bg-white shadow-md rounded-lg p-4">
-                        <img src="https://via.placeholder.com/256x256" alt="Product 2" class="w-full h-48 object-cover rounded-md">
-                        <h3 class="mt-4 text-lg font-medium">Product 2</h3>
-                        <p class="mt-2 text-gray-600">₱0,000</p>
-                        <a href="#" class="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-indigo-700 transition duration-300">Add to Cart</a>
-                    </div>
-                    <div class="flex-none w-64 bg-white shadow-md rounded-lg p-4">
-                        <img src="https://via.placeholder.com/256x256" alt="Product 3" class="w-full h-48 object-cover rounded-md">
-                        <h3 class="mt-4 text-lg font-medium">Product 3</h3>
-                        <p class="mt-2 text-gray-600">₱0,000</p>
-                        <a href="#" class="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-indigo-700 transition duration-300">Add to Cart</a>
-                    </div>
-                    <div class="flex-none w-64 bg-white shadow-md rounded-lg p-4">
-                        <img src="https://via.placeholder.com/256x256" alt="Product 3" class="w-full h-48 object-cover rounded-md">
-                        <h3 class="mt-4 text-lg font-medium">Product 4</h3>
-                        <p class="mt-2 text-gray-600">₱0,000</p>
-                        <a href="#" class="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-indigo-700 transition duration-300">Add to Cart</a>
-                    </div>
-                    <div class="flex-none w-64 bg-white shadow-md rounded-lg p-4">
-                        <img src="https://via.placeholder.com/256x256" alt="Product 3" class="w-full h-48 object-cover rounded-md">
-                        <h3 class="mt-4 text-lg font-medium">Product 5</h3>
-                        <p class="mt-2 text-gray-600">₱0,000</p>
-                        <a href="#" class="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-indigo-700 transition duration-300">Add to Cart</a>
-                    </div>
-                    <div class="flex-none w-64 bg-white shadow-md rounded-lg p-4">
-                        <img src="https://via.placeholder.com/256x256" alt="Product 3" class="w-full h-48 object-cover rounded-md">
-                        <h3 class="mt-4 text-lg font-medium">Product 6</h3>
-                        <p class="mt-2 text-gray-600">₱0,000</p>
-                        <a href="#" class="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-indigo-700 transition duration-300">Add to Cart</a>
-                    </div>
-                    <!-- Add more product cards as needed -->
-                </div>
-                <button id="prev" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-2">
-                    <i class="gg-arrow-left"></i>
-            </button>
-                <button id="next" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-2">
-                    <i class="gg-arrow-right"></i>
-            </button>
-            </div>
-        </div>
-    </section>
-
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-300 py-8">
@@ -147,7 +129,6 @@
         <p>&copy; 2024 FoamFusion Soap. All rights reserved.</p>
     </div>
 
-    <!-- Modals -->
     <div id="auth-modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden z-50">
         <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
             <div class="px-4 py-5 sm:px-6">
@@ -225,7 +206,16 @@
     </div>
 
     <script>
-        const userIcon = document.getElementById('user-icon');
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    });
+
+    const userIcon = document.getElementById('user-icon');
         const searchIcon = document.getElementById('search-icon');
         const authModal = document.getElementById('auth-modal');
         const signupModal = document.getElementById('signup-modal');
@@ -264,28 +254,8 @@
                 searchModal.classList.add('hidden');
             }
         });
+</script>
 
-        const carousel = document.getElementById('carousel');
-        const prev = document.getElementById('prev');
-        const next = document.getElementById('next');
-        let scrollAmount = 0;
-
-        next.addEventListener('click', () => {
-            carousel.scrollTo({
-                top: 0,
-                left: (scrollAmount += carousel.clientWidth),
-                behavior: 'smooth'
-            });
-        });
-
-        prev.addEventListener('click', () => {
-            carousel.scrollTo({
-                top: 0,
-                left: (scrollAmount -= carousel.clientWidth),
-                behavior: 'smooth'
-            });
-        });
-    </script>
 </body>
 
 </html>

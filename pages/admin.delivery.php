@@ -13,6 +13,7 @@
     <title>FoamFusion - Admin</title>
     <link rel="stylesheet" href="../styles/tailwind.css">
     <link rel="stylesheet" href="../styles/svg.css">
+    <link rel="stylesheet" href="../styles/admin.css">
 </head>
 <body>
     <?php

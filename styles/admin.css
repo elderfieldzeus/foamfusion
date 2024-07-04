@@ -3,3 +3,7 @@
     height: 80%;
     object-fit: cover;
 }
+
+.inner_dialog {
+    scrollbar-width: none;
+}

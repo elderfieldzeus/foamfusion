@@ -91,6 +91,7 @@
             $this->sql = "SELECT * FROM Deliveries
                         LEFT JOIN DeliveredProducts ON DeliveredProducts.DeliveryID = Deliveries.DeliveryID
                         LEFT JOIN Variations ON Variations.VariationID = DeliveredProducts.VariationID
+                        LEFT JOIN Products ON Variations.ProductID = Products.ProductID
                         LEFT JOIN Orders ON Orders.OrderID = Deliveries.DeliveryID
                         WHERE Orders.CustomerID = '$CustomerID';
                         ";
@@ -212,7 +213,7 @@
 
         function selectDeliveryTable() {
             $this->sql = "SELECT DeliveryID, DeliveryStatus, CONCAT(CustName.LastName, ', ', CustName.FirstName) AS CustomerName, 
-                        CONCAT(EmpName.LastName, ', ', EmpName.FirstName) AS EmployeeName
+                        CONCAT(EmpName.LastName, ', ', EmpName.FirstName) AS EmployeeName, Orders.CustomerID AS CustomerID, Deliveries.TotalPrice AS TotalPrice
                         FROM Deliveries
                         LEFT JOIN Orders ON Deliveries.OrderID = Orders.OrderID
                         LEFT JOIN Employees ON Deliveries.EmployeeID = Employees.EmployeeID

@@ -47,4 +47,53 @@
             mobileMenu.classList.toggle('hidden');
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    });
+
+    const userIcon = document.getElementById('user-icon');
+        const searchIcon = document.getElementById('search-icon');
+        const authModal = document.getElementById('auth-modal');
+        const signupModal = document.getElementById('signup-modal');
+        const searchModal = document.getElementById('search-modal');
+        const signupLink = document.getElementById('signup-link');
+        const loginLink = document.getElementById('login-link');
+
+        userIcon.addEventListener('click', () => {
+            authModal.classList.toggle('hidden');
+        });
+
+        searchIcon.addEventListener('click', () => {
+            searchModal.classList.toggle('hidden');
+        });
+
+        signupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            authModal.classList.add('hidden');
+            signupModal.classList.remove('hidden');
+        });
+
+        loginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupModal.classList.add('hidden');
+            authModal.classList.remove('hidden');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target == authModal) {
+                authModal.classList.add('hidden');
+            }
+            if (e.target == signupModal) {
+                signupModal.classList.add('hidden');
+            }
+            if (e.target == searchModal) {
+                searchModal.classList.add('hidden');
+            }
+        });
 </script>

@@ -10,10 +10,10 @@
             $this->db = $db;
         }
 
-        function selectEmail($Email, $Role) { //Used to check if the email already exists
+        function selectEmail($Email) { //Used to check if the email already exists
             $this->sql = "SELECT Email
                         FROM Account
-                        WHERE Email='$Email' && Role='$Role'";
+                        WHERE Email='$Email'";
 
             return $this->db->query($this->sql);
         }

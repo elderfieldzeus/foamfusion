@@ -24,7 +24,7 @@
 
         //Returns TRUE if successful, and FALSE if email already found
         function signup($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password, $ConfirmPassword, $Role) {
-            $this->Email = $this->select->selectEmail($Email, $Role);
+            $this->Email = $this->select->selectEmail($Email);
 
 
             if($this->Email->num_rows > 0 

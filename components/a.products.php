@@ -22,23 +22,24 @@
                 </div>
 
                 <div class="right_dialog w-1/2">
-                    <form class="wrapper w-[30rem] h-full flex flex-col justify-center">
+                    <form method="post" action="../utilities/updateproduct.php" class="wrapper w-[30rem] h-full flex flex-col justify-center">
+                        <input type="hidden" id="variation_id" name="variation_id" value="<?= $row['VariationID'] ?>">
                         <div id="inner_form" class="h-4/5 overflow-scroll">
                             <div class="flex items-end gap-2">
                                 <p class="text-4xl"><?= $row['ProductName'] ?></p>
-                                <a href="">
+                                <a href="../utilities/deleteproduct.php?id=<?= $row['VariationID'] ?>&image=<?= $row['VariationImage'] ?>">
                                     <span class="delete--svg size-6 bg-red-400"></span>
                                 </a>
                             </div>
-                            <p class="text-xl text-gray-400"><input class="focus:outline-none bg-opacity-0 " value="<?=$row['VariationName']?>"></p>
-                            <p class="text-lg mt-4">Mass: <input class="text-gray-400 focus:outline-none bg-opacity-0" min="0" value="<?=$row['MassInOZ']?>oz"></p>
+                            <p class="text-xl text-gray-400"><input name="variation_name" class="focus:outline-none bg-opacity-0 " value="<?=$row['VariationName']?>"></p>
+                            <p class="text-lg mt-4">Mass: <input name="product_mass" type="numeric" step="0.01" class="text-gray-400 focus:outline-none bg-opacity-0" min="0" value="<?=$row['MassInOZ']?>oz"></p>
                             <div class="flex text-lg">
                                 <p>Price:&nbsp</p>
-                                <p class="text-gray-400">Php <input type="numeric" class="focus:outline-none bg-opacity-0" min="0" value="<?=$row['UnitPrice']?>"></p>
+                                <p class="text-gray-400">Php <input name="unit_price" type="numeric" step="0.01" class="focus:outline-none bg-opacity-0" min="0" value="<?=$row['UnitPrice']?>"></p>
                             </div>
-                            <p class="text-lg">In stock: <input type="numeric" class="text-gray-400 focus:outline-none bg-opacity-0" min="0" value="<?=$row['InStock']?>"></p>
+                            <p class="text-lg">In stock: <input name="in_stock" type="numeric" step="1" class="text-gray-400 focus:outline-none bg-opacity-0" min="0" value="<?=$row['InStock']?>"></p>
                             <p class="text-xl mt-4">Product Description</p>
-                            <textarea class="text-gray-400 focus:outline-none bg-opacity-0 text-lg w-full h-56 resize-none overflow-y-scroll"><?=$row['VariationDescription']?></textarea>
+                            <textarea name="description" class="text-gray-400 focus:outline-none bg-opacity-0 text-lg w-full h-56 resize-none overflow-y-scroll"><?=$row['VariationDescription']?></textarea>
                         </div>
 
                         <button type="submit" class="px-6 py-4 bg-yellow-400 rounded-md text-white font-bold">UPDATE</button>

@@ -9,13 +9,13 @@
             $this->db = $db;
         }
 
-        function insertCustomer($FirstName, $LastName, $MiddleName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password) {
+        function insertCustomer($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password) {
             $NameID = null;
             $AddressID = null;
             $AccountID = null;
 
             //insert into Name
-            $this->sql = "INSERT INTO Name (FirstName, LastName, MiddleName) VALUES('$FirstName', '$LastName', '$MiddleName');";
+            $this->sql = "INSERT INTO Name (FirstName, LastName) VALUES('$FirstName', '$LastName');";
 
             $this->db->query($this->sql);
             $NameID = $this->db->conn->insert_id;
@@ -39,7 +39,7 @@
             $this->insert_id = $this->db->conn->insert_id;
         }
 
-        function insertEmployee($FirstName, $LastName, $MiddleName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password) {
+        function insertEmployee($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password) {
 
             $NameID = null;
             $ContactID = null;
@@ -47,7 +47,7 @@
             $AccountID = null;
 
             //insert into Name
-            $this->sql = "INSERT INTO Name (FirstName, LastName, MiddleName) VALUES('$FirstName', '$LastName', '$MiddleName');";
+            $this->sql = "INSERT INTO Name (FirstName, LastName) VALUES('$FirstName', '$LastName');";
 
             $this->db->query($this->sql);
             $NameID = $this->db->conn->insert_id;

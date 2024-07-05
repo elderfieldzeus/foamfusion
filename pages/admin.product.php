@@ -56,15 +56,15 @@
                                 </div>
                                 <div class="w-full">
                                     <label for="price" class="block mb-2 text-sm font-medium text-gray-900">Price (Philippine Peso)</label>
-                                    <input type="number" name="price" min="0" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="e.g. 299.00" required="">
+                                    <input type="number" step="0.01" name="price" min="0" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="e.g. 299.00" required="">
                                 </div>
                                 <div>
                                     <label for="product_mass" class="block mb-2 text-sm font-medium text-gray-900">Product Mass (oz)</label>
-                                    <input type="number" name="product_mass" min="0" id="product_mass" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="e.g. 2.5" required="">
+                                    <input type="number" step="0.01" name="product_mass" min="0" id="product_mass" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="e.g. 2.5" required="">
                                 </div> 
                                 <div>
                                     <label for="in_stock" class="block mb-2 text-sm font-medium text-gray-900">In Stock</label>
-                                    <input type="number" name="in_stock" min="0" id="in_stock" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="e.g. 10" required="">
+                                    <input type="number" step="1" name="in_stock" min="0" id="in_stock" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="e.g. 10" required="">
                                 </div> 
                                 <div class="sm:col-span-2">
                                     <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Description</label>

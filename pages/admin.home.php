@@ -111,8 +111,8 @@
                         <p class="text-xl text-gray-400 w-20">
                             <?php
                                 $result = $select->selectTotalSales();
-                                $row = $result->fetch_assoc();
-                                echo 'Php&nbsp' . (($sales = $row['TotalSales']) ? $sales : '0.00');
+                                $_row = $result->fetch_assoc();
+                                echo 'Php&nbsp' . (($sales = $_row['TotalSales']) ? $sales : '0.00');
                             ?>
                         </p>
                     </div>

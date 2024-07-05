@@ -209,8 +209,10 @@
         }
 
         function selectSalesStatus() {
-            $this->sql = "SELECT MONTHNAME(DeliveryTime) AS SalesStatus, SUM(TotalPrice) AS TotalSales
-                        FROM Deliveries 
+            $this->sql = "SELECT MONTHNAME(DeliveryTime) AS SalesStatus, SUM(DeliveredQuantity * UnitPrice) AS TotalSales
+                        FROM Deliveries
+                        LEFT JOIN DeliveredProducts ON DeliveredProducts.DeliveryID = Deliveries.DeliveryID
+                        LEFT JOIN Variations ON Variations.VariationID = DeliveredProducts.VariationID
                         WHERE DeliveryStatus = 'Success'
                         GROUP BY SalesStatus
                         ORDER BY TotalSales DESC;";
@@ -230,7 +232,7 @@
 
         function selectDeliveryTable() {
             $this->sql = "SELECT DeliveryID, DeliveryStatus, CONCAT(CustName.LastName, ', ', CustName.FirstName) AS CustomerName, 
-                        CONCAT(EmpName.LastName, ', ', EmpName.FirstName) AS EmployeeName, Orders.CustomerID AS CustomerID, Deliveries.TotalPrice AS TotalPrice,
+                        CONCAT(EmpName.LastName, ', ', EmpName.FirstName) AS EmployeeName, Orders.CustomerID AS CustomerID,
                         DeliveryTime
                         FROM Deliveries
                         LEFT JOIN Orders ON Deliveries.OrderID = Orders.OrderID

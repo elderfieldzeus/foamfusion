@@ -4,8 +4,7 @@
         "Name(
             NameID" . $primary_key . ",
             FirstName VARCHAR(255) NOT NULL,
-            LastName VARCHAR(255) NOT NULL,
-            MiddleName VARCHAR(255)
+            LastName VARCHAR(255) NOT NULL
         )",
 
         // "Contact(
@@ -50,7 +49,7 @@
         "Variations(
             VariationID" . $primary_key . ",
             VariationName VARCHAR(255),
-            VariationDescription VARCHAR(255),
+            VariationDescription TEXT,
             VariationImage VARCHAR(255),
             MassInOZ DECIMAL(10, 2) NOT NULL,
             UnitPrice DECIMAL(10, 2) NOT NULL,
@@ -75,7 +74,6 @@
             OrderID" . $primary_key . ",
             OrderTime DATETIME DEFAULT CURRENT_TIMESTAMP,
             OrderStatus ENUM('Failed', 'Pending', 'Success') DEFAULT 'Pending',
-            TotalPrice DECIMAL(10, 2) NOT NULL,
             CustomerID INT NOT NULL,
             FOREIGN KEY(CustomerID) REFERENCES Customers(CustomerID)
         )",
@@ -84,7 +82,6 @@
             DeliveryID" . $primary_key . ",
             DeliveryTime DATETIME DEFAULT NULL,
             DeliveryStatus ENUM('Failed', 'Pending', 'Success') DEFAULT 'Pending',
-            TotalPrice DECIMAL(10, 2) NOT NULL,
             EmployeeID INT NOT NULL,
             OrderID INT NOT NULL,
             FOREIGN KEY(EmployeeID) REFERENCES Employees(EmployeeID),

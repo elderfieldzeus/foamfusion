@@ -52,7 +52,7 @@
             VariationName VARCHAR(255),
             VariationDescription VARCHAR(255),
             VariationImage VARCHAR(255),
-            MassInOZ INT NOT NULL,
+            MassInOZ DECIMAL(10, 2) NOT NULL,
             UnitPrice DECIMAL(10, 2) NOT NULL,
             InStock INT NOT NULL DEFAULT 0,
             ProductID INT NOT NULL,

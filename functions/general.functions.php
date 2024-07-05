@@ -21,10 +21,8 @@
     }
 
     function formalize($string) {
+        $string = strtolower($string);
         $string[0] = strtoupper($string[0]);
-        for($i = 1; $i < strlen($string); $i++) {
-            $string[$i] = strtolower($string[$i]);
-        }
 
         return $string;
     }

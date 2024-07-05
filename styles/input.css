@@ -40,6 +40,6 @@
     }
 
     .inner_dialog {
-        @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8/12 h-4/6 bg-white rounded-md p-4 overflow-y-scroll overflow-x-hidden flex flex-col gap-5;
+        @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[75rem] h-[40rem] bg-white rounded-md p-8 overflow-y-scroll overflow-x-hidden flex flex-col gap-5;
     }
 }

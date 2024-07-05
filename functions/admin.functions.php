@@ -7,6 +7,11 @@
             $this->select = $select;
         }
 
+        function displayNavbar($page) {
+            global $session, $select;
+            include "../components/a.navbar.php";
+        }
+
         function displayAdminProducts() {
             include "../components/a.products.php";
         }
@@ -25,6 +30,10 @@
 
         function displayAdminCustomers() {
             include "../components/a.customers.php";
+        }
+
+        function displayAdminEmployees() {
+            include "../components/a.employees.php";
         }
     }
 ?>

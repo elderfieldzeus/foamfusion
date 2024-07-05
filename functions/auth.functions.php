@@ -23,20 +23,19 @@
         }
 
         //Returns TRUE if successful, and FALSE if email already found
-        function signup($FirstName, $LastName, $MiddleName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password, $ConfirmPassword, $Role) {
+        function signup($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password, $ConfirmPassword, $Role) {
             $this->Email = $this->select->selectEmail($Email, $Role);
 
 
             if($this->Email->num_rows > 0 
             || $Password != $ConfirmPassword) {
-                alert("Invalid Signup Attempt!");
                 return FALSE;
             }
 
             $this->HashedPassword = password_hash($Password, PASSWORD_BCRYPT);
             
             switch($Role) {
-                case 'Customer': $this->insert->insertCustomer($FirstName, $LastName, $MiddleName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $this->HashedPassword); break;
+                case 'Customer': $this->insert->insertCustomer($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $this->HashedPassword); break;
                 case 'Admin': $this->insert->insertEmployee($FirstName, $LastName, $MiddleName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $this->HashedPassword); break;
                 default: return FALSE;
             }

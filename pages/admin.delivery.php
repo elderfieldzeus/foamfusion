@@ -18,8 +18,7 @@
 <body>
     <?php
 
-        include_once "../components/admin.navbar.php";
-        AdminNavBar("Delivery");
+        $admin->displayNavbar("Delivery");
 
     ?>
 
@@ -28,7 +27,18 @@
 
         </header>
         <div class="py-8 px-12">
-            <h1 class="text-4xl">Deliveries</h1>
+            <div class="flex justify-start items-end gap-2">
+                <h1 class="text-4xl">Deliveries</h1>
+                <button onclick="openAddDialog()" class="p-1 rounded-full bg-blue-700 text-white text-base flex items-center justify-center mb-1">
+                    <span class="add--svg bg-white size-4"></span>
+                </button>
+            </div>
+
+            <div id="add_dialog" class="dialog hidden">
+                <div class="inner_dialog">
+                    <span id="close_add_dialog" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>
+                </div>
+            </div>
             <hr class="my-5">
 
             <div class="flex flex-col">
@@ -79,6 +89,17 @@
             document.getElementById(closeName).addEventListener("click", () => {
                 dialog.classList.add("hidden");
             });
+        }
+
+        function openAddDialog() {
+            const dialog = document.getElementById("add_dialog");
+            const close = document.getElementById("close_add_dialog");
+            dialog.classList.remove("hidden");
+
+            close.addEventListener("click", () => {
+                dialog.classList.add("hidden");
+            });
+
         }
     </script>
 </body>

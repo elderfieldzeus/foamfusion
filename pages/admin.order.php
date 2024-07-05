@@ -18,8 +18,7 @@
 <body>
     <?php
 
-        include_once "../components/admin.navbar.php";
-        AdminNavBar("Order");
+        $admin->displayNavbar("Order");
 
     ?>
 

@@ -22,9 +22,7 @@
 <body>
     <?php
 
-        include_once "../components/admin.navbar.php";
-
-        AdminNavBar("Home");
+        $admin->displayNavbar("Home");
 
     ?>
 
@@ -93,6 +91,20 @@
                     <canvas id="CustomerStatus"></canvas>
                 </a>
 
+                <a href="./admin.employee.php" class="home-card">
+                    <div>
+                        <p class="text-4xl ">Employees</p>
+                        <p class="text-xl text-gray-400">
+                            <?php
+                                $result = $select->selectEmployeeCount();
+                                $row = $result->fetch_assoc();
+                                echo $row['NumOfEmployees'] . ($row['NumOfEmployees'] == 1 ? " Employee" :" Employees");
+                            ?>
+                        </p>
+                    </div>
+                    <canvas id="EmployeeStatus"></canvas>
+                </a>
+
                 <a href="./admin.delivery.php" class="home-card">
                     <div>
                         <p class="text-4xl ">Sales</p>
@@ -124,6 +136,9 @@
 
         $customer_result = $select->selectCustomerStatus();
         $admin->displayChart($customer_result, "CustomerStatus", "NumOfCustomers");
+
+        $employee_result = $select->selectEmployeeStatus();
+        $admin->displayChart($employee_result, "EmployeeStatus", "NumOfEmployees");
 
         $sales_result = $select->selectSalesStatus();
         $admin->displayChart($sales_result, "SalesStatus", "TotalSales");

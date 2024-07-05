@@ -20,8 +20,7 @@
 <body>
     <?php
 
-        include_once "../components/admin.navbar.php";
-        AdminNavBar("Product");
+        $admin->displayNavbar("Product");
 
     ?>
 

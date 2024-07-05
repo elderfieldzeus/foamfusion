@@ -174,11 +174,26 @@
             return $this->db->query($this->sql);
         }
 
+        function selectEmployeeCount() {
+            $this->sql = "SELECT COUNT(EmployeeID) AS NumOfEmployees FROM Employees;";
+
+            return $this->db->query($this->sql);
+        }
+
         function selectCustomerStatus() {
             $this->sql = "SELECT MONTHNAME(Account.CreatedAt) AS CustomerStatus, COUNT(Customers.CustomerID) AS NumOfCustomers FROM Customers
                         LEFT JOIN Account ON Customers.AccountID = Account.AccountID
                         GROUP BY CustomerStatus
                         ORDER BY NumOfCustomers;";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectEmployeeStatus() {
+            $this->sql = "SELECT MONTHNAME(Account.CreatedAt) AS EmployeeStatus, COUNT(Employees.EmployeeID) AS NumOfEmployees FROM Employees
+                        LEFT JOIN Account ON Employees.AccountID = Account.AccountID
+                        GROUP BY EmployeeStatus
+                        ORDER BY NumOfEmployees;";
 
             return $this->db->query($this->sql);
         }
@@ -237,6 +252,19 @@
                         LEFT JOIN Address ON Customers.AddressID = Address.AddressID
                         LEFT JOIN Account ON Customers.AccountID = Account.AccountID
                         ORDER BY CustomerID ASC;
+                        ";
+
+            return $this->db->query($this->sql);
+        }
+
+        function selectEmployeeTable() {
+            $this->sql = "SELECT EmployeeID, CONCAT(Name.LastName, ', ', Name.FirstName) AS EmployeeName,
+                        Account.Email, PhoneNum, CONCAT(Address.Street, ' ', Address.Barangay, ' ', Address.City, ', ', Address.PostalCode) AS FullAddress
+                        FROM Employees
+                        LEFT JOIN Name ON Employees.NameID = Name.NameID
+                        LEFT JOIN Address ON Employees.AddressID = Address.AddressID
+                        LEFT JOIN Account ON Employees.AccountID = Account.AccountID
+                        ORDER BY EmployeeID ASC;
                         ";
 
             return $this->db->query($this->sql);

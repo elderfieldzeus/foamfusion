@@ -17,8 +17,7 @@
 <body>
     <?php
 
-        include_once "../components/admin.navbar.php";
-        AdminNavBar("Customer");
+        $admin->displayNavbar("Customer");
 
     ?>
 
@@ -63,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-
+            </div>
         </div>
     </main>
 

@@ -34,33 +34,49 @@
         <p class="dashboard--header">Employees</p>
     </a>
 
-    <div id="account_dashboard" class="hover:cursor-pointer flex gap-4 absolute bottom-0 p-4 w-full bg-gray-700 overflow-ellipsis">
+    <button onclick="openSignout()" id="account_dashboard" class="hover:cursor-pointer flex gap-4 absolute bottom-0 p-4 w-full bg-gray-700 overflow-ellipsis">
         <span class="admin--svg dashboard--icon"></span>
         <p class="dashboard--header">
-<?php
-                    
-        $session->continueSession();
-        $result = $select->selectEmployeeData($session->ID);
-        $row = $result->fetch_assoc();
+    <?php
+                        
+            $session->continueSession();
+            $result = $select->selectEmployeeData($session->ID);
+            $row = $result->fetch_assoc();
 
-        if($row != NULL) {
-            echo $row["FirstName"] . "&nbsp" . $row["LastName"];
-        }
-        else {
-            echo "NULL";
-            $session->endSession();
-            Location("./home.php");
-        }
-        
-        echo'
-                            </p>
-                    </div>
-                </nav>
-            ';
+            if($row != NULL) {
+                echo $row["FirstName"] . "&nbsp" . $row["LastName"];
+            }
+            else {
+                echo "NULL";
+                $session->endSession();
+                Location("../pages/home.php");
+            }
 
-?>
+    ?>
 
-        </p>
+        </button>
     </div>
 </nav>
 
+<div id="dialog_signout" class="dialog hidden">
+    <div class="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 fixed bg-white w-64 h-32 rounded-md flex flex-col items-center justify-center">
+        <p class="text-xl">Want to sign out?</p>
+        <div class="buttons w-full grid grid-cols-2 gap-2 px-4 pt-4">
+            <button class="bg-red-500 hover:bg-red-800 transition-colors text-white text-center rounded-md" id="close_signout">No</button>
+            <a class="bg-green-500 hover:bg-green-800 transition-colors text-white text-center rounded-md" href="../utilities/signout.php">Yes</a>
+        </div>
+    </div>
+</div>
+
+<script defer>
+    function openSignout() {
+        const dialog = document.getElementById("dialog_signout");
+        const no = document.getElementById("close_signout");
+
+        dialog.classList.remove("hidden");
+        no.addEventListener("click", () => {
+            dialog.classList.add("hidden");
+        });
+
+    }
+</script>

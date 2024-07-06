@@ -27,4 +27,21 @@
         return $string;
     }
 
+    function filterNumber(string $string) {
+        $hasDecimal = false;
+        $num = "";
+
+        for($i = 0; $i < strlen($string); $i++) {
+            if(is_numeric($string[$i])) {
+                $num .= $string[$i];
+            }
+            if($string[$i] == '.' && !$hasDecimal) {
+                $num .= $string[$i];
+                $hasDecimal = true;
+            }
+        }
+
+        return $num;
+    }
+
 ?>

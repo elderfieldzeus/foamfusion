@@ -8,10 +8,11 @@
         Location("../pages/home.php");
     }
 
-    if(isset($_GET['id']) && isset($_GET['image']) && $session->isSessionValid()) {
+    if(isset($_GET['id']) && isset($_GET['image']) && $_GET['productid'] && $session->isSessionValid()) {
         $id = $_GET['id'];
         $image = $_GET['image'];
-        $delete->deleteVariation($id, $image);
+        $product_id = $_GET['productid'];
+        $delete->deleteVariation($id, $image, $product_id);
 
         Location("../pages/admin.product.php");
     }

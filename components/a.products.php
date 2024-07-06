@@ -7,8 +7,8 @@
     <button onclick="openDialog(<?= $row['VariationID'] ?>)" class="product-card">
         <img src="../assets/products/<?= $row['VariationImage'] ?>" alt="&nbsp" class="product-card--images">
         <div class="flex flex-col items-start">
-            <h2 class="text-xl px-3"> <?= $row['VariationName']?> </h2>
-            <h2 class="text-sm px-3 hover:cursor-pointer text-gray-400"> <?=$row['ProductName']?> </h2>
+            <h2 class="text-xl px-3 text-start"> <?= $row['VariationName']?> </h2>
+            <h2 class="text-sm px-3 hover:cursor-pointer text-gray-400 text-start"> <?=$row['ProductName']?> </h2>
         </div>
     </button>
 
@@ -27,7 +27,7 @@
                         <div id="inner_form" class="h-4/5 overflow-scroll">
                             <div class="flex items-end gap-2">
                                 <p class="text-4xl"><?= $row['ProductName'] ?></p>
-                                <a href="../utilities/deleteproduct.php?id=<?= $row['VariationID'] ?>&image=<?= $row['VariationImage'] ?>">
+                                <a href="../utilities/deleteproduct.php?id=<?= $row['VariationID'] ?>&image=<?= $row['VariationImage'] ?>&productid=<?= $row['ProductID'] ?>">
                                     <span class="delete--svg size-6 bg-red-400"></span>
                                 </a>
                             </div>
@@ -42,7 +42,7 @@
                             <textarea name="description" class="text-gray-400 focus:outline-none bg-opacity-0 text-lg w-full h-56 resize-none overflow-y-scroll"><?=$row['VariationDescription']?></textarea>
                         </div>
 
-                        <button type="submit" class="px-6 py-4 bg-yellow-400 rounded-md text-white font-bold">UPDATE</button>
+                        <button type="submit" class="px-6 py-4 bg-yellow-400 hover:bg-yellow-700 transition-colors rounded-md text-white font-bold">UPDATE</button>
                     </form>
                 </div>
 

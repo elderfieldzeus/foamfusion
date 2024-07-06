@@ -295,6 +295,16 @@
 
             return $this->db->query($this->sql);
         }
+
+        function selectNumOfVariations($ProductID) {
+            $this->sql = "
+                        SELECT COUNT(*) AS NumOfVariations
+                        FROM Variations
+                        WHERE ProductID = $ProductID;
+                    ";
+
+            return $this->db->query($this->sql);
+        }
     }
 
 ?>

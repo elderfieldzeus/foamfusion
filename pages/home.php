@@ -6,38 +6,7 @@
     require_once "../utilities/include.php";
     require_once "../utilities/var.sql.php";
 
-    // if(!$auth->signup("Zeus", "Elderfield", "2003-5-12", "09177755790", "elderfieldzeus24@gmail.com", "Mandaue", "Basak", "St. John", "6014", "123", "123", "Customer")) {
-    //     alert("Failed");
-    // }
-
-    if(!$auth->signup("Zeus", "Elderfield", "2003-5-12", "09177755790", "elderfieldzeus24@gmail.com", "Mandaue", "Basak", "St. John", "6014", "123", "123", "Admin")) {
-        alert("Failed");
-    }
-
-    // if($auth->login("elderfieldzeus24@gmail.com", "123", "Admin")) {
-    //     alert("Logged In Successfully");
-    // }
-    // else {
-    //     alert("Failed to Login");
-    // }
-
-    // if($auth->signout()) {
-    //     alert("Logged out successfully");
-    // }
-
-    // $insert->insertCustomer("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus@gmail.com", "Mandaue", "Tabok", "St. Philip", "6014", "123");
-    // $insert->insertEmployee("Zeus", "Elderfield", "David", "2003-5-12", "09177755790", "elderfieldzeus@gmail.com", "Mandaue", "Tabok", "St. Philip", "6014", "123");
-
-    // $insert->insertProduct("Soap");
-    // $insert->insertVariation("Soap", "Green", "Meow", "image.jpg", 200, 10.00, 1);
-    
-    // $insert->insertOrder(10.00, 1);
-    // $insert->insertOrderedProducts(10, 1, 1);
-
-    // $insert->insertDelivery(10.00, 1, 1);
-    // $insert->insertDeliveredProducts(10, 1, 1);
-
-    $result = $select->selectAllDeliveries();
+    $auth->signup("Sample", "Name", "2003-5-12", "09177755790", "sample@gmail.com", "Sample", "Sample", "Sample", "6014", "123", "123", "Admin");
 
     $db->killConnection();
 ?>

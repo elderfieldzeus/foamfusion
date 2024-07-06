@@ -27,7 +27,9 @@
             $this->delete("Orders", "OrderID", $ID);
         }
 
-        function deleteVariation($ID, $path) {
+        function deleteVariation($ID, $path, $productID) {
+            global $select;
+
             //delete image from directory
             $current = __DIR__;
             $home = dirname(__DIR__);
@@ -46,6 +48,15 @@
             $this->db->query($sql);
 
             $this->delete("Variations", "VariationID", $ID);
+
+            //check if there are still other variations of same product
+            $res = $select->selectNumOfVariations($productID);
+            $row = $res->fetch_assoc();
+
+            //if no more variations, delete the product
+            if($row['NumOfVariations'] == 0) {
+                $this->delete("Products", "ProductID", $productID);
+            }
         }
     }
 

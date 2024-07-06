@@ -37,6 +37,13 @@
             <div id="add_dialog" class="dialog hidden">
                 <div class="inner_dialog">
                     <span id="close_add_dialog" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>
+
+                    <?php
+
+                        $admin->displayAddDeliveries();
+
+                    ?>
+
                 </div>
             </div>
             <hr class="my-5">

@@ -1,0 +1,36 @@
+<?php
+
+    include_once "../utilities/include.php";
+    include_once "../utilities/var.sql.php";
+
+    $session->continueSession();
+
+    if(
+        isset($_GET['orderid'])
+        && isset($_GET['employeeid'])
+        && $session->isSessionValid()
+    ) {
+        $EmployeeID = $_GET['employeeid'];
+        $OrderID = $_GET['orderid'];
+
+        //insert new delivery
+        $insert->insertDelivery($EmployeeID, $OrderID);
+        $DeliveryID  = $insert->insert_id;
+
+        //insert products to ordered products
+        $result = $select->selectOrderedProducts($OrderID);
+
+        while($row = $result->fetch_assoc()) {
+            $DeliveredQuantity = $row['OrderedQuantity'];
+            $VariationID = $row['VariationID'];
+
+            //minus from stock
+
+            $insert->insertDeliveredProducts($DeliveredQuantity, $DeliveryID, $VariationID);
+            
+        }
+
+        
+    }
+
+?>

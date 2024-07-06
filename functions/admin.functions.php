@@ -35,5 +35,10 @@
         function displayAdminEmployees() {
             include "../components/a.employees.php";
         }
+
+        function displayAddDeliveries() {
+            global $session;
+            include "../components/a.addDelivery.php";
+        }
     }
 ?>

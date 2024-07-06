@@ -97,8 +97,8 @@
             $this->insert_id = $this->db->conn->insert_id;
         }
 
-        function insertOrder($TotalPrice, $CustomerID) {
-            $this->sql = "INSERT INTO Orders(TotalPrice, CustomerID) VALUES ('$TotalPrice', '$CustomerID');";
+        function insertOrder($CustomerID) {
+            $this->sql = "INSERT INTO Orders(TotalPrice, CustomerID) VALUES ('$CustomerID');";
             $this->db->query($this->sql);
             $this->insert_id = $this->db->conn->insert_id;
         }
@@ -109,8 +109,8 @@
             $this->insert_id = $this->db->conn->insert_id;
         }
         
-        function insertDelivery($TotalPrice, $EmployeeID, $OrderID) {
-            $this->sql = "INSERT INTO Deliveries (TotalPrice, EmployeeID, OrderID) VALUES ('$TotalPrice', '$EmployeeID', '$OrderID');";
+        function insertDelivery($EmployeeID, $OrderID) {
+            $this->sql = "INSERT INTO Deliveries (EmployeeID, OrderID) VALUES ('$EmployeeID', '$OrderID');";
             $this->db->query($this->sql);
             $this->insert_id = $this->db->conn->insert_id;
         }

@@ -305,6 +305,22 @@
 
             return $this->db->query($this->sql);
         }
+
+        function selectOrdersToBeDelivered() {
+            $this->sql ="
+                        SELECT *, Orders.OrderID AS OrderID,
+                        CONCAT(Address.Street, ' ', Address.Barangay, ' ', Address.City, ', ', Address.PostalCode) AS FullAddress,
+                        CONCAT(Name.LastName, ', ', Name.FirstName) AS CustomerName
+                        FROM Orders 
+                        LEFT JOIN Customers ON Orders.CustomerID = Customers.CustomerID
+                        LEFT JOIN Name ON Name.NameID = Customers.NameID
+                        LEFT JOIN Address ON Address.AddressID = Customers.AddressID
+                        LEFT JOIN Deliveries ON Deliveries.OrderID = Orders.OrderID
+                        WHERE OrderStatus = 'Success'
+                        AND DeliveryID IS NULL;
+                    ";
+            return $this->db->query($this->sql);
+        }
     }
 
 ?>

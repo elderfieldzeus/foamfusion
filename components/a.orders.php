@@ -81,7 +81,7 @@ while($row = $result->fetch_assoc()): ?>
                     <hr class="mb-1">
                     <div class="flex justify-between">
                         <p class="text-gray-800">Total: </p>
-                        <p class="text-gray-800">Php <?= number_format($total_price, 2) ?></p>
+                        <p class="text-gray-800">Php <?= number_format($z, 2) ?></p>
                     </div>
                 </div>
                 <div>

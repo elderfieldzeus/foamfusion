@@ -20,6 +20,15 @@
             $this->delete("Deliveries", "DeliveryID", $ID);
         }
 
+        function deleteDeliveryOrder($ID) {
+            $sql = "SELECT DeliveryID FROM Deliveries WHERE OrderID = $ID";
+
+            $result = $this->db->query($sql);
+            while($row = $result->fetch_assoc()) {
+                $this->deleteDelivery($row['DeliveryID']);
+            }
+        }
+
         function deleteOrder($ID) {
             $sql = "DELETE FROM OrderedProducts WHERE OrderID='$ID';";
 

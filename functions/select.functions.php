@@ -320,8 +320,9 @@
                         LEFT JOIN Address ON Address.AddressID = Customers.AddressID
                         LEFT JOIN Account ON Account.AccountID = Customers.AccountID
                         LEFT JOIN Deliveries ON Deliveries.OrderID = Orders.OrderID
-                        WHERE OrderStatus = 'Success'
-                        AND DeliveryID IS NULL;
+                        WHERE (OrderStatus = 'Success' AND DeliveryID IS NULL)
+                        OR (OrderStatus = 'Success' AND DeliveryStatus = 'Failed')
+                        ;
                     ";
             return $this->db->query($this->sql);
         }

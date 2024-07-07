@@ -13,6 +13,9 @@
         $EmployeeID = $_GET['employeeid'];
         $OrderID = $_GET['orderid'];
 
+        //delete all deliveries with failed status that shares orderid
+        $delete->deleteDeliveryOrder($OrderID);
+
         //insert new delivery
         $insert->insertDelivery($EmployeeID, $OrderID);
         $DeliveryID  = $insert->insert_id;

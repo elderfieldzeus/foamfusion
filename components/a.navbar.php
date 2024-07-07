@@ -34,9 +34,9 @@
         <p class="dashboard--header">Employees</p>
     </a>
 
-    <button onclick="openSignout()" id="account_dashboard" class="hover:cursor-pointer flex gap-4 absolute bottom-0 p-4 w-full bg-gray-700 overflow-ellipsis">
+    <button onclick="openSignout()" id="account_dashboard" class="hover:cursor-pointer flex gap-4 absolute bottom-0 p-4 w-full bg-gray-700 overflow-hidden">
         <span class="admin--svg dashboard--icon"></span>
-        <p class="dashboard--header">
+        <p class="dashboard--header whitespace-nowrap overflow-ellipsis">
     <?php
                         
             $this->session->continueSession();
@@ -44,7 +44,7 @@
             $row = $result->fetch_assoc();
 
             if($row != NULL) {
-                echo $row["FirstName"] . "&nbsp" . $row["LastName"];
+                echo $row["FirstName"] . " " . $row["LastName"];
             }
             else {
                 echo "NULL";

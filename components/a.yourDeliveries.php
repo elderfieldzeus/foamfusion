@@ -6,13 +6,18 @@
     $this->session->continueSession();
     $result = $this->select->selectEmployeeDeliveries($this->session->ID);
 
+?>
+
+<?php if($result->num_rows == 0) : ?>
+    <p class="w-full text-gray-400 text-center font-semibold mt-2">No deliveries yet! Stay tuned...</p>
+<?php endif;
     while($row = $result->fetch_assoc()) :
 ?>
 
     
-    <div class="bg-neutral-50 rounded-md p-4 mb-6">
+    <div class="bg-neutral-50 rounded-md p-4 mb-6 flex flex-col gap-5">
         <div>
-            <h1 class="font-bold underline text-lg">Delivery #<?= $row['DeliveryID'] ?></h1>
+            <h1 class="font-bold underline text-lg mb-4">Delivery #<?= $row['DeliveryID'] ?></h1>
             <h1>Customer Information</h1>
             <hr class="mb-1">
             <div class="flex justify-between">

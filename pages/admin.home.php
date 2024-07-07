@@ -3,7 +3,7 @@
     require_once "../utilities/include.php";
     require_once "../utilities/var.sql.php";
 
-    if(!$auth->login("zeuselderfield@yahoo.com", "123", "Admin")) {
+    if(!$auth->login("sample@gmail.com", "123", "Admin")) {
         alert("Logged In Failed");
     }
 

@@ -7,6 +7,9 @@
 
 <div class="">
     <h1 class="font-bold text-xl mb-4">Deliver Orders:</h1>
+    <?php if($result->num_rows == 0) : ?>
+        <p class="w-full text-gray-400 text-center font-semibold mt-2">No orders yet! Stay tuned...</p>
+    <?php endif; ?>
     <?php while($row = $result->fetch_assoc()) : ?>
         <div class="flex flex-col items-center bg-neutral-50 rounded-md p-4 mb-10">
             <div class="w-full">

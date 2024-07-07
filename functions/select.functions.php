@@ -200,20 +200,18 @@
         }
 
         function selectTotalSales() {
-            $this->sql = "SELECT SUM(DeliveredQuantity * UnitPrice) AS TotalSales
+            $this->sql = "SELECT SUM(DeliveredQuantity * DeliveredPrice) AS TotalSales
                         FROM DeliveredProducts
                         LEFT JOIN Deliveries ON DeliveredProducts.DeliveryID = Deliveries.DeliveryID
-                        LEFT JOIN Variations ON DeliveredProducts.VariationID = Variations.VariationID
                         WHERE DeliveryStatus = 'Success';";
 
             return $this->db->query($this->sql);
         }
 
         function selectSalesStatus() {
-            $this->sql = "SELECT MONTHNAME(DeliveryTime) AS SalesStatus, SUM(DeliveredQuantity * UnitPrice) AS TotalSales
+            $this->sql = "SELECT MONTHNAME(DeliveryTime) AS SalesStatus, SUM(DeliveredQuantity * DeliveredPrice) AS TotalSales
                         FROM Deliveries
                         LEFT JOIN DeliveredProducts ON DeliveredProducts.DeliveryID = Deliveries.DeliveryID
-                        LEFT JOIN Variations ON Variations.VariationID = DeliveredProducts.VariationID
                         WHERE DeliveryStatus = 'Success'
                         GROUP BY SalesStatus
                         ORDER BY TotalSales DESC;";

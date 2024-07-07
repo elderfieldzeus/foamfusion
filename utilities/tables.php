@@ -91,6 +91,7 @@
         "OrderedProducts(
             OrderedProductID" . $primary_key . ",
             OrderedQuantity INT NOT NULL CHECK (OrderedQuantity > 0),
+            OrderedPrice DECIMAL(10, 2) CHECK(OrderedPrice >= 0),
             OrderID INT NOT NULL,
             VariationID INT NOT NULL,
             FOREIGN KEY(OrderID) REFERENCES Orders(OrderID),
@@ -100,6 +101,7 @@
         "DeliveredProducts(
             DeliveredProductID" . $primary_key . ",
             DeliveredQuantity INT NOT NULL CHECK (DeliveredQuantity >= 0),
+            DeliveredPrice DECIMAL(10, 2) CHECK(DeliveredPrice >= 0),
             DeliveryID INT NOT NULL,
             VariationID INT NOT NULL,
             FOREIGN KEY(DeliveryID) REFERENCES Deliveries(DeliveryID),

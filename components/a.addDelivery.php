@@ -38,11 +38,11 @@
                     $sale = 0;
                     $o_products = $this->select->selectOrderedProducts($row['OrderID']); 
                     while($op = $o_products->fetch_assoc()) :
-                        $sale += ($total = $op['UnitPrice'] * $op['OrderedQuantity']);
+                        $sale += ($total = $op['OrderedPrice'] * $op['OrderedQuantity']);
                 ?>
 
                 <div class="flex justify-between text-gray-500">
-                    <p><?= $op['ProductName']. ', ' . $op['VariationName'] . "@ Php" . $op['UnitPrice'] . " x " . $op['OrderedQuantity'] . "pc/s" ?></p>
+                    <p><?= $op['ProductName']. ', ' . $op['VariationName'] . "@ Php" . $op['OrderedPrice'] . " x " . $op['OrderedQuantity'] . "pc/s" ?></p>
                     <p>Php <?= number_format($total, 2) ?></p>
                 </div>
 

@@ -81,11 +81,11 @@ $i = 0;
                     $total_price = 0;
 
                     while($cd_row = $cd_result->fetch_assoc()): 
-                        $sale = $cd_row['UnitPrice'] * $cd_row['DeliveredQuantity'];
+                        $sale = $cd_row['DeliveredPrice'] * $cd_row['DeliveredQuantity'];
                         $total_price += $sale;
                     ?>
                         <div class="flex justify-between">
-                            <p class="text-gray-500"><?= $cd_row['ProductName'] . ', '  . $cd_row['VariationName']  ?> @Php<?= $cd_row['UnitPrice'] ?> x <?= $cd_row['DeliveredQuantity'] ?>pc/s</p>
+                            <p class="text-gray-500"><?= $cd_row['ProductName'] . ', '  . $cd_row['VariationName']  ?> @Php<?= $cd_row['DeliveredPrice'] ?> x <?= $cd_row['DeliveredQuantity'] ?>pc/s</p>
                             <p class="text-gray-500">Php <?= number_format($sale, 2) ?></p>
                         </div>
                     <?php endwhile; ?>

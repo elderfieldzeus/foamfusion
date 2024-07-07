@@ -23,10 +23,11 @@
         while($row = $result->fetch_assoc()) {
             $DeliveredQuantity = $row['OrderedQuantity'];
             $VariationID = $row['VariationID'];
+            $DeliveredPrice = $row['OrderedPrice'];
 
             //$update->minusStock($VariationID, $DeliveredQuantity);
 
-            $insert->insertDeliveredProducts($DeliveredQuantity, $DeliveryID, $VariationID);
+            $insert->insertDeliveredProducts($DeliveredQuantity, $DeliveredPrice, $DeliveryID, $VariationID);
         }
 
         Location("../pages/admin.delivery.php");

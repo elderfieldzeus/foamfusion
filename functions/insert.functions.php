@@ -103,8 +103,8 @@
             $this->insert_id = $this->db->conn->insert_id;
         }
 
-        function insertOrderedProducts($OrderedQuantity, $OrderID, $VariationID) {
-            $this->sql = "INSERT INTO OrderedProducts(OrderedQuantity, OrderID, VariationID) VALUES ('$OrderedQuantity', '$OrderID', '$VariationID');";
+        function insertOrderedProducts($OrderedQuantity, $OrderedPrice, $OrderID, $VariationID) {
+            $this->sql = "INSERT INTO OrderedProducts(OrderedQuantity, OrderedPrice, OrderID, VariationID) VALUES ('$OrderedQuantity', '$OrderedPrice', '$OrderID', '$VariationID');";
             $this->db->query($this->sql);
             $this->insert_id = $this->db->conn->insert_id;
         }
@@ -115,8 +115,8 @@
             $this->insert_id = $this->db->conn->insert_id;
         }
 
-        function insertDeliveredProducts($DeliveredQuantity, $DeliveryID, $VariationID) {
-            $this->sql = "INSERT INTO DeliveredProducts (DeliveredQuantity, DeliveryID, VariationID) VALUES ('$DeliveredQuantity', '$DeliveryID', '$VariationID');";
+        function insertDeliveredProducts($DeliveredQuantity, $DeliveredPrice, $DeliveryID, $VariationID) {
+            $this->sql = "INSERT INTO DeliveredProducts (DeliveredQuantity, DeliveredPrice, DeliveryID, VariationID) VALUES ('$DeliveredQuantity', '$DeliveredPrice', '$DeliveryID', '$VariationID');";
             $this->db->query($this->sql);
             $this->insert_id = $this->db->conn->insert_id;
         }

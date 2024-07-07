@@ -7,8 +7,8 @@
     <button onclick="openDialog(<?= $row['VariationID'] ?>)" class="product-card">
         <img src="../assets/products/<?= $row['VariationImage'] ?>" alt="&nbsp" class="product-card--images">
         <div class="flex flex-col items-start">
-            <h2 class="text-xl px-3 text-start"> <?= $row['VariationName']?> </h2>
-            <h2 class="text-sm px-3 hover:cursor-pointer text-gray-400 text-start"> <?=$row['ProductName']?> </h2>
+            <h2 class="text-xl px-3 text-start"> <?= $row['ProductName']?> </h2>
+            <h2 class="text-sm px-3 hover:cursor-pointer text-gray-400 text-start"> <?=$row['VariationName']?> </h2>
         </div>
     </button>
 

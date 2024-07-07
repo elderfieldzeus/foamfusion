@@ -112,7 +112,8 @@
 
         function selectAllVariations() { //Returns all products
             $this->sql = "SELECT * FROM Variations
-                        LEFT JOIN Products ON Variations.ProductID = Products.ProductID;
+                        LEFT JOIN Products ON Variations.ProductID = Products.ProductID
+                        ORDER BY ProductName ASC;
                         ";
 
             return $this->db->query($this->sql);
@@ -221,10 +222,14 @@
         }
 
         function selectOrderTable() {
-            $this->sql = "SELECT OrderID, OrderStatus, CONCAT(Name.LastName, ', ', Name.FirstName) AS CustomerName, OrderTime, Customers.CustomerID
+            $this->sql = "SELECT Orders.OrderID, OrderStatus, CONCAT(Name.LastName, ', ', Name.FirstName) AS CustomerName, OrderTime, Customers.CustomerID
                         FROM Orders
                         LEFT JOIN Customers ON Orders.CustomerID = Customers.CustomerID
                         LEFT JOIN Name ON Customers.NameID = Name.NameID
+                        LEFT JOIN Deliveries ON Orders.OrderID = Deliveries.OrderID
+                        WHERE OrderStatus IN ('Pending', 'Failed') 
+                        OR (OrderStatus = 'Success' AND DeliveryID IS NULL)
+                        OR (OrderStatus = 'Success' AND DeliveryStatus = 'Failed')
                         ORDER BY OrderStatus ASC, OrderID ASC;
                         ";
             return $this->db->query($this->sql);
@@ -315,6 +320,7 @@
                         LEFT JOIN Customers ON Orders.CustomerID = Customers.CustomerID
                         LEFT JOIN Name ON Name.NameID = Customers.NameID
                         LEFT JOIN Address ON Address.AddressID = Customers.AddressID
+                        LEFT JOIN Account ON Account.AccountID = Customers.AccountID
                         LEFT JOIN Deliveries ON Deliveries.OrderID = Orders.OrderID
                         WHERE OrderStatus = 'Success'
                         AND DeliveryID IS NULL;

@@ -24,13 +24,12 @@
             $DeliveredQuantity = $row['OrderedQuantity'];
             $VariationID = $row['VariationID'];
 
-            //minus from stock
+            //$update->minusStock($VariationID, $DeliveredQuantity);
 
             $insert->insertDeliveredProducts($DeliveredQuantity, $DeliveryID, $VariationID);
-            
         }
 
-        
+        Location("../pages/admin.delivery.php");
     }
 
 ?>

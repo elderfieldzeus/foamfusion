@@ -6,30 +6,54 @@
 ?>
 
 <div class="">
-    <h1>Deliver Orders:</h1>
+    <h1 class="text-xl font-bold mb-2">Deliver Orders:</h1>
     <?php while($row = $result->fetch_assoc()) : ?>
 
-        <hr>
-        <div>
-            <p>Order ID: <?= $row['OrderID'] ?></p>
-            <p>Customer: <?= $row['CustomerName'] ?></p>
-            <p>Address: <?= $row['FullAddress'] ?></p>
+        <div class="flex flex-col items-center mb-10 p-4 rounded-md bg-neutral-50 shadow-sm">
+            <div class="w-full">
+                <p class="font-bold underline text-lg">Order #<?= $row['OrderID'] ?></p>
+                <p class="mt-2">Customer Information</p>
+                <hr class="mb-1">
+                <div class="flex justify-between text-gray-500">
+                    <p>Customer Name:</p>
+                    <p><?= $row['CustomerName'] ?></p>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                    <p>Address:</p>
+                    <p><?= $row['FullAddress'] ?></p>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                    <p>Contact Number:</p>
+                    <p><?= $row['PhoneNum'] ?></p>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                    <p>Email:</p>
+                    <p><?= $row['Email'] ?></p>
+                </div>
 
-            <p>Products Ordered:</p>
-            <?php
-                $sale = 0;
-                $o_products = $this->select->selectOrderedProducts($row['OrderID']); 
-                while($op = $o_products->fetch_assoc()) :
-                    $sale += $op['UnitPrice'] * $op['OrderedQuantity'];
-            ?>
+                <p class="mt-4">Products Information</p>
+                <hr class="mb-1">
+                <?php
+                    $sale = 0;
+                    $o_products = $this->select->selectOrderedProducts($row['OrderID']); 
+                    while($op = $o_products->fetch_assoc()) :
+                        $sale += ($total = $op['UnitPrice'] * $op['OrderedQuantity']);
+                ?>
 
-            <p>- <?= $op['ProductName']. ', ' . $op['VariationName'] . "@ Php" . $op['UnitPrice'] . " x " . $op['OrderedQuantity'] . "pc/s" ?></p>
+                <div class="flex justify-between text-gray-500">
+                    <p><?= $op['ProductName']. ', ' . $op['VariationName'] . "@ Php" . $op['UnitPrice'] . " x " . $op['OrderedQuantity'] . "pc/s" ?></p>
+                    <p>Php <?= number_format($total, 2) ?></p>
+                </div>
 
-            <?php endwhile; ?>
-            <p>Total Price: <?= number_format($sale, 2) ?></p>
+                <?php endwhile; ?>
+                <hr class="mb-1">
+                <div class="flex justify-between mt-2">
+                    <p>Total:</p>
+                    <p>Php <?= number_format($sale, 2) ?></p>
+                </div>
+            </div>
             
-            
-            <a href="../utilities/adddelivery.php?orderid=<?= $row['OrderID'] ?>&employeeid=<?= $session->ID ?>">Deliver!</a>
+            <a class="bg-blue-500 hover:bg-blue-800 px-6 py-2 text-white rounded-md mt-2 font-bold" href="../utilities/adddelivery.php?orderid=<?= $row['OrderID'] ?>&employeeid=<?= $session->ID ?>">DELIVER</a>
         </div>
 
     <?php endwhile; ?>

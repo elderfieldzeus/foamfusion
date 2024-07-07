@@ -72,6 +72,14 @@
 
             $this->updateOrder($OrderID, "TotalPrice", $total_price);
         }
+
+        function minusStock($id, $qty) {
+            $sql = "
+                    UPDATE Variations SET InStock = InStock - $qty WHERE VariationID = $id;
+                ";
+            
+            $this->db->query($sql);
+        }
     }
 
 ?>

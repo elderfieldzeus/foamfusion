@@ -27,11 +27,14 @@
 
         </header>
         <div class="py-8 px-12">
-            <div class="flex justify-start items-end gap-2">
-                <h1 class="text-4xl">Deliveries</h1>
-                <button onclick="openAddDialog()" class="p-1 rounded-full bg-blue-700 text-white text-base flex items-center justify-center mb-1">
-                    <span class="add--svg bg-white size-4"></span>
-                </button>
+            <div class="flex w-full justify-between">
+                <div class="flex justify-start items-end gap-2">
+                    <h1 class="text-4xl">Deliveries</h1>
+                    <button onclick="openAddDialog()" class="p-1 rounded-full bg-blue-700 text-white text-base flex items-center justify-center mb-1">
+                        <span class="add--svg bg-white size-4"></span>
+                    </button>
+                </div>
+                <button onclick="openYourDialog()" class="bg-blue-700 transition-colors text-white px-6 py-2 rounded-md">Your Deliveries</button>
             </div>
 
             <div id="add_dialog" class="dialog hidden">
@@ -46,6 +49,20 @@
 
                 </div>
             </div>
+
+            <div id="your_dialog" class="dialog hidden">
+                <div class="inner_dialog">
+                    <span id="close_your_dialog" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>
+                    
+                    <?php
+
+                        $admin->displayYourDeliveries();
+
+                    ?>
+
+                </div>
+            </div>
+
             <hr class="my-5">
 
             <div class="flex flex-col">
@@ -107,6 +124,16 @@
                 dialog.classList.add("hidden");
             });
 
+        }
+
+        function openYourDialog() {
+            const dialog = document.getElementById("your_dialog");
+            const close = document.getElementById("close_your_dialog");
+            dialog.classList.remove("hidden");
+
+            close.addEventListener("click", () => {
+                dialog.classList.add("hidden");
+            });
         }
     </script>
 </body>

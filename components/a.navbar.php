@@ -39,8 +39,8 @@
         <p class="dashboard--header">
     <?php
                         
-            $session->continueSession();
-            $result = $select->selectEmployeeData($session->ID);
+            $this->session->continueSession();
+            $result = $this->select->selectEmployeeData($this->session->ID);
             $row = $result->fetch_assoc();
 
             if($row != NULL) {
@@ -48,7 +48,7 @@
             }
             else {
                 echo "NULL";
-                $session->endSession();
+                $this->session->endSession();
                 Location("../pages/home.php");
             }
 

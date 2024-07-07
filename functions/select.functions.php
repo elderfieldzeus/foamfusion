@@ -100,11 +100,21 @@
         }
 
         function selectEmployeeDeliveries($EmployeeID) { //Returns deliveries an employee is assigned to
-            $this->sql = "SELECT * FROM Deliveries
-                        LEFT JOIN DeliveredProducts ON DeliveredProducts.DeliveryID = Deliveries.DeliveryID
-                        LEFT JOIN Variations ON Variations.VariationID = DeliveredProducts.VariationID
+            $this->sql = "SELECT *, 
+                        CONCAT(CName.LastName, ', ', CName.FirstName) AS CustomerName,
+                        CONCAT(EName.LastName, ', ', EName.FirstName) AS EmployeeName,
+                        CONCAT(Address.Street, ' ', Address.Barangay, ' ', Address.City, ', ', Address.PostalCode) AS FullAddress
+                        FROM Deliveries
                         LEFT JOIN Orders ON Orders.OrderID = Deliveries.DeliveryID
-                        WHERE Deliveries.EmployeeID = '$EmployeeID';
+                        LEFT JOIN Customers ON Customers.CustomerID = Orders.CustomerID
+                        LEFT JOIN Name AS CName ON Customers.NameID = CName.NameID
+                        LEFT JOIN Employees ON Deliveries.EmployeeID = Employees.EmployeeID
+                        LEFT JOIN Name AS EName ON Employees.NameID = Ename.NameID
+                        LEFT JOIN Account ON Customers.CustomerID = Customers.CustomerID
+                        LEFT JOIN Address ON Address.AddressID = Customers.AddressID
+                        WHERE Deliveries.EmployeeID = '$EmployeeID' AND DeliveryStatus != 'Success'
+                        GROUP BY DeliveryID
+                        ORDER BY DeliveryStatus;
                         ";
 
             return $this->db->query($this->sql);

@@ -1,7 +1,7 @@
 <?php
 
     $result = $this->select->selectOrdersToBeDelivered();
-    $session->continueSession();
+    $this->session->continueSession();
 
 ?>
 
@@ -55,7 +55,7 @@
                 </div>
             </div>
             
-            <a class="bg-blue-500 hover:bg-blue-800 px-6 py-2 text-white rounded-md font-bold transition-colors" href="../utilities/adddelivery.php?orderid=<?= $row['OrderID'] ?>&employeeid=<?= $session->ID ?>">DELIVER</a>
+            <a class="bg-blue-500 hover:bg-blue-800 px-6 py-2 text-white rounded-md font-bold transition-colors" href="../utilities/adddelivery.php?orderid=<?= $row['OrderID'] ?>&employeeid=<?= $this->session->ID ?>">DELIVER</a>
         </div>
 
     <?php endwhile; ?>

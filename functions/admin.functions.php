@@ -2,13 +2,14 @@
 
     class Admin {
         private $select;
+        private $session;
 
-        function __construct($select) {
+        function __construct($select, $session) {
             $this->select = $select;
+            $this->session = $session;
         }
 
         function displayNavbar($page) {
-            global $session, $select;
             include "../components/a.navbar.php";
         }
 
@@ -37,8 +38,11 @@
         }
 
         function displayAddDeliveries() {
-            global $session;
             include "../components/a.addDelivery.php";
+        }
+
+        function displayYourDeliveries() {
+            include "../components/a.yourDeliveries.php";
         }
     }
 ?>

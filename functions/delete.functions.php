@@ -50,10 +50,10 @@
             }
 
             //delete from database
-            $sql = "DELETE FROM OrderedProducts WHERE VariationID='$ID';";
+            $sql = "UPDATE OrderedProducts SET VariationID=NULL WHERE VariationID='$ID';";
             $this->db->query($sql);
 
-            $sql = "DELETE FROM DeliveredProducts WHERE VariationID='$ID';";
+            $sql = "UPDATE DeliveredProducts SET VariationID=NULL WHERE VariationID='$ID';";
             $this->db->query($sql);
 
             $this->delete("Variations", "VariationID", $ID);

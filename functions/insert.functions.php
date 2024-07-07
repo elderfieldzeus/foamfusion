@@ -116,7 +116,13 @@
         }
 
         function insertDeliveredProducts($DeliveredQuantity, $DeliveredPrice, $DeliveryID, $VariationID) {
-            $this->sql = "INSERT INTO DeliveredProducts (DeliveredQuantity, DeliveredPrice, DeliveryID, VariationID) VALUES ('$DeliveredQuantity', '$DeliveredPrice', '$DeliveryID', '$VariationID');";
+            if($VariationID) {
+                $this->sql = "INSERT INTO DeliveredProducts (DeliveredQuantity, DeliveredPrice, DeliveryID, VariationID) VALUES ('$DeliveredQuantity', '$DeliveredPrice', '$DeliveryID', '$VariationID');";
+            }
+            else {
+                $this->sql = "INSERT INTO DeliveredProducts (DeliveredQuantity, DeliveredPrice, DeliveryID) VALUES ('$DeliveredQuantity', '$DeliveredPrice', '$DeliveryID');";
+            }
+            
             $this->db->query($this->sql);
             $this->insert_id = $this->db->conn->insert_id;
         }

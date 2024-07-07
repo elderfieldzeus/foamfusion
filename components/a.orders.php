@@ -73,7 +73,7 @@ while($row = $result->fetch_assoc()): ?>
                         $total_price += $sale;
                     ?>
                         <div class="flex justify-between">
-                            <p class="text-gray-500"><?= $cd_row['ProductName'] . ', '  . $cd_row['VariationName']  ?> @Php<?= $cd_row['OrderedPrice'] ?> x <?= $cd_row['OrderedQuantity'] ?>pc/s</p>
+                            <p class="text-gray-500"><?= ($cd_row['VariationID'] ? $cd_row['ProductName'] . ', '  . $cd_row['VariationName'] : '**DELETED PRODUCT**')  ?> @Php<?= $cd_row['OrderedPrice'] ?> x <?= $cd_row['OrderedQuantity'] ?>pc/s</p>
                             <p class="text-gray-500">Php <?= number_format($sale, 2) ?></p>
                         </div>
                     <?php endwhile; ?>

@@ -25,10 +25,8 @@
 
         while($row = $result->fetch_assoc()) {
             $DeliveredQuantity = $row['OrderedQuantity'];
-            $VariationID = $row['VariationID'];
+            $VariationID = ($row['VariationID'] ? $row['VariationID'] : NULL);
             $DeliveredPrice = $row['OrderedPrice'];
-
-            //$update->minusStock($VariationID, $DeliveredQuantity);
 
             $insert->insertDeliveredProducts($DeliveredQuantity, $DeliveredPrice, $DeliveryID, $VariationID);
         }

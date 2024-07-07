@@ -42,7 +42,7 @@
                 ?>
 
                 <div class="flex justify-between text-gray-500">
-                    <p><?= $op['ProductName']. ', ' . $op['VariationName'] . "@ Php" . $op['OrderedPrice'] . " x " . $op['OrderedQuantity'] . "pc/s" ?></p>
+                    <p><?= ($op['VariationID'] ? $op['ProductName'] . ', '  . $op['VariationName'] : '**DELETED PRODUCT**')  . " @Php" . $op['OrderedPrice'] . " x " . $op['OrderedQuantity'] . "pc/s" ?></p>
                     <p>Php <?= number_format($total, 2) ?></p>
                 </div>
 

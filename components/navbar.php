@@ -17,7 +17,7 @@
                     <a href="#" id="search-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                         <i class="gg-search"></i>
                     </a>
-                    <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                    <a href="../pages/cart.php" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                         <i class="gg-shopping-cart"></i>
                     </a>
                     <div class="md:hidden flex items-center">

@@ -4,10 +4,17 @@ require_once "../utilities/var.sql.php";
 
 $session->continueSession();
 
+// Pagination variables
+$limit = 6; // Number of variations per page
+$page = isset($_GET['page']) ? $_GET['page'] : 1; // Current page, default is 1
+$offset = ($page - 1) * $limit; // Offset calculation
+
+// SQL query with pagination
 $sql = "
     SELECT p.ProductID, p.ProductName, v.VariationID, v.VariationName, v.VariationDescription, v.VariationImage, v.UnitPrice, v.InStock
     FROM Products p
     JOIN Variations v ON p.ProductID = v.ProductID
+    LIMIT $limit OFFSET $offset
 ";
 
 $result = $db->conn->query($sql);
@@ -29,6 +36,14 @@ while ($row = $result->fetch_assoc()) {
         'ProductName' => $row['ProductName']
     ];  
 }
+
+// Query to get total count
+$countQuery = "SELECT COUNT(*) AS total FROM Variations";
+$countResult = $db->conn->query($countQuery);
+$rowCount = $countResult->fetch_assoc()['total'];
+
+// Calculate total pages
+$totalPages = ceil($rowCount / $limit);
 ?>
 
 <!DOCTYPE html>
@@ -257,6 +272,21 @@ while ($row = $result->fetch_assoc()) {
                     ";
                 } ?>
             </div>
+
+            <!-- Pagination links -->
+            <div class="flex justify-center mt-6">
+                <?php if ($page > 1): ?>
+                    <a href="product.php?page=<?php echo $page - 1; ?>" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-l">Previous</a>
+                <?php endif; ?>
+            
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <a href="product.php?page=<?php echo $i; ?>" class="<?php echo ($i == $page) ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'; ?> px-4 py-2"><?php echo $i; ?></a>
+                <?php endfor; ?>
+            
+                <?php if ($page < $totalPages): ?>
+                    <a href="product.php?page=<?php echo $page + 1; ?>" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-r">Next</a>
+                <?php endif; ?>
+            </div>
         </div>
 
         <div class="w-1/4 pl-6">
@@ -264,7 +294,7 @@ while ($row = $result->fetch_assoc()) {
             <input type="text" id="search-bar" class="mb-4 p-2 w-full border rounded" placeholder="Search..." onkeyup="filterProducts()">
             
             <h2 class="text-xl font-bold mb-4">Sort By</h2>
-            <button class="bg-blue-500 text-white p-2 rounded mb-2 w-full" onclick="sortProducts('name')">Name</button>
+            <!-- <button class="bg-blue-500 text-white p-2 rounded mb-2 w-full" onclick="sortProducts('name')">Name</button> -->
             <div class="bg-white p-4 rounded-lg shadow-lg">
                 <h3 class="text-md font-bold mb-2">Price</h3>
                 <div class="mb-2">

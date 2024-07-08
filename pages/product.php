@@ -28,17 +28,18 @@ if (!$result) {
     die("Query failed: " . $conn->error);
 }
 
-$products = [];
+$variations = [];
+$i = 0;
 while ($row = $result->fetch_assoc()) {
-    $products[$row['ProductID']]['ProductName'] = $row['ProductName'];
-    $products[$row['ProductID']]['Variations'][] = [
+    $variations[$i++] = [
         'VariationID' => $row['VariationID'],
         'VariationName' => $row['VariationName'],
         'VariationDescription' => $row['VariationDescription'],
         'VariationImage' => $row['VariationImage'],
         'UnitPrice' => $row['UnitPrice'],
-        'InStock' => $row['InStock']
-    ];
+        'InStock' => $row['InStock'],
+        'ProductName' => $row['ProductName']
+    ];  
 }
 $conn->close();
 ?>
@@ -54,21 +55,53 @@ $conn->close();
     <link href='https://unpkg.com/css.gg@2.0.0/icons/css/shopping-cart.css' rel='stylesheet'>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
-        .sticky-widget {
-            position: -webkit-sticky;
-            position: sticky;
-            top: 1rem;
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
         }
-        .variation-container {
-            background-color: #f7fafc;
-            padding: 10px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
         }
-        .text-red { color: red; }
-        .text-green { color: green; }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
     <script>
+        function openModal(productID) {
+            const modal = document.getElementById('productModal');
+            const product = document.getElementById(`product-${productID}`);
+            const modalContent = document.getElementById('modalContent');
+
+            modalContent.innerHTML = product.innerHTML;
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('productModal');
+            modal.style.display = 'none';
+        }
+
         function sortProducts(criteria) {
             const products = document.querySelectorAll('.product');
             const productArray = Array.from(products);
@@ -135,24 +168,29 @@ $conn->close();
 <div class="container mx-auto p-6 flex mt-24">
     <div class="w-3/4">
         <h1 class="text-3xl font-bold mb-6">Our Products</h1>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 product-grid">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-6 product-grid">
         <?php
-        foreach ($products as $productID => $product) {
+        foreach ($variations as $variation) {
             echo "
-            <div class='bg-white p-4 rounded-lg shadow-lg product'>
-                <h2 class='text-lg font-bold mb-2 variation-name'>{$product['ProductName']}</h2>";
-            foreach ($product['Variations'] as $variation) {
-                $stockClass = ($variation['InStock'] == 0) ? 'text-red' : 'text-green';
+            <div id='product-{$variation['VariationID']}' class='bg-white p-4 rounded-lg shadow-lg product cursor-pointer' onclick='openModal({$variation['VariationID']})'>
+                <div class='flex'>
+                    <div class='w-1/3 mr-6'>
+                        <img class='w-full h-auto object-cover object-center mb-2' src='../assets/products/{$variation['VariationImage']}' alt='{$variation['VariationName']}'>
+                    </div>
+                    <div class='w-2/3'>
+                        <h2 class='text-lg font-bold mb-2 variation-name'>{$variation['ProductName']}</h2>";
+                $stockClass = ($variation['InStock'] == 0) ? 'text-red-500' : 'text-green-500';
                 echo "
-                <div class='mb-4'>
-                    <img class='w-full h-48 object-cover object-center mb-2' src='../assets/products/{$variation['VariationImage']}' alt='{$variation['VariationName']}'>
-                    <h3 class='text-md font-semibold mb-1 variation-name'>{$variation['VariationName']}</h3>
-                    <p class='text-gray-700 mb-1 variation-price'>₱{$variation['UnitPrice']}</p>
-                    <p class='text-gray-600 variation-description'>{$variation['VariationDescription']}</p>
-                    <p class='$stockClass'>In Stock: {$variation['InStock']}</p>
-                </div>";
-            }
-            echo "</div>";
+                        <div class='mb-4'>
+                            <h3 class='text-md font-semibold mb-1 variation-name'>{$variation['VariationName']}</h3>
+                            <p class='text-gray-700 mb-1 variation-price'>₱{$variation['UnitPrice']}</p>
+                            <p class='text-gray-600 variation-description'>{$variation['VariationDescription']}</p>
+                            <p class='$stockClass'>In Stock: {$variation['InStock']}</p>
+                            <button class='bg-blue-500 text-white px-4 py-2 rounded mt-2' onclick='addToCart({$variation['VariationID']})'>Add to Cart</button>
+                        </div>";
+            echo "      </div>
+                </div>
+            </div>";
         }
         ?>
         </div>
@@ -177,6 +215,14 @@ $conn->close();
             <button class="bg-gray-300 text-gray-700 p-2 rounded w-full" onclick="resetSort()">Reset</button>
         </div>
     </div>
+</div>
+
+<!-- The Modal -->
+<div id="productModal" class="modal">
+  <div class="modal-content p-6 rounded-lg shadow-lg bg-white">
+    <span class="close text-black cursor-pointer text-2xl font-bold float-right" onclick="closeModal()">&times;</span>
+    <div id="modalContent" class="mt-4"></div>
+  </div>
 </div>
 
 </body>

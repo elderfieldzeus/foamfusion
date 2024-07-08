@@ -1,10 +1,3 @@
-<?php
-
-    require_once "../utilities/include.php";
-    require_once "../utilities/var.sql.php";
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,17 +7,23 @@
     <link rel="stylesheet" href="../styles/tailwind.css">
     <link rel="stylesheet" href="../styles/svg.css">
     <link rel="stylesheet" href="../styles/admin.css">
+    <style>
+        .sortable-header {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <?php
+        require_once "../utilities/include.php";
+        require_once "../utilities/var.sql.php";
 
         $admin->displayNavbar("Delivery");
-
     ?>
 
     <main class="pl-52 w-full min-h-full">
         <header class="w-full h-20 bg-gray-900">
-
+            <!-- Header content here if needed -->
         </header>
         <div class="py-8 px-12">
             <div class="flex w-full justify-between">
@@ -42,9 +41,7 @@
                     <span id="close_add_dialog" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>
 
                     <?php
-
                         $admin->displayAddDeliveries();
-
                     ?>
 
                 </div>
@@ -55,12 +52,21 @@
                     <span id="close_your_dialog" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>
                     
                     <?php
-
                         $admin->displayYourDeliveries();
-
                     ?>
 
                 </div>
+            </div>
+
+            <!-- Dropdown for sorting -->
+            <div class="flex justify-end mb-4 mt-4">
+                <label for="delivery-status-filter" class="mr-2">Filter by Delivery Status:</label>
+                <select id="delivery-status-filter" onchange="filterDeliveries()">
+                    <option value="all">All</option>
+                    <option value="pending">Pending</option>
+                    <option value="Success">Success</option>
+                    <option value="failed">Failed</option>
+                </select>
             </div>
 
             <hr class="my-5">
@@ -69,13 +75,13 @@
                 <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
                     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="overflow-hidden">
-                            <table class="min-w-full">
+                            <table class="min-w-full" id="delivery-table">
                                 <thead class="bg-gray-800 text-white border-b">
                                     <tr>
                                         <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
                                             ID
                                         </th>
-                                        <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                                        <th scope="col" class="sortable-header text-sm font-medium px-6 py-4 text-left" onclick="sortTable(2)">
                                             Delivery Status
                                         </th>
                                         <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
@@ -102,7 +108,59 @@
             </div>
         </div>
     </main>
+
     <script>
+        function sortTable(columnIndex) {
+            const table = document.getElementById('delivery-table');
+            const rows = Array.from(table.getElementsByTagName('tr'));
+
+            rows.shift(); // Remove the header row from sorting
+
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.getElementsByTagName('td')[columnIndex - 1].innerText.trim();
+                const cellB = rowB.getElementsByTagName('td')[columnIndex - 1].innerText.trim();
+
+                if (columnIndex === 2) { // Sorting based on delivery status
+                    const deliveryStatusOrder = {
+                        'pending': 1,
+                        'Success': 2,
+                        'failed': 3
+                    };
+
+                    return deliveryStatusOrder[cellA.toLowerCase()] - deliveryStatusOrder[cellB.toLowerCase()];
+                } else {
+                    return cellA - cellB; // For numerical sorting if needed
+                }
+            });
+
+            while (table.rows.length > 1) {
+                table.deleteRow(1); // Clear existing rows except header
+            }
+
+            rows.forEach(row => {
+                table.appendChild(row); // Append sorted rows to table
+            });
+        }
+
+        function filterDeliveries() {
+            const filter = document.getElementById('delivery-status-filter').value.toLowerCase();
+            const table = document.getElementById('delivery-table');
+            const rows = Array.from(table.getElementsByTagName('tr'));
+
+            rows.shift(); // Remove the header row from filtering
+
+            rows.forEach(row => {
+                const statusCell = row.getElementsByTagName('td')[1]; // Assuming delivery status is in the second column
+                const status = statusCell.innerText.trim().toLowerCase();
+
+                if (filter === 'all' || status === filter) {
+                    row.style.display = ''; // Show rows that match filter or 'all'
+                } else {
+                    row.style.display = 'none'; // Hide rows that do not match filter
+                }
+            });
+        }
+
         function openDialog(ID) {
             const dialogName = `delivery_dialog_${ID}`;
             const closeName = `close_dialog_${ID}`;
@@ -123,7 +181,6 @@
             close.addEventListener("click", () => {
                 dialog.classList.add("hidden");
             });
-
         }
 
         function openYourDialog() {

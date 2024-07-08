@@ -65,6 +65,10 @@ while ($row = $result->fetch_assoc()) {
     <link href='https://unpkg.com/css.gg@2.0.0/icons/css/shopping-cart.css' rel='stylesheet'>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
+        .product.disabled {
+            cursor: not-allowed; /* Change cursor to indicate it's not clickable */
+            opacity: 0.7; /* Reduce opacity to visually indicate it's disabled */
+        }
         .modal {
             display: none;
             position: fixed;
@@ -174,36 +178,42 @@ while ($row = $result->fetch_assoc()) {
         function addToCart(variationID) {
             const quantityInput = document.querySelector(`#product-${variationID} .quantity-input`);
             const quantity = parseInt(quantityInput.value);
+            const maxStock = parseInt(quantityInput.max); // Get maximum stock from input attribute
 
-            const existingCartItem = cart.find(item => item.variationID === variationID);
-            if (existingCartItem) {
-                existingCartItem.quantity += quantity;
+            if (quantity > 0 && quantity <= maxStock) {
+                const existingCartItem = cart.find(item => item.variationID === variationID);
+                if (existingCartItem) {
+                    existingCartItem.quantity += quantity;
+                } else {
+                    const productElement = document.getElementById(`product-${variationID}`);
+                    const productName = productElement.querySelector('.variation-name').textContent;
+                    const unitPrice = parseFloat(productElement.querySelector('.variation-price').textContent.replace('₱', ''));
+
+                    cart.push({ variationID, productName, unitPrice, quantity });
+                }
+                updateCartUI();
+
+                // Send data to server
+                const formData = new FormData();
+                formData.append('variationID', variationID);
+                formData.append('quantity', quantity);
+
+                fetch('add_to_cart.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
             } else {
-                const productElement = document.getElementById(`product-${variationID}`);
-                const productName = productElement.querySelector('.variation-name').textContent;
-                const unitPrice = parseFloat(productElement.querySelector('.variation-price').textContent.replace('₱', ''));
-
-                cart.push({ variationID, productName, unitPrice, quantity });
+                alert('Please enter a valid quantity between 1 and ' + maxStock);
             }
-            updateCartUI();
-
-            // Send data to server
-            const formData = new FormData();
-            formData.append('variationID', variationID);
-            formData.append('quantity', quantity);
-
-            fetch('add_to_cart.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
         }
+
 
         function editCartItem(variationID) {
             const newQuantity = parseInt(prompt('Enter new quantity:'));
@@ -253,21 +263,23 @@ while ($row = $result->fetch_assoc()) {
             <h1 class="text-3xl font-bold mb-6">Our Products</h1>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-6 product-grid">
             <?php
-            foreach ($variations as $variation) {
-                echo "
-                <div id='product-{$variation['VariationID']}' class='bg-white p-6 rounded-lg shadow-md product'>
-                    <h2 class='text-xl font-bold mb-2 variation-name'>{$variation['VariationName']}</h2>
-                    <p class='text-gray-700 mb-2 variation-description'>{$variation['VariationDescription']}</p>
-                    <p class='text-gray-700 mb-2'>Product Name: {$variation['ProductName']}</p>
-                    <img src='{$variation['VariationImage']}' alt='{$variation['VariationName']}' class='w-full h-48 object-cover mb-4'>
-                    <p class='text-gray-700 mb-2 variation-price'>₱{$variation['UnitPrice']}</p>
-                    <p class='text-gray-700 mb-2'>In Stock: {$variation['InStock']}</p>
-                    <input type='number' value='1' min='1' max='{$variation['InStock']}' class='quantity-input w-16 p-1 border rounded mb-4'>
-                    <button class='bg-blue-500 text-white px-4 py-2 rounded' onclick='addToCart({$variation['VariationID']})'>Add to Cart</button>
-                </div>
-                ";
-            }
-            ?>
+                foreach ($variations as $variation) {
+                    $disabledClass = ($variation['InStock'] == 0) ? 'disabled' : '';
+
+                    echo "
+                    <div id='product-{$variation['VariationID']}' class='bg-white p-6 rounded-lg shadow-md product {$disabledClass}'>
+                        <h2 class='text-xl font-bold mb-2 variation-name'>{$variation['VariationName']}</h2>
+                        <p class='text-gray-700 mb-2 variation-description'>{$variation['VariationDescription']}</p>
+                        <p class='text-gray-700 mb-2'>Product Name: {$variation['ProductName']}</p>
+                        <img src='{$variation['VariationImage']}' alt='{$variation['VariationName']}' class='w-full h-48 object-cover mb-4'>
+                        <p class='text-gray-700 mb-2 variation-price'>₱{$variation['UnitPrice']}</p>
+                        <p class='text-gray-700 mb-2'>In Stock: {$variation['InStock']}</p>
+                        <input type='number' value='1' min='1' max='{$variation['InStock']}' class='quantity-input w-16 p-1 border rounded mb-4'>
+                        <button class='bg-blue-500 text-white px-4 py-2 rounded' onclick='addToCart({$variation['VariationID']})' {$disabledClass}>Add to Cart</button>
+                    </div>
+                    ";
+                }
+                ?>
             </div>
         </div>
 

@@ -28,7 +28,11 @@
 
         $Role = null;
 
-        $auth->login($Email, $Password, &$Role);
+        if(!$auth->login($Email, $Password, $Role)) {
+            LocationAlert("../pages/home.php", "ERROR");
+        };
+
+        Location("../pages/home.php");
     }
 
 ?>

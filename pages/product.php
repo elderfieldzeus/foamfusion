@@ -1,29 +1,9 @@
 <?php
-
-
 require_once "../utilities/include.php";
 require_once "../utilities/var.sql.php";
 
 $session->continueSession();
 
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
-
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $dbname = "foamfusion_db";
-
-// // Create connection
-// $conn = new mysqli($servername, $username, $password, $dbname);
-
-// // Check connection
-// if ($conn->connect_error) {
-//     die("Connection failed: " . $conn->connect_error);
-// }
-
-// Step 1: Fetch products and their variations
 $sql = "
     SELECT p.ProductID, p.ProductName, v.VariationID, v.VariationName, v.VariationDescription, v.VariationImage, v.UnitPrice, v.InStock
     FROM Products p
@@ -33,7 +13,7 @@ $sql = "
 $result = $db->conn->query($sql);
 
 if (!$result) {
-    die("Query failed: " . $conn->error);
+    die("Query failed: " . $db->conn->error);
 }
 
 $variations = [];
@@ -49,8 +29,6 @@ while ($row = $result->fetch_assoc()) {
         'ProductName' => $row['ProductName']
     ];  
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -66,8 +44,8 @@ while ($row = $result->fetch_assoc()) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         .product.disabled {
-            cursor: not-allowed; /* Change cursor to indicate it's not clickable */
-            opacity: 0.7; /* Reduce opacity to visually indicate it's disabled */
+            cursor: not-allowed;
+            opacity: 0.7;
         }
         .modal {
             display: none;
@@ -178,7 +156,7 @@ while ($row = $result->fetch_assoc()) {
         function addToCart(variationID) {
             const quantityInput = document.querySelector(`#product-${variationID} .quantity-input`);
             const quantity = parseInt(quantityInput.value);
-            const maxStock = parseInt(quantityInput.max); // Get maximum stock from input attribute
+            const maxStock = parseInt(quantityInput.max); 
 
             if (quantity > 0 && quantity <= maxStock) {
                 const existingCartItem = cart.find(item => item.variationID === variationID);
@@ -193,7 +171,6 @@ while ($row = $result->fetch_assoc()) {
                 }
                 updateCartUI();
 
-                // Send data to server
                 const formData = new FormData();
                 formData.append('variationID', variationID);
                 formData.append('quantity', quantity);
@@ -239,7 +216,7 @@ while ($row = $result->fetch_assoc()) {
 
             cart.forEach(item => {
                 const cartItemElement = document.createElement('div');
-                cartItemElement.classList.add('flex', 'justify-between', 'items-center', 'border-b', 'pb-2', 'mb-2');
+                cartItemElement.classList.add('flex', 'justify-between', 'items-center', 'border-b', 'pb-2', 'mb-2', 'text-xs');
                 cartItemElement.innerHTML = `
                     <div>${item.productName} - Quantity: ${item.quantity}</div>
                     <div>
@@ -254,7 +231,7 @@ while ($row = $result->fetch_assoc()) {
 </head>
 <body class="bg-gray-100">
 
-<!--navbar--> 
+<!-- Navbar -->
 <?php include_once "../components/navbar.php"; ?>
 
 <div class="container mx-auto p-6 mt-24">
@@ -262,8 +239,8 @@ while ($row = $result->fetch_assoc()) {
         <div class="w-3/4">
             <h1 class="text-3xl font-bold mb-6">Our Products</h1>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-6 product-grid">
-            <?php
-                foreach ($variations as $variation) {
+                <!-- Product grid PHP loop -->
+                <?php foreach ($variations as $variation) {
                     $disabledClass = ($variation['InStock'] == 0) ? 'disabled' : '';
 
                     echo "
@@ -278,8 +255,7 @@ while ($row = $result->fetch_assoc()) {
                         <button class='bg-blue-500 text-white px-4 py-2 rounded' onclick='addToCart({$variation['VariationID']})' {$disabledClass}>Add to Cart</button>
                     </div>
                     ";
-                }
-                ?>
+                } ?>
             </div>
         </div>
 
@@ -301,16 +277,18 @@ while ($row = $result->fetch_assoc()) {
                 </div>
                 <button class="bg-gray-300 text-gray-700 p-2 rounded w-full" onclick="resetSort()">Reset</button>
             </div>
-        </div>
-    </div>
 
-    <div class="mt-12">
-        <h2 class="text-2xl font-bold mb-4">Cart</h2>
-        <div id="cart" class="bg-white p-4 rounded-lg shadow-md"></div>
-        <a href="cart.php" class="bg-green-500 text-white px-4 py-2 rounded mt-4 inline-block">Go to Cart</a>
+            <!-- Cart section -->
+            <div class="mt-12">
+                <h2 class="text-1xl font-bold mb-4">Cart</h2>
+                <div id="cart" class="bg-white p-4 rounded-lg shadow-md"></div>
+                <a href="cart.php" class="bg-green-500 text-white text-xs px-4 py-2 rounded mt-4 inline-block">Go to Cart</a>
+            </div>
+        </div>
     </div>
 </div>
 
+<!-- Modal -->
 <div id="productModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>

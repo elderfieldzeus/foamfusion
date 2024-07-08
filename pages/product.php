@@ -98,6 +98,8 @@ while ($row = $result->fetch_assoc()) {
         }
     </style>
     <script>
+        let cart = [];
+
         function openModal(productID) {
             const modal = document.getElementById('productModal');
             const product = document.getElementById(`product-${productID}`);
@@ -168,6 +170,76 @@ while ($row = $result->fetch_assoc()) {
                 }
             });
         }
+
+        function addToCart(variationID) {
+            const quantityInput = document.querySelector(`#product-${variationID} .quantity-input`);
+            const quantity = parseInt(quantityInput.value);
+
+            const existingCartItem = cart.find(item => item.variationID === variationID);
+            if (existingCartItem) {
+                existingCartItem.quantity += quantity;
+            } else {
+                const productElement = document.getElementById(`product-${variationID}`);
+                const productName = productElement.querySelector('.variation-name').textContent;
+                const unitPrice = parseFloat(productElement.querySelector('.variation-price').textContent.replace('₱', ''));
+
+                cart.push({ variationID, productName, unitPrice, quantity });
+            }
+            updateCartUI();
+
+            // Send data to server
+            const formData = new FormData();
+            formData.append('variationID', variationID);
+            formData.append('quantity', quantity);
+
+            fetch('add_to_cart.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function editCartItem(variationID) {
+            const newQuantity = parseInt(prompt('Enter new quantity:'));
+            if (!isNaN(newQuantity) && newQuantity > 0) {
+                const cartItem = cart.find(item => item.variationID === variationID);
+                if (cartItem) {
+                    cartItem.quantity = newQuantity;
+                    updateCartUI();
+                }
+            } else {
+                alert('Please enter a valid quantity.');
+            }
+        }
+
+        function deleteCartItem(variationID) {
+            cart = cart.filter(item => item.variationID !== variationID);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartElement = document.querySelector('#cart');
+            cartElement.innerHTML = '';
+
+            cart.forEach(item => {
+                const cartItemElement = document.createElement('div');
+                cartItemElement.classList.add('flex', 'justify-between', 'items-center', 'border-b', 'pb-2', 'mb-2');
+                cartItemElement.innerHTML = `
+                    <div>${item.productName} - Quantity: ${item.quantity}</div>
+                    <div>
+                        <button class="bg-blue-500 text-white px-2 py-1 rounded mr-2" onclick="editCartItem(${item.variationID})">Edit</button>
+                        <button class="bg-red-500 text-white px-2 py-1 rounded" onclick="deleteCartItem(${item.variationID})">Delete</button>
+                    </div>
+                `;
+                cartElement.appendChild(cartItemElement);
+            });
+        }
     </script>
 </head>
 <body class="bg-gray-100">
@@ -175,64 +247,63 @@ while ($row = $result->fetch_assoc()) {
 <!--navbar--> 
 <?php include_once "../components/navbar.php"; ?>
 
-<div class="container mx-auto p-6 flex mt-24">
-    <div class="w-3/4">
-        <h1 class="text-3xl font-bold mb-6">Our Products</h1>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-6 product-grid">
-        <?php
-        foreach ($variations as $variation) {
-            echo "
-            <div id='product-{$variation['VariationID']}' class='bg-white p-4 rounded-lg shadow-lg product cursor-pointer' onclick='openModal({$variation['VariationID']})'>
-                <div class='flex'>
-                    <div class='w-1/3 mr-6'>
-                        <img class='w-full h-auto object-cover object-center mb-2' src='../assets/products/{$variation['VariationImage']}' alt='{$variation['VariationName']}'>
-                    </div>
-                    <div class='w-2/3'>
-                        <h2 class='text-lg font-bold mb-2 variation-name'>{$variation['ProductName']}</h2>";
-                $stockClass = ($variation['InStock'] == 0) ? 'text-red-500' : 'text-green-500';
+<div class="container mx-auto p-6 mt-24">
+    <div class="flex">
+        <div class="w-3/4">
+            <h1 class="text-3xl font-bold mb-6">Our Products</h1>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-6 product-grid">
+            <?php
+            foreach ($variations as $variation) {
                 echo "
-                        <div class='mb-4'>
-                            <h3 class='text-md font-semibold mb-1 variation-name'>{$variation['VariationName']}</h3>
-                            <p class='text-gray-700 mb-1 variation-price'>₱{$variation['UnitPrice']}</p>
-                            <p class='text-gray-600 variation-description'>{$variation['VariationDescription']}</p>
-                            <p class='$stockClass'>In Stock: {$variation['InStock']}</p>
-                            <button class='bg-blue-500 text-white px-4 py-2 rounded mt-2' onclick='addToCart({$variation['VariationID']})'>Add to Cart</button>
-                        </div>";
-            echo "      </div>
+                <div id='product-{$variation['VariationID']}' class='bg-white p-6 rounded-lg shadow-md product'>
+                    <h2 class='text-xl font-bold mb-2 variation-name'>{$variation['VariationName']}</h2>
+                    <p class='text-gray-700 mb-2 variation-description'>{$variation['VariationDescription']}</p>
+                    <p class='text-gray-700 mb-2'>Product Name: {$variation['ProductName']}</p>
+                    <img src='{$variation['VariationImage']}' alt='{$variation['VariationName']}' class='w-full h-48 object-cover mb-4'>
+                    <p class='text-gray-700 mb-2 variation-price'>₱{$variation['UnitPrice']}</p>
+                    <p class='text-gray-700 mb-2'>In Stock: {$variation['InStock']}</p>
+                    <input type='number' value='1' min='1' max='{$variation['InStock']}' class='quantity-input w-16 p-1 border rounded mb-4'>
+                    <button class='bg-blue-500 text-white px-4 py-2 rounded' onclick='addToCart({$variation['VariationID']})'>Add to Cart</button>
                 </div>
-            </div>";
-        }
-        ?>
+                ";
+            }
+            ?>
+            </div>
+        </div>
+
+        <div class="w-1/4 pl-6">
+            <h2 class="text-xl font-bold mb-4">Search Products</h2>
+            <input type="text" id="search-bar" class="mb-4 p-2 w-full border rounded" placeholder="Search..." onkeyup="filterProducts()">
+            
+            <h2 class="text-xl font-bold mb-4">Sort By</h2>
+            <button class="bg-blue-500 text-white p-2 rounded mb-2 w-full" onclick="sortProducts('name')">Name</button>
+            <div class="bg-white p-4 rounded-lg shadow-lg">
+                <h3 class="text-md font-bold mb-2">Price</h3>
+                <div class="mb-2">
+                    <input type="radio" name="price-sort" value="price-asc" id="price-asc" onchange="handleSortChange()">
+                    <label for="price-asc">Low to High</label>
+                </div>
+                <div class="mb-2">
+                    <input type="radio" name="price-sort" value="price-desc" id="price-desc" onchange="handleSortChange()">
+                    <label for="price-desc">High to Low</label>
+                </div>
+                <button class="bg-gray-300 text-gray-700 p-2 rounded w-full" onclick="resetSort()">Reset</button>
+            </div>
         </div>
     </div>
 
-    <div class="w-1/4 pl-6 sticky-widget">
-        <h2 class="text-xl font-bold mb-4">Search Products</h2>
-        <input type="text" id="search-bar" class="mb-4 p-2 w-full border rounded" placeholder="Search..." onkeyup="filterProducts()">
-        
-        <h2 class="text-xl font-bold mb-4">Sort By</h2>
-        <button class="bg-blue-500 text-white p-2 rounded mb-2 w-full" onclick="sortProducts('name')">Name</button>
-        <div class="bg-white p-4 rounded-lg shadow-lg">
-            <h3 class="text-md font-bold mb-2">Price</h3>
-            <div class="mb-2">
-                <input type="radio" name="price-sort" value="price-asc" id="price-asc" onchange="handleSortChange()">
-                <label for="price-asc">Low to High</label>
-            </div>
-            <div class="mb-2">
-                <input type="radio" name="price-sort" value="price-desc" id="price-desc" onchange="handleSortChange()">
-                <label for="price-desc">High to Low</label>
-            </div>
-            <button class="bg-gray-300 text-gray-700 p-2 rounded w-full" onclick="resetSort()">Reset</button>
-        </div>
+    <div class="mt-12">
+        <h2 class="text-2xl font-bold mb-4">Cart</h2>
+        <div id="cart" class="bg-white p-4 rounded-lg shadow-md"></div>
+        <a href="cart.php" class="bg-green-500 text-white px-4 py-2 rounded mt-4 inline-block">Go to Cart</a>
     </div>
 </div>
 
-<!-- The Modal -->
 <div id="productModal" class="modal">
-  <div class="modal-content p-6 rounded-lg shadow-lg bg-white">
-    <span class="close text-black cursor-pointer text-2xl font-bold float-right" onclick="closeModal()">&times;</span>
-    <div id="modalContent" class="mt-4"></div>
-  </div>
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="modalContent"></div>
+    </div>
 </div>
 
 </body>

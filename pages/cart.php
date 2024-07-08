@@ -1,99 +1,123 @@
 <?php
 session_start();
 
-// Initialize the cart if it doesn't exist
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = [];
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "foamfusion_db";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// Add item to the cart
-if (isset($_POST['add_to_cart'])) {
-    $product_id = $_POST['product_id'];
-    $product_name = $_POST['product_name'];
-    $product_price = $_POST['product_price'];
-    $quantity = $_POST['quantity'];
+$cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 
-    $item = [
-        'product_id' => $product_id,
-        'product_name' => $product_name,
-        'product_price' => $product_price,
-        'quantity' => $quantity,
-    ];
+$cartItems = [];
+foreach ($cart as $cartItem) {
+    $variationID = $cartItem['variationID'];
+    $quantity = $cartItem['quantity'];
 
-    array_push($_SESSION['cart'], $item);
+    $sql = "SELECT VariationName, UnitPrice FROM Variations WHERE VariationID = $variationID";
+    $result = $conn->query($sql);
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $cartItems[] = [
+            'VariationID' => $variationID,
+            'VariationName' => $row['VariationName'],
+            'UnitPrice' => $row['UnitPrice'],
+            'Quantity' => $quantity
+        ];
+    }
 }
+$conn->close();
 
-// Update the cart quantity
-if (isset($_POST['update_cart'])) {
-    $index = $_POST['index'];
-    $quantity = $_POST['quantity'];
-    $_SESSION['cart'][$index]['quantity'] = $quantity;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['edit'])) {
+        $variationID = $_POST['variationID'];
+        $newQuantity = $_POST['quantity'];
+        foreach ($cart as &$item) {
+            if ($item['variationID'] == $variationID) {
+                $item['quantity'] = $newQuantity;
+                break;
+            }
+        }
+        $_SESSION['cart'] = $cart;
+        header("Location: cart.php");
+        exit();
+    } elseif (isset($_POST['delete'])) {
+        $variationID = $_POST['variationID'];
+        $cart = array_filter($cart, function($item) use ($variationID) {
+            return $item['variationID'] != $variationID;
+        });
+        $_SESSION['cart'] = $cart;
+        header("Location: cart.php");
+        exit();
+    }
 }
-
-// Remove item from the cart
-if (isset($_POST['remove_from_cart'])) {
-    $index = $_POST['index'];
-    array_splice($_SESSION['cart'], $index, 1);
-}
-
-$cart_items = $_SESSION['cart'];
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
+    <title>Cart Page</title>
+    <link href="../styles/tailwind.css" rel="stylesheet">
     <link href='https://unpkg.com/css.gg@2.0.0/icons/css/user.css' rel='stylesheet'>
     <link href='https://unpkg.com/css.gg@2.0.0/icons/css/search.css' rel='stylesheet'>
     <link href='https://unpkg.com/css.gg@2.0.0/icons/css/shopping-cart.css' rel='stylesheet'>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
-    <!--navbar--> 
-    <?php include_once "../components/navbar.php"; ?>   
-    <div class="container mx-auto mt-32">
-        <div class="flex shadow-md my-10">
-            <div class="w-3/4 bg-white px-10 py-10">
-                <div class="flex justify-between border-b pb-8">
-                    <h1 class="font-semibold text-2xl">Shopping Cart</h1>
-                    <h2 class="font-semibold text-2xl"><?php echo count($cart_items); ?> Items</h2>
-                </div>
-                <div class="flex mt-10 mb-5">
-                    <h3 class="font-semibold text-gray-600 text-xs uppercase w-2/5">Product Details</h3>
-                    <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Quantity</h3>
-                    <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Price</h3>
-                    <h3 class="font-semibold text-center text-gray-600 text-xs uppercase w-1/5 text-center">Total</h3>
-                </div>
-                <?php foreach ($cart_items as $index => $item): ?>
-                <div class="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
-                    <div class="flex w-2/5">
-                        <div class="w-20">
-                            <img class="h-24" src="path/to/image.jpg" alt="Product Image">
-                        </div>
-                        <div class="flex flex-col justify-between ml-4 flex-grow">
-                            <span class="font-bold text-sm"><?php echo $item['product_name']; ?></span>
-                            <form method="POST">
-                                <input type="hidden" name="index" value="<?php echo $index; ?>">
-                                <button type="submit" name="remove_from_cart" class="font-semibold hover:text-red-500 text-gray-500 text-xs">Remove</button>
+
+<!--navbar--> 
+<?php include_once "../components/navbar.php"; ?>
+
+<div class="container mx-auto p-6 flex mt-24">
+    <div class="w-full">
+        <h1 class="text-3xl font-bold mb-6">Cart</h1>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <?php
+            if (empty($cartItems)) {
+                echo "<p>Your cart is empty.</p>";
+                echo "<a href='product.php' class='bg-blue-500 text-white px-4 py-2 rounded mt-4 inline-block'>Back to Shopping</a>";
+            } else {
+                echo "<table class='w-full text-left'>";
+                echo "<thead><tr><th>Product</th><th>Unit Price</th><th>Quantity</th><th>Total</th><th>Actions</th></tr></thead>";
+                echo "<tbody>";
+                $totalPrice = 0;
+                foreach ($cartItems as $item) {
+                    $total = $item['UnitPrice'] * $item['Quantity'];
+                    $totalPrice += $total;
+                    echo "<tr>";
+                    echo "<td>{$item['VariationName']}</td>";
+                    echo "<td>₱{$item['UnitPrice']}</td>";
+                    echo "<td>{$item['Quantity']}</td>";
+                    echo "<td>₱{$total}</td>";
+                    echo "<td>
+                            <form method='POST' class='inline-block'>
+                                <input type='hidden' name='variationID' value='{$item['VariationID']}'>
+                                <input type='number' name='quantity' value='{$item['Quantity']}' min='1' class='p-1 border rounded'>
+                                <button type='submit' name='edit' class='bg-blue-500 text-white px-2 py-1 rounded'>Edit</button>
                             </form>
-                        </div>
-                    </div>
-                    <div class="flex justify-center w-1/5">
-                        <form method="POST" class="flex">
-                            <input type="hidden" name="index" value="<?php echo $index; ?>">
-                            <input type="number" name="quantity" value="<?php echo $item['quantity']; ?>" class="mx-2 border text-center w-8">
-                            <button type="submit" name="update_cart" class="font-semibold text-sm text-indigo-600">Update</button>
-                        </form>
-                    </div>
-                    <span class="text-center w-1/5 font-semibold text-sm">$<?php echo $item['product_price']; ?></span>
-                    <span class="text-center w-1/5 font-semibold text-sm">$<?php echo $item['product_price'] * $item['quantity']; ?></span>
-                </div>
-                <?php endforeach; ?>
-            </div>
-            <!-- Order Summary Section -->
+                            <form method='POST' class='inline-block'>
+                                <input type='hidden' name='variationID' value='{$item['VariationID']}'>
+                                <button type='submit' name='delete' class='bg-red-500 text-white px-2 py-1 rounded'>Delete</button>
+                            </form>
+                          </td>";
+                    echo "</tr>";
+                }
+                echo "</tbody>";
+                echo "</table>";
+                echo "<p class='mt-4 text-xl font-bold'>Total Price: ₱{$totalPrice}</p>";
+                echo "<a href='checkout.php' class='bg-green-500 text-white px-4 py-2 rounded mt-4 inline-block'>Proceed to Checkout</a>";
+            }
+            ?>
         </div>
     </div>
+</div>
+
 </body>
 </html>

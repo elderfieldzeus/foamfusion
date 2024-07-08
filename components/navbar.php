@@ -47,14 +47,14 @@
                 <form action="../utilities/login.php" method="post" id="login-form" class="space-y-6">
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input id="email" name="email" type="email" required class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                        <input id="email" name="email" type="email" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input id="password" name="password" type="password" required class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                        <input id="password" name="password" type="password" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
                     </div>
                     <div>
-                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Log in</button>
+                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Log in</button>
                     </div>
                 </form>
                 <div class="mt-6">
@@ -71,20 +71,36 @@
             </div>
             <div class="px-4 py-5 sm:p-6">
                 <form action="../utilities/signup.php" method="post" id="signup-form" class="space-y-6">
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                        <input id="name" name="name" type="text" required class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                            <input id="first_name" name="first_name" type="text" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                        </div>
+                        <div>
+                            <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <input id="last_name" name="last_name" type="text" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                        </div>
                     </div>
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input id="email" name="email" type="email" required class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input id="email" name="email" type="email" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                        </div>
+                        <div>
+                            <label for="phone_num" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                            <input type="tel" id="phone_num" name="phone_num" pattern="[0-9]{11}" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                        </div>
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input id="password" name="password" type="password" required class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                        <input id="password" name="password" type="password" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
                     </div>
                     <div>
-                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Sign up</button>
+                        <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                        <input id="confirm_password" name="confirm_password" type="password" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Sign up</button>
                     </div>
                 </form>
                 <div class="mt-6">

@@ -32,9 +32,9 @@
         "Customers(
             CustomerID" . $primary_key . ",
             BirthDate DATE NOT NULL,
-            PhoneNum VARCHAR(255) NOT NULL,
+            PhoneNum VARCHAR(255),
             NameID INT NOT NULL,
-            AddressID INT NOT NULL,
+            AddressID INT DEFAULT NULL,
             AccountID INT NOT NULL,
             FOREIGN KEY(NameID) REFERENCES Name(NameID),
             FOREIGN KEY(AddressID) REFERENCES Address(AddressID),

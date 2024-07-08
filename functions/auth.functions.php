@@ -43,6 +43,21 @@
             return TRUE;
         }
 
+        function accountSignup($FirstName, $LastName, $Email, $PhoneNum, $Password, $ConfirmPassword) {
+            $this->Email = $this->select->selectEmail($Email);
+
+
+            if($this->Email->num_rows > 0 
+            || $Password != $ConfirmPassword) {
+                return FALSE;
+            }
+    
+            $this->HashedPassword = password_hash($Password, PASSWORD_BCRYPT);
+            $this->insert->insertCustomerInitial($FirstName, $LastName, $Email, $PhoneNum, $this->HashedPassword);
+
+            return TRUE;
+        }
+
 
         function login($Email, $Password, &$Role) {
             $this->Result = $this->select->selectEmail($Email);

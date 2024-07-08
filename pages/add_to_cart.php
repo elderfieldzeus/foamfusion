@@ -1,34 +1,31 @@
 <?php
-session_start();
+require_once "../utilities/include.php";
+require_once "../utilities/var.sql.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$session->continueSession();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $variationID = $_POST['variationID'];
     $quantity = $_POST['quantity'];
 
-    if (!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
+    // Validate and sanitize input (e.g., check if variationID exists, validate quantity)
+
+    // Example validation: Ensure variationID is a number and quantity is a positive integer
+    if (!is_numeric($variationID) || $variationID <= 0 || !ctype_digit($quantity) || $quantity <= 0) {
+        die("Invalid input.");
     }
 
-    $cart = $_SESSION['cart'];
+    // Perform SQL operations to add to cart (Example: Insert into Cart table or session handling)
+    // Example: Assuming $db is your database connection object
+    // Example SQL (replace with your actual schema):
+    // $sql = "INSERT INTO Cart (UserID, VariationID, Quantity) VALUES (?, ?, ?)";
+    // $stmt = $db->prepare($sql);
+    // $stmt->bind_param("iii", $userID, $variationID, $quantity);
+    // $stmt->execute();
 
-    $found = false;
-    foreach ($cart as &$item) {
-        if ($item['variationID'] == $variationID) {
-            $item['quantity'] += $quantity;
-            $found = true;
-            break;
-        }
-    }
-
-    if (!$found) {
-        $cart[] = [
-            'variationID' => $variationID,
-            'quantity' => $quantity
-        ];
-    }
-
-    $_SESSION['cart'] = $cart;
-
-    echo "Item added to cart successfully.";
+    // Example response
+    echo "Added to cart successfully.";
+} else {
+    die("Invalid request.");
 }
 ?>

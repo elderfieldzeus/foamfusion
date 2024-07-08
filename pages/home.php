@@ -10,6 +10,54 @@ require_once "../utilities/var.sql.php";
 
     $auth->signup("Sample", "Name", "2003-5-12", "09177755790", "sample@gmail.com", "Sample", "Sample", "Sample", "6014", "123", "123", "Admin");
 
+
+    $sql = "
+    SELECT p.ProductID, p.ProductName, v.VariationID, v.VariationName, v.VariationDescription, v.VariationImage, v.UnitPrice, v.InStock
+    FROM Products p
+    JOIN Variations v ON p.ProductID = v.ProductID
+    ";
+    
+    $result = $db->conn->query($sql);
+
+    if (!$result) {
+        die("Query failed: " . $conn->error);
+    }
+
+    $products = [];
+    while ($row = $result->fetch_assoc()) {
+        $products[] = [
+            'VariationID' => $row['VariationID'],
+            'VariationName' => $row['VariationName'],
+            'VariationDescription' => $row['VariationDescription'],
+            'VariationImage' => $row['VariationImage'],
+            'UnitPrice' => $row['UnitPrice'],
+            'InStock' => $row['InStock'],
+            'ProductName' => $row['ProductName']
+        ];  
+    }
+
+    // Select 3 random products
+    shuffle($products);
+    $randomProducts = array_slice($products, 0, 3);
+
+    // Sample testimonials
+    $testimonials = [
+        [
+            'quote' => "I love FoamFusion Soap! Their products are amazing and smell fantastic. Highly recommended!",
+            'name' => "John Doe",
+            'role' => "Customer"
+        ],
+        [
+            'quote' => "FoamFusion Soap has changed my skincare routine. I couldn't be happier with their products!",
+            'name' => "Jane Smith",
+            'role' => "Customer"
+        ],
+        [
+            'quote' => "Excellent customer service and top-notch quality. I'm a loyal customer!",
+            'name' => "Michael Johnson",
+            'role' => "Customer"
+        ]
+    ];
 ?>
 
 <head>

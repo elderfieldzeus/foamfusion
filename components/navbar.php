@@ -28,7 +28,7 @@
                         ?>
                     </a>
                 <?php endif; ?>
-                <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium -mt-1">
+                <a href="../pages/cart.php" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium -mt-1">
                     <i class="gg-shopping-cart"></i>
                 </a>
                 <div class="md:hidden flex items-center">

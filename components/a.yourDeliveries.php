@@ -10,7 +10,8 @@
 
 <?php if($result->num_rows == 0) : ?>
     <p class="w-full text-gray-400 text-center font-semibold mt-2">No deliveries yet! Stay tuned...</p>
-<?php endif;
+<?php endif; ?>
+<?php
     while($row = $result->fetch_assoc()) :
 ?>
 

@@ -245,9 +245,9 @@ while ($row = $result->fetch_assoc()) {
 
                     echo "
                     <div id='product-{$variation['VariationID']}' class='bg-white p-6 rounded-lg shadow-md product {$disabledClass}'>
-                        <h2 class='text-xl font-bold mb-2 variation-name'>{$variation['VariationName']}</h2>
+                        <h2 class='text-xl font-bold mb-2 variation-name'>{$variation['ProductName']}</h2>
                         <p class='text-gray-700 mb-2 variation-description'>{$variation['VariationDescription']}</p>
-                        <p class='text-gray-700 mb-2'>Product Name: {$variation['ProductName']}</p>
+                        <p class='text-gray-700 mb-2'>Product Name: {$variation['VariationName']}</p>
                         <img src='{$variation['VariationImage']}' alt='{$variation['VariationName']}' class='w-full h-48 object-cover mb-4'>
                         <p class='text-gray-700 mb-2 variation-price'>₱{$variation['UnitPrice']}</p>
                         <p class='text-gray-700 mb-2'>In Stock: {$variation['InStock']}</p>

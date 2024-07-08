@@ -3,10 +3,6 @@
     require_once "../utilities/include.php";
     require_once "../utilities/var.sql.php";
 
-    if(!$auth->login("sample@gmail.com", "123", "Admin")) {
-        alert("Logged In Failed");
-    }
-
 ?>
 
 <!DOCTYPE html>

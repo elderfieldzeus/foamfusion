@@ -44,12 +44,8 @@
         }
 
 
-        function login($Email, $Password, $Role) {
-            switch($Role) {
-                case 'Customer': $this->Result = $this->select->selectCustomerAccount($Email); break;
-                case 'Admin': $this->Result = $this->select->selectEmployeeAccount($Email); break;
-                default: return FALSE;
-            }
+        function login($Email, $Password, &$Role) {
+            $this->Result = $this->select->selectEmail($Email);
 
             $this->Row = $this->Result->fetch_assoc();
             $this->HashedPassword = $this->Row['Password'];
@@ -60,7 +56,23 @@
                 return FALSE;
             }
 
-            $this->ID = $this->Row[($Role == 'Customer') ? 'CustomerID' : 'EmployeeID'];
+            $Role = $this->Row['Role'];
+
+
+            if($Role == 'Customer') {
+                $result = $this->select->selectCustomerAccount($Email);
+                $row = $result->fetch_assoc();
+                $this->ID = $row['CustomerID'];
+            }
+            elseif ($Role == 'Admin') {
+                $result = $this->select->selectEmployeeAccount($Email);
+                $row = $result->fetch_assoc();
+                $this->ID = $row['EmployeeID'];
+            }
+            else {
+                $this->signout();
+                return FALSE;
+            }
 
             //Set session
             $this->session->beginSession($this->ID, $Role);

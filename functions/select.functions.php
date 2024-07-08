@@ -11,7 +11,7 @@
         }
 
         function selectEmail($Email) { //Used to check if the email already exists
-            $this->sql = "SELECT Email
+            $this->sql = "SELECT Email, Role, Password
                         FROM Account
                         WHERE Email='$Email'";
 
@@ -109,7 +109,7 @@
                         LEFT JOIN Customers ON Customers.CustomerID = Orders.CustomerID
                         LEFT JOIN Name CName ON Customers.NameID = CName.NameID
                         LEFT JOIN Employees ON Deliveries.EmployeeID = Employees.EmployeeID
-                        LEFT JOIN Name Ename ON Customers.NameID = Ename.NameID
+                        LEFT JOIN Name Ename ON Employees.NameID = Ename.NameID
                         LEFT JOIN Account ON Customers.CustomerID = Customers.CustomerID
                         LEFT JOIN Address ON Address.AddressID = Customers.AddressID
                         WHERE Deliveries.EmployeeID = 1 AND DeliveryStatus != 'Success'

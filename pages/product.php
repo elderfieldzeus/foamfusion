@@ -110,6 +110,21 @@ $conn->close();
             document.getElementById('price-desc').checked = false;
             sortProducts('name'); // Reset to sort by name
         }
+
+        function filterProducts() {
+            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+            const products = document.querySelectorAll('.product');
+
+            products.forEach(product => {
+                const productName = product.querySelector('.variation-name').textContent.toLowerCase();
+                const productDesc = product.querySelector('.variation-description').textContent.toLowerCase();
+                if (productName.includes(searchTerm) || productDesc.includes(searchTerm)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
     </script>
 </head>
 <body class="bg-gray-100">
@@ -120,30 +135,33 @@ $conn->close();
 <div class="container mx-auto p-6 flex mt-24">
     <div class="w-3/4">
         <h1 class="text-3xl font-bold mb-6">Our Products</h1>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 product-grid">
         <?php
         foreach ($products as $productID => $product) {
             echo "
-            <div class='bg-white p-4 rounded-lg shadow-lg'>
-                <h2 class='text-lg font-bold mb-2'>{$product['ProductName']}</h2>";
+            <div class='bg-white p-4 rounded-lg shadow-lg product'>
+                <h2 class='text-lg font-bold mb-2 variation-name'>{$product['ProductName']}</h2>";
             foreach ($product['Variations'] as $variation) {
                 $stockClass = ($variation['InStock'] == 0) ? 'text-red' : 'text-green';
                 echo "
                 <div class='mb-4'>
-                    <img class='w-full h-48 object-cover object-center mb-2' src='{$variation['VariationImage']}' alt='{$variation['VariationName']}'>
-                    <h3 class='text-md font-semibold mb-1'>{$variation['VariationName']}</h3>
-                    <p class='text-gray-700 mb-1'>\${$variation['UnitPrice']}</p>
-                    <p class='text-gray-600'>{$variation['VariationDescription']}</p>
+                    <img class='w-full h-48 object-cover object-center mb-2' src='../assets/products/{$variation['VariationImage']}' alt='{$variation['VariationName']}'>
+                    <h3 class='text-md font-semibold mb-1 variation-name'>{$variation['VariationName']}</h3>
+                    <p class='text-gray-700 mb-1 variation-price'>\${$variation['UnitPrice']}</p>
+                    <p class='text-gray-600 variation-description'>{$variation['VariationDescription']}</p>
                     <p class='$stockClass'>In Stock: {$variation['InStock']}</p>
                 </div>";
             }
             echo "</div>";
         }
         ?>
-    </div>
+        </div>
     </div>
 
     <div class="w-1/4 pl-6 sticky-widget">
+        <h2 class="text-xl font-bold mb-4">Search Products</h2>
+        <input type="text" id="search-bar" class="mb-4 p-2 w-full border rounded" placeholder="Search..." onkeyup="filterProducts()">
+        
         <h2 class="text-xl font-bold mb-4">Sort By</h2>
         <button class="bg-blue-500 text-white p-2 rounded mb-2 w-full" onclick="sortProducts('name')">Name</button>
         <div class="bg-white p-4 rounded-lg shadow-lg">

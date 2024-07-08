@@ -14,9 +14,9 @@
                     <a href="#" id="user-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                         <i class="gg-user"></i>
                     </a>
-                    <a href="#" id="search-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                    <!-- <a href="#" id="search-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                         <i class="gg-search"></i>
-                    </a>
+                    </a> -->
                     <a href="../pages/cart.php" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                         <i class="gg-shopping-cart"></i>
                     </a>
@@ -38,7 +38,7 @@
         </div>
     </nav>
 
-    <div id="search-modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden z-50">
+    <!-- <div id="search-modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden z-50">
         <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
             <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
                 <div>
@@ -63,7 +63,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <script>
     document.getElementById('close-modal').addEventListener('click', function() {

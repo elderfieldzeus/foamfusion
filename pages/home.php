@@ -40,9 +40,9 @@
                 <a href="#" id="user-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                     <i class="gg-user"></i>
                 </a>
-                <a href="#" id="search-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                <!-- <a href="#" id="search-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                     <i class="gg-search"></i>
-                </a>
+                </a> -->
                 <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                     <i class="gg-shopping-cart"></i>
                 </a>
@@ -65,7 +65,7 @@
 </nav>
 
     <!-- Hero Section -->
-    <section class="h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('../assets/sink.png'); background-attachment: fixed;">
+    <section class="h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1507608158173-1dcec673a2e5?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D'); background-attachment: fixed;">
         <div class="text-center">
             <h1 class="text-4xl md:text-6xl font-bold text-white">Welcome to FoamFusion Soap</h1>
             <p class="mt-4 text-lg md:text-2xl text-white">The best soap you'll ever use</p>
@@ -152,7 +152,7 @@
         </div>
     </div>
 
-    <div id="search-modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden z-50">
+    <!-- <div id="search-modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden z-50">
         <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
             <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
                 <div>
@@ -177,7 +177,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {

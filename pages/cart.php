@@ -1,5 +1,9 @@
 <?php
-session_start();
+
+include_once "../utilities/include.php";
+include_once "../utilities/var.sql.php";
+
+$session->continueSession();
 
 $servername = "localhost";
 $username = "root";

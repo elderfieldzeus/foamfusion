@@ -8,6 +8,7 @@
     if(
         isset($_POST['first_name'])
         && isset($_POST['last_name'])
+        && isset($_POST['birth_date'])
         && isset($_POST['email'])
         && isset($_POST['phone_num'])
         && isset($_POST['password'])
@@ -15,16 +16,19 @@
     ) {
         $FirstName = formalize($_POST['first_name']);
         $LastName = formalize($_POST['last_name']);
+        $BirthDate = $_POST['birth_date'];
         $Email = $_POST['email'];
         $PhoneNum = $_POST['phone_num'];
         $Password = $_POST['password'];
         $ConfirmPassword = $_POST['confirm_password'];
 
-        if(!accountSignup($FirstName, $LastName, $Email, $PhoneNum, $Password, $ConfirmPassword)) {
+        if(!$auth->accountSignup($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $Password, $ConfirmPassword)) {
             LocationAlert("../pages/home.php", "Invalid Signup!");
         }
 
-        Location("../pages/home.php");
+        $Role = null;
+
+        $auth->login($Email, $Password, &$Role);
     }
 
 ?>

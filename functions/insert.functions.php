@@ -9,6 +9,29 @@
             $this->db = $db;
         }
 
+        function insertCustomerInitial($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $Password) {
+            $NameID = null;
+            $AccountID = null;
+
+            //insert into Name
+            $this->sql = "INSERT INTO Name (FirstName, LastName) VALUES('$FirstName', '$LastName');";
+
+            $this->db->query($this->sql);
+            $NameID = $this->db->conn->insert_id;
+
+            //insert into Account
+            $this->sql = "INSERT INTO Account (Email, Password) VALUES('$Email', '$Password');";
+
+            $this->db->query($this->sql);
+            $AccountID = $this->db->conn->insert_id;
+
+            //insert into Customer KEEPING ADDRESSID NULL
+            $this->sql = "INSERT INTO Customers (BirthDate, PhoneNum, NameID, AccountID) VALUES ('$BirthDate', '$PhoneNum', '$NameID', '$AccountID');";
+            
+            $this->db->query($this->sql);
+            $this->insert_id = $this->db->conn->insert_id;
+        }
+
         function insertCustomer($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password) {
             $NameID = null;
             $AddressID = null;

@@ -81,15 +81,21 @@
                             <input id="last_name" name="last_name" type="text" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
                         </div>
                     </div>
+
                     <div class="grid grid-cols-2 gap-5">
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input id="email" name="email" type="email" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                            <label for="birth_date" class="block text-sm font-medium text-gray-700">Birth Date</label>
+                            <input id="birth_date" name="birth_date" type="date" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
                         </div>
                         <div>
                             <label for="phone_num" class="block text-sm font-medium text-gray-700">Phone Number</label>
                             <input type="tel" id="phone_num" name="phone_num" pattern="[0-9]{11}" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
                         </div>
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input id="email" name="email" type="email" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>

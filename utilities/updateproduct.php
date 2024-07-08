@@ -8,16 +8,25 @@
         Location("../pages/home.php");
     }
 
-    if($_POST['variation_id'] && $_POST['variation_name'] && $_POST['product_mass'] && $_POST['unit_price'] && $_POST['in_stock'] && $_POST['description'] && $session->isSessionValid()) {
+    if(
+        isset($_POST['variation_id'] )
+        && isset($_POST['variation_name'] ) 
+        && isset($_POST['product_mass'] )
+        && isset($_POST['unit_price'] )
+        && isset($_POST['in_stock'])
+        && isset($_POST['description'] )
+        && $session->isSessionValid()
+    ) {
         $ID = $_POST['variation_id'];
 
         $VariationName = $_POST['variation_name'];
         $UnfilteredMass = $_POST['product_mass'];
         $UnitPrice = $_POST['unit_price'];
-        $InStock = $_POST['in_stock']; 
+        $UnfilteredStock = $_POST['in_stock']; 
         $VariationDescription = $_POST['description'];
 
         $MassInOZ = filterNumber($UnfilteredMass);
+        $InStock = filterNumber($UnfilteredStock);
 
         $update->updateProductVariation($ID, "VariationName", $VariationName);
         $update->updateProductVariation($ID, "MassInOZ", $MassInOZ);

@@ -147,7 +147,7 @@ $conn->close();
                 <div class='mb-4'>
                     <img class='w-full h-48 object-cover object-center mb-2' src='../assets/products/{$variation['VariationImage']}' alt='{$variation['VariationName']}'>
                     <h3 class='text-md font-semibold mb-1 variation-name'>{$variation['VariationName']}</h3>
-                    <p class='text-gray-700 mb-1 variation-price'>\${$variation['UnitPrice']}</p>
+                    <p class='text-gray-700 mb-1 variation-price'>₱{$variation['UnitPrice']}</p>
                     <p class='text-gray-600 variation-description'>{$variation['VariationDescription']}</p>
                     <p class='$stockClass'>In Stock: {$variation['InStock']}</p>
                 </div>";

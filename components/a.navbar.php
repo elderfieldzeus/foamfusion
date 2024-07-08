@@ -43,7 +43,7 @@
             $result = $this->select->selectEmployeeData($this->session->ID);
             $row = $result->fetch_assoc();
 
-            if($row != NULL) {
+            if($row != NULL && $this->session->Role == 'Admin') {
                 echo $row["FirstName"] . " " . $row["LastName"];
             }
             else {

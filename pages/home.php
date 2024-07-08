@@ -6,9 +6,10 @@
     require_once "../utilities/include.php";
     require_once "../utilities/var.sql.php";
 
+    $session->continueSession();
+
     $auth->signup("Sample", "Name", "2003-5-12", "09177755790", "sample@gmail.com", "Sample", "Sample", "Sample", "6014", "123", "123", "Admin");
 
-    $db->killConnection();
 ?>
 
 <head>

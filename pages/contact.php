@@ -1,3 +1,12 @@
+<?php
+
+    require_once "../utilities/include.php";
+    require_once "../utilities/var.sql.php";
+
+    $session->continueSession();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

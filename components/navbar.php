@@ -11,13 +11,24 @@
                 <a href="../pages/contact.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">Contact</a>
             </div>
             <div class="flex items-center md:space-x-4">
-                <a href="#" id="user-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                    <i class="gg-user"></i>
-                </a>
-                <!-- <a href="#" id="search-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                    <i class="gg-search"></i>
-                </a> -->
-                <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                <?php if($valid = !$session->isSessionValid()) : ?>
+                    <a href="#" id="user-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                        <i class="gg-user"></i>
+                    </a>
+                <?php endif; ?>
+                <?php if(!$valid) : ?>
+                    <a href="#" class="text-sm bg-gray-300 size-7 font-bold flex justify-center items-center rounded-full text-gray-800 hover:bg-white">
+                        <?php 
+                            $session->continueSession();
+                            $result = $select->selectCustomerData($session->ID);
+
+                            $row = $result->fetch_assoc();
+
+                            echo $row['FirstName'][0];
+                        ?>
+                    </a>
+                <?php endif; ?>
+                <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium -mt-1">
                     <i class="gg-shopping-cart"></i>
                 </a>
                 <div class="md:hidden flex items-center">

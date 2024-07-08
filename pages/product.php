@@ -1,20 +1,27 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "foamfusion_db";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+require_once "../utilities/include.php";
+require_once "../utilities/var.sql.php";
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$session->continueSession();
+
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
+// $servername = "localhost";
+// $username = "root";
+// $password = "";
+// $dbname = "foamfusion_db";
+
+// // Create connection
+// $conn = new mysqli($servername, $username, $password, $dbname);
+
+// // Check connection
+// if ($conn->connect_error) {
+//     die("Connection failed: " . $conn->connect_error);
+// }
 
 // Step 1: Fetch products and their variations
 $sql = "
@@ -22,7 +29,8 @@ $sql = "
     FROM Products p
     JOIN Variations v ON p.ProductID = v.ProductID
 ";
-$result = $conn->query($sql);
+
+$result = $db->conn->query($sql);
 
 if (!$result) {
     die("Query failed: " . $conn->error);
@@ -41,7 +49,8 @@ while ($row = $result->fetch_assoc()) {
         'ProductName' => $row['ProductName']
     ];  
 }
-$conn->close();
+
+
 ?>
 
 <!DOCTYPE html>

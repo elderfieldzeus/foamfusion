@@ -14,6 +14,48 @@
     <link rel="stylesheet" href="../styles/tailwind.css">
     <link rel="stylesheet" href="../styles/svg.css">
     <link rel="stylesheet" href="../styles/admin.css">
+
+    <script>
+        // JavaScript function to sort table rows by Customer Name
+        function sortTable(columnIndex, sortOrder) {
+            let table, rows, switching, i, x, y, shouldSwitch;
+            table = document.querySelector("table");
+            switching = true;
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[columnIndex];
+                    y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+                    if (sortOrder === 'asc') {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (sortOrder === 'desc') {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+        }
+
+        // Function to handle dropdown change
+        function handleSortChange() {
+            const sortSelect = document.getElementById("sortSelect");
+            const selectedIndex = sortSelect.selectedIndex;
+            const sortOrder = sortSelect.options[selectedIndex].value;
+            sortTable(1, sortOrder); // Sort by Customer Name (column index 1)
+        }
+    </script>
+    
 </head>
 <body>
     <?php
@@ -32,7 +74,14 @@
                     <span class="add--svg bg-white size-4"></span>
                 </button>
             </div>
-
+<!-- Dropdown for sorting -->
+<div class="mb-4">
+                                <label for="sortSelect" class="block text-sm font-medium text-gray-700">Sort by Customer Name:</label>
+                                <select id="sortSelect" onchange="handleSortChange()" class="mt-1 block w-40 px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option value="asc">A to Z</option>
+                                    <option value="desc">Z to A</option>
+                                </select>
+                            </div>
             <div id="add_dialog" class="dialog hidden">
                 <div class="inner_dialog">
                     <span id="close_add_dialog" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>

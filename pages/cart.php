@@ -4,6 +4,10 @@ require_once "../utilities/var.sql.php";
 
 $session->continueSession();
 
+if(!$session->isSessionValid()) {
+    LocationAlert("../pages/home.php", "Please Login or Signup");
+}
+
 // Fetch cart items from session or database (depending on your implementation)
 // For demonstration, using a session-based cart
 $cartItems = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];

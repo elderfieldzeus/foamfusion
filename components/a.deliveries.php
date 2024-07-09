@@ -4,7 +4,7 @@ $result = $this->select->selectDeliveryTable();
 $i = 0;
             
         while($row = $result->fetch_assoc()): ?> 
-        <tr class="<?= ($i % 2 == 0 ? "bg-gray-200" : "bg-white")  ?> border-b">
+        <tr class="striped border-b">
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                 <?= $row['DeliveryID'] ?>
             </td>

@@ -65,8 +65,8 @@
 
     <main class="pl-52 w-full min-h-full">
         <header class="w-full h-20 bg-gray-900">
-
         </header>
+
         <div class="py-8 px-12">
             <div class="flex justify-start items-end gap-2">
                 <h1 class="text-4xl">Employees</h1>
@@ -74,13 +74,7 @@
                     <span class="add--svg bg-white size-4"></span>
                 </button>
             </div>
-            <div class="mb-4 flex items-center">
-                <label for="sortSelect" class="block text-sm font-medium text-gray-700 mr-2 mt-6">Sort by Employees Name:</label>
-                <select id="sortSelect" onchange="handleSortChange()" class=" mt-6 block w-40 px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option value="asc">A to Z</option>
-                    <option value="desc">Z to A</option>
-                </select>
-            </div>
+
             <div id="add_dialog" class="dialog hidden">
                 <div class="inner_dialog">
                     <span id="close_add_dialog" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>
@@ -145,6 +139,14 @@
             </div>
 
             <hr class="my-5">
+
+            <div class="mb-4 flex items-center">
+                <label for="sortSelect" class="block text-sm font-medium text-gray-700 mr-2">Sort by Employees Name:</label>
+                <select id="sortSelect" onchange="handleSortChange()" class="block w-40 px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="asc">A to Z</option>
+                    <option value="desc">Z to A</option>
+                </select>
+            </div>
 
             <div class="flex flex-col">
                 <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">

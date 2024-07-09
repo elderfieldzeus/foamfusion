@@ -23,7 +23,6 @@
 
     <main class="pl-52 w-full min-h-full">
         <header class="w-full h-20 bg-gray-900">
-            <!-- Header content here if needed -->
         </header>
         <div class="py-8 px-12">
             <div class="flex w-full justify-between">
@@ -63,13 +62,13 @@
             <div class="flex flex-col">
                 <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
                                 <!-- Dropdown for sorting -->
-            <div class="flex justify-end mb-4 mt-4">
-                <label for="delivery-status-filter" class="mr-2">Filter by Delivery Status:</label>
-                <select id="delivery-status-filter" onchange="filterDeliveries()">
-                    <option value="all">All</option>
-                    <option value="pending">Pending</option>
-                    <option value="Success">Success</option>
-                    <option value="failed">Failed</option>
+            <div class="mb-4 flex items-center">
+                <label for="delivery-status-filter" class="block text-sm font-medium text-gray-700 mr-2">Filter by Delivery Status:</label>
+                <select id="delivery-status-filter" onchange="filterDeliveries()" class="block w-40 px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option class="font-bold text-black" value="all">ALL</option>
+                    <option class="font-bold text-red-500" value="failed">FAILED</option>
+                    <option class="font-bold text-blue-500" value="pending">PENDING</option>
+                    <option class="font-bold text-green-500" value="success">SUCCESS</option>
                 </select>
             </div>
                     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -122,7 +121,7 @@
                 if (columnIndex === 2) { // Sorting based on delivery status
                     const deliveryStatusOrder = {
                         'pending': 1,
-                        'Success': 2,
+                        'success': 2,
                         'failed': 3
                     };
 

@@ -30,13 +30,13 @@
             <hr class="my-5">
 
             <!-- Dropdown for sorting -->
-            <div class="flex justify-end mb-4">
-                <label for="order-status-filter" class="mr-2">Filter by Order Status:</label>
-                <select id="order-status-filter" onchange="filterOrders()">
-                    <option value="all">All</option>
-                    <option value="pending">Pending</option>
-                    <option value="success">Success</option>
-                    <option value="failed">Failed</option>
+            <div class="mb-4 flex items-center">
+                <label for="order-status-filter" class="block text-sm font-medium text-gray-700 mr-2">Filter by Order Status:</label>
+                <select id="order-status-filter" onchange="filterOrders()" class="block w-40 px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option class="font-bold text-black" value="all">ALL</option>
+                    <option class="font-bold text-red-500" value="failed">FAILED</option>
+                    <option class="font-bold text-blue-500" value="pending">PENDING</option>
+                    <option class="font-bold text-green-500" value="success">SUCCESS</option>
                 </select>
             </div>
 
@@ -78,6 +78,18 @@
     </main>
 
     <script>
+        function openDialog(ID) {
+            const dialogName = `order_dialog_${ID}`;
+            const closeName = `close_dialog_${ID}`;
+            const dialog = document.getElementById(dialogName);
+
+            dialog.classList.remove("hidden");
+
+            document.getElementById(closeName).addEventListener("click", () => {
+                dialog.classList.add("hidden");
+            });
+        }
+
         function filterOrders() {
             const filter = document.getElementById('order-status-filter').value.toLowerCase();
             const table = document.getElementById('order-table');

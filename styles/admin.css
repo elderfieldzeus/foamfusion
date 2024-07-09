@@ -8,3 +8,11 @@
     scrollbar-width: none;
 }
 
+.striped:nth-child(odd) {
+    background-color: #e5e7eb;
+}
+
+.striped:nth-child(even) {
+    background-color: white;
+}
+

@@ -866,6 +866,14 @@ video {
   right: 0px;
 }
 
+.top-9 {
+  top: 2.25rem;
+}
+
+.top-7 {
+  top: 1.75rem;
+}
+
 .isolate {
   isolation: isolate;
 }
@@ -1040,18 +1048,6 @@ video {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.mt-5 {
-  margin-top: 1.25rem;
-}
-
-.ml-4 {
-  margin-left: 1rem;
-}
-
-.ml-10 {
-  margin-left: 2.5rem;
 }
 
 .box-border {
@@ -3286,6 +3282,10 @@ video {
 
 .outline-double {
   outline-style: double;
+}
+
+.outline-gray-700 {
+  outline-color: #374151;
 }
 
 .ring {

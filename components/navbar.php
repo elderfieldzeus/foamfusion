@@ -17,16 +17,20 @@
                     </a>
                 <?php endif; ?>
                 <?php if(!$valid) : ?>
-                    <a href="#" class="text-sm bg-gray-300 size-7 font-bold flex justify-center items-center rounded-full text-gray-800 hover:bg-white">
-                        <?php 
-                            $session->continueSession();
-                            $result = $select->selectCustomerData($session->ID);
-
-                            $row = $result->fetch_assoc();
-
-                            echo $row['FirstName'][0];
-                        ?>
-                    </a>
+                    <div id="profile" class="relative">
+                        <button id="profile-icon" href="#" class="text-sm bg-gray-300 size-7 font-bold flex justify-center items-center rounded-full text-gray-800 hover:bg-white">
+                            <?php
+                                $session->continueSession();
+                                $result = $select->selectCustomerData($session->ID);
+                                $row = $result->fetch_assoc();
+                                echo $row['FirstName'][0];
+                            ?>
+                        </button>
+                        <div id="profile-dropdown" class="absolute bg-gray-300 top-8 right-0 flex flex-col items-center text-center overflow-hidden w-40 rounded-md hidden whitespace-nowrap">
+                            <a href="#" class="w-full hover:bg-white transition-colors py-2 text-gray-700 font-bold">My Profile</a>
+                            <a href="../utilities/signout.php" class="w-full hover:bg-white transition-colors py-2 text-gray-700 font-bold">Sign Out</a>
+                        </div>
+                    </div>
                 <?php endif; ?>
                 <a href="../pages/cart.php" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium -mt-1">
                     <i class="gg-shopping-cart"></i>
@@ -57,12 +61,12 @@
             <div class="px-4 py-5 sm:p-6">
                 <form action="../utilities/login.php" method="post" id="login-form" class="space-y-6">
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input id="email" name="email" type="email" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                        <label for="email1" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input id="email1" name="email" type="email" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
                     </div>
                     <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input id="password" name="password" type="password" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                        <label for="password1" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input id="password1" name="password" type="password" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
                     </div>
                     <div>
                         <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Log in</button>
@@ -105,12 +109,12 @@
                     </div>
 
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input id="email" name="email" type="email" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                        <label for="email2" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input id="email2" name="email" type="email" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
                     </div>
                     <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input id="password" name="password" type="password" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
+                        <label for="password2" class="block text-sm font-medium text-gray-700">Password</label>
+                        <input id="password2" name="password" type="password" required class="mt-1 block w-full shadow-md sm:text-sm border-gray-300 px-2 focus:bg-gray-100 py-2 rounded-md">
                     </div>
                     <div>
                         <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
@@ -127,15 +131,16 @@
         </div>
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
 
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
         });
-    });
 
         const userIcon = document.getElementById('user-icon');
         const searchIcon = document.getElementById('search-icon');
@@ -144,18 +149,13 @@
         const searchModal = document.getElementById('search-modal');
         const signupLink = document.getElementById('signup-link');
         const loginLink = document.getElementById('login-link');
+        const profile_icon = document.getElementById("profile-icon");
 
-        userIcon.addEventListener('click', () => {
-            authModal.classList.toggle('hidden');
-        });
-
-        // authModal.addEventListener('click', () => {
-        //     authModal.classList.toggle('hidden');
-        // });
-
-        // signupModal.addEventListener('click', () => {
-        //     signupModal.classList.toggle('hidden');
-        // });
+        if(userIcon) {
+            userIcon.addEventListener('click', () => {
+                authModal.classList.toggle('hidden');
+            });
+        }
 
         signupLink.addEventListener('click', (e) => {
             e.preventDefault();
@@ -180,68 +180,18 @@
                 searchModal.classList.add('hidden');
             }
         });
+
+        if(profile_icon) {
+            profile_icon.addEventListener("click", () => {
+                const dropdown = document.getElementById("profile-dropdown");
+
+                if(dropdown.classList.contains("hidden")) {
+                    dropdown.classList.remove("hidden");
+                }
+                else {
+                    dropdown.classList.add("hidden");
+                }
+
+            });
+        }
 </script>
-
-    <!-- <script>
-    document.getElementById('close-modal').addEventListener('click', function() {
-        document.getElementById('search-modal').classList.add('hidden');
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    });
-
-    const userIcon = document.getElementById('user-icon');
-        const searchIcon = document.getElementById('search-icon');
-        const authModal = document.getElementById('auth-modal');
-        const signupModal = document.getElementById('signup-modal');
-        const searchModal = document.getElementById('search-modal');
-        const signupLink = document.getElementById('signup-link');
-        const loginLink = document.getElementById('login-link');
-
-        userIcon.addEventListener('click', () => {
-            authModal.classList.toggle('hidden');
-        });
-
-        searchIcon.addEventListener('click', () => {
-            searchModal.classList.toggle('hidden');
-        });
-
-        signupLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            authModal.classList.add('hidden');
-            signupModal.classList.remove('hidden');
-        });
-
-        loginLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            signupModal.classList.add('hidden');
-            authModal.classList.remove('hidden');
-        });
-
-        window.addEventListener('click', (e) => {
-            if (e.target == authModal) {
-                authModal.classList.add('hidden');
-            }
-            if (e.target == signupModal) {
-                signupModal.classList.add('hidden');
-            }
-            if (e.target == searchModal) {
-                searchModal.classList.add('hidden');
-            }
-        });
-</script> -->

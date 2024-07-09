@@ -58,7 +58,11 @@
                 </div>
             </div>
 
-            <!-- Dropdown for sorting -->
+            <hr class="my-5">
+
+            <div class="flex flex-col">
+                <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+                                <!-- Dropdown for sorting -->
             <div class="flex justify-end mb-4 mt-4">
                 <label for="delivery-status-filter" class="mr-2">Filter by Delivery Status:</label>
                 <select id="delivery-status-filter" onchange="filterDeliveries()">
@@ -68,11 +72,6 @@
                     <option value="failed">Failed</option>
                 </select>
             </div>
-
-            <hr class="my-5">
-
-            <div class="flex flex-col">
-                <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
                     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="overflow-hidden">
                             <table class="min-w-full" id="delivery-table">

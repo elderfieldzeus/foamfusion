@@ -65,18 +65,16 @@
             <h1 class="text-4xl">Customers</h1>
             <hr class="my-5">
             <div class="flex flex-col">
+            <div class="mb-4 flex items-center">
+                            <label for="sortSelect" class="block text-sm font-medium text-gray-700 mr-2">Sort by Customer Name:</label>
+                            <select id="sortSelect" onchange="handleSortChange()" class="block w-40 px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="asc">A to Z</option>
+                                <option value="desc">Z to A</option>
+                            </select>
+                        </div>
                 <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
                     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="overflow-hidden">
-                            <!-- Dropdown for sorting -->
-                            <div class="mb-4">
-                                <label for="sortSelect" class="block text-sm font-medium text-gray-700">Sort by Customer Name:</label>
-                                <select id="sortSelect" onchange="handleSortChange()" class="mt-1 block w-40 px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option value="asc">A to Z</option>
-                                    <option value="desc">Z to A</option>
-                                </select>
-                            </div>
-
                             <table class="min-w-full">
                                 <thead class="bg-gray-800 text-white border-b">
                                     <tr>

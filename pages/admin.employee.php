@@ -74,14 +74,13 @@
                     <span class="add--svg bg-white size-4"></span>
                 </button>
             </div>
-<!-- Dropdown for sorting -->
-<div class="mb-4">
-                                <label for="sortSelect" class="block text-sm font-medium text-gray-700">Sort by Customer Name:</label>
-                                <select id="sortSelect" onchange="handleSortChange()" class="mt-1 block w-40 px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option value="asc">A to Z</option>
-                                    <option value="desc">Z to A</option>
-                                </select>
-                            </div>
+            <div class="mb-4 flex items-center">
+                <label for="sortSelect" class="block text-sm font-medium text-gray-700 mr-2 mt-6">Sort by Employees Name:</label>
+                <select id="sortSelect" onchange="handleSortChange()" class=" mt-6 block w-40 px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="asc">A to Z</option>
+                    <option value="desc">Z to A</option>
+                </select>
+            </div>
             <div id="add_dialog" class="dialog hidden">
                 <div class="inner_dialog">
                     <span id="close_add_dialog" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>

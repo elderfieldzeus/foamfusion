@@ -4,14 +4,21 @@ require "../utilities/var.sql.php";
 
 $session->continueSession();
 
-$AccountID = $session->ID;
+$CustomerID = $session->ID;
+
 $error = "";
 $success = "";
+
+$sql = "SELECT AddressID FROM Customers WHERE CustomerID = $CustomerID";
+$result = $db->conn->query($sql);
+$row = $result->fetch_assoc();
+
+$AddressID = $row['AddressID'];
 
 // Check if the address exists
 $sql = "SELECT City, Barangay, Street, PostalCode FROM Address WHERE AddressID = ?";
 $stmt = $db->conn->prepare($sql);
-$stmt->bind_param("i", $AccountID);
+$stmt->bind_param("i", $AddressID);
 $stmt->execute();
 $result = $stmt->get_result();
 $address = $result->fetch_assoc();
@@ -39,12 +46,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Update existing address
         $sql = "UPDATE Address SET City = ?, Barangay = ?, Street = ?, PostalCode = ? WHERE AddressID = ?";
         $stmt = $db->conn->prepare($sql);
-        $stmt->bind_param("sssii", $newCity, $newBarangay, $newStreet, $newPostalCode, $AccountID);
+        $stmt->bind_param("sssii", $newCity, $newBarangay, $newStreet, $newPostalCode, $CustomerID);
     } else {
         // Insert new address
-        $sql = "INSERT INTO Address (AddressID, City, Barangay, Street, PostalCode) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $db->conn->prepare($sql);
-        $stmt->bind_param("issss", $AccountID, $newCity, $newBarangay, $newStreet, $newPostalCode);
+        $insert->insertAddress($newCity, $newBarangay, $newStreet, $newPostalCode);
+        $AddressID = $insert->insert_id;
+
+        $sql = "UPDATE Customers SET AddressID = $AddressID WHERE CustomerID = $CustomerID";
+        $db->query($sql);
     }
 
     if ($stmt->execute()) {
@@ -56,6 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $error = "Error " . ($address ? "updating" : "creating") . " address details.";
     }
+    Location("../pages/account.php");
 }
 ?>
 

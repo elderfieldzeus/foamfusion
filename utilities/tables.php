@@ -74,6 +74,7 @@
             OrderID" . $primary_key . ",
             OrderTime DATETIME DEFAULT CURRENT_TIMESTAMP,
             OrderStatus ENUM('Failed', 'Pending', 'Success') DEFAULT 'Pending',
+            PaymentMethod ENUM('Cash', 'Online') DEFAULT 'Cash',
             CustomerID INT NOT NULL,
             FOREIGN KEY(CustomerID) REFERENCES Customers(CustomerID)
         )",

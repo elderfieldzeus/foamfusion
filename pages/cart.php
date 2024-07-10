@@ -140,10 +140,10 @@ $totalPrice = 0;
                 buttonArea.appendChild(backToShoppingButton);
 
                 // Hide total price when cart is empty
-                document.querySelector('#total-price').style.display = 'none';
+                document.querySelector('#to-hide').style.display = 'none';
             } else {
-                const proceedToCheckout = document.createElement('a');
-                proceedToCheckout.href = '../utilities/addorder.php';
+                const proceedToCheckout = document.createElement('button');
+                proceedToCheckout.type = 'submit';
                 proceedToCheckout.classList.add('bg-green-500', 'text-white', 'px-4', 'py-2', 'rounded', 'mt-4', 'inline-block');
                 proceedToCheckout.textContent = 'Proceed to Checkout';
                 buttonArea.appendChild(proceedToCheckout);
@@ -188,12 +188,24 @@ $totalPrice = 0;
             <div id="cart">
                 <!-- Cart items will be dynamically added here -->
             </div>
-            <div id="total-price" class="text-lg font-bold mt-4 w-full flex justify-end">
-                <!-- Total price will be dynamically updated here -->
-            </div>
-            <div id="button_area" class="flex w-full justify-center">
-            <!-- <a href="checkout.php" class="bg-green-500 text-white px-4 py-2 rounded mt-4 inline-block">Proceed to Checkout</a> -->
-            </div>
+            <form action="../utilities/addorder.php" method="POST">
+                <div class="flex w-full items-center mt-4">
+                    <div id="to-hide" class="flex flex-col w-full">
+                        <div class="flex w-full gap-2 items-center text-sm">
+                            <label class="font-bold" for="payment_method whitespace-nowrap">Select Payment Method:</label>
+                            <select name="payment_method" id="payment_method" class="h-5 flex items-center">
+                                <option value="Cash">Cash</option>
+                                <option value="Online">Online</option>
+                            </select>
+                        </div>
+                        <p class="text-xs">Gcash: 09123456789</p>
+                    </div>
+                    <p id="total-price" class="text-lg font-bold w-full flex items-center justify-end"></p>
+                </div>
+                <div id="button_area" class="flex w-full justify-center">
+                <!-- <a href="checkout.php" class="bg-green-500 text-white px-4 py-2 rounded mt-4 inline-block">Proceed to Checkout</a> -->
+                </div>
+            </form>
         </div>
     </div>
 </div>

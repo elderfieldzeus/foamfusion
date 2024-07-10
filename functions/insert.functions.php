@@ -120,8 +120,8 @@
             $this->insert_id = $this->db->conn->insert_id;
         }
 
-        function insertOrder($CustomerID) {
-            $this->sql = "INSERT INTO Orders(TotalPrice, CustomerID) VALUES ('$CustomerID');";
+        function insertOrder($CustomerID, $PaymentMethod) {
+            $this->sql = "INSERT INTO Orders(CustomerID, PaymentMethod) VALUES ('$CustomerID', '$PaymentMethod');";
             $this->db->query($this->sql);
             $this->insert_id = $this->db->conn->insert_id;
         }

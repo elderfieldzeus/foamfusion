@@ -1,6 +1,7 @@
 <?php
 require_once "../utilities/include.php";
 require_once "../utilities/var.sql.php";
+require_once "../functions/cart.functions.php";
 
 $session->continueSession();
 
@@ -10,7 +11,6 @@ if(!$session->isSessionValid()) {
 
 // Fetch cart items from session or database (depending on your implementation)
 // For demonstration, using a session-based cart
-$cartItems = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 
 $totalPrice = 0;
 ?>
@@ -33,13 +33,51 @@ $totalPrice = 0;
         }
     </style>
     <script>
-        let cart = <?php echo json_encode($cartItems); ?>;
+        let cart = [];
+
+        <?php
+
+            //add session carts to front end cart
+            if (isset($_SESSION['cart'])) {
+                foreach($_SESSION['cart'] as $index => $cart) {
+                    $result = $select->selectVariationData($cart->variation_id);
+                    $row = $result->fetch_assoc();
+
+                    $productName = $row['ProductName'];
+                    $unitPrice = $row['UnitPrice'];
+                    $variationName = $row['VariationName'];
+                    $InStock = $row['InStock'];
+
+                    echo '
+                        let variationID_' . $index . ' = ' . $cart->variation_id . ';
+                        let productName_' . $index . ' = "' . $productName . '";
+                        let unitPrice_' . $index . ' = ' . $unitPrice . ';
+                        let variationName_' . $index . ' = "' . $variationName . '";
+                        let quantity_' . $index . ' = ' . $cart->quantity . ';
+                        let inStock_' . $index . ' = ' . $InStock . ';
+
+
+                        cart.push({
+                            variationID: variationID_' . $index . ', 
+                            productName: productName_' . $index . ',
+                            unitPrice: unitPrice_' . $index . ', 
+                            variationName: variationName_' . $index . ', 
+                            quantity: quantity_' . $index . ',
+                            inStock: inStock_' . $index . '
+                        });
+                    ';
+                }
+            }
+
+        ?>
 
         function updateCartQuantity(variationID, quantity) {
             const cartItem = cart.find(item => item.variationID === variationID);
             if (cartItem) {
-                cartItem.quantity = parseInt(quantity);
-                updateCartUI();
+
+                quantity = (quantity > cartItem.inStock ? parseInt(cartItem.inStock) : parseInt(quantity));
+
+                cartItem.quantity = quantity;
 
                 // You can also update the server-side cart here via AJAX if needed
                 // Example AJAX request to update server-side cart
@@ -47,7 +85,7 @@ $totalPrice = 0;
                 formData.append('variationID', variationID);
                 formData.append('quantity', quantity);
 
-                fetch('update_cart.php', {
+                fetch('../utilities/edit_cart.php', {
                     method: 'POST',
                     body: formData
                 })
@@ -58,6 +96,8 @@ $totalPrice = 0;
                 .catch(error => {
                     console.error('Error:', error);
                 });
+
+                updateCartUI();
             }
         }
 
@@ -69,7 +109,7 @@ $totalPrice = 0;
             const formData = new FormData();
             formData.append('variationID', variationID);
 
-            fetch('delete_cart_item.php', {
+            fetch('../utilities/delete_cart.php', {
                 method: 'POST',
                 body: formData
             })
@@ -84,7 +124,9 @@ $totalPrice = 0;
 
         function updateCartUI() {
             const cartElement = document.querySelector('#cart');
+            const buttonArea = document.getElementById("button_area");
             cartElement.innerHTML = '';
+            buttonArea.innerHTML = '';
 
             if (cart.length === 0) {
                 const emptyCartMessage = document.createElement('div');
@@ -95,16 +137,25 @@ $totalPrice = 0;
                 backToShoppingButton.href = './product.php'; // Replace with your shopping page URL
                 backToShoppingButton.classList.add('bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded', 'mt-4', 'inline-block');
                 backToShoppingButton.textContent = 'Back to Shopping';
-                cartElement.appendChild(backToShoppingButton);
+                buttonArea.appendChild(backToShoppingButton);
 
                 // Hide total price when cart is empty
                 document.querySelector('#total-price').style.display = 'none';
             } else {
+                const proceedToCheckout = document.createElement('a');
+                proceedToCheckout.href = '../utilities/addorder.php';
+                proceedToCheckout.classList.add('bg-green-500', 'text-white', 'px-4', 'py-2', 'rounded', 'mt-4', 'inline-block');
+                proceedToCheckout.textContent = 'Proceed to Checkout';
+                buttonArea.appendChild(proceedToCheckout);
+
                 cart.forEach(item => {
                     const cartItemElement = document.createElement('div');
                     cartItemElement.classList.add('flex', 'justify-between', 'items-center', 'border-b', 'pb-2', 'mb-2', 'text-xs');
                     cartItemElement.innerHTML = `
-                        <div>${item.variationName} - Quantity: <input type="number" class="quantity-input" value="${item.quantity}" min="1" max="${item.inStock}" onchange="updateCartQuantity(${item.variationID}, this.value)"></div>
+                        <div class="w-full flex justify-between pr-5">
+                            <p>${item.productName}, ${item.variationName} - Quantity: <input type="number" class="quantity-input" value="${item.quantity}" min="1" max="${item.inStock}" onchange="updateCartQuantity(${item.variationID}, this.value)"></p>
+                            <p>₱${item.quantity * item.unitPrice}</p>
+                        </div>
                         <div>
                             <button class="bg-red-500 text-white px-2 py-1 rounded" onclick="deleteCartItem(${item.variationID})">Delete</button>
                         </div>
@@ -116,7 +167,7 @@ $totalPrice = 0;
                 const total = cart.reduce((acc, item) => acc + (item.unitPrice * item.quantity), 0);
                 const totalPriceElement = document.querySelector('#total-price');
                 totalPriceElement.textContent = `Total Price: ₱${total.toFixed(2)}`;
-                totalPriceElement.style.display = 'block'; // Show total price when cart is not empty
+                totalPriceElement.style.display = 'flex';
             }
         }
 
@@ -137,10 +188,12 @@ $totalPrice = 0;
             <div id="cart">
                 <!-- Cart items will be dynamically added here -->
             </div>
-            <div id="total-price" class="text-lg font-bold mt-4">
+            <div id="total-price" class="text-lg font-bold mt-4 w-full flex justify-end">
                 <!-- Total price will be dynamically updated here -->
             </div>
-            <a href="checkout.php" class="bg-green-500 text-white px-4 py-2 rounded mt-4 inline-block">Proceed to Checkout</a>
+            <div id="button_area" class="flex w-full justify-center">
+            <!-- <a href="checkout.php" class="bg-green-500 text-white px-4 py-2 rounded mt-4 inline-block">Proceed to Checkout</a> -->
+            </div>
         </div>
     </div>
 </div>

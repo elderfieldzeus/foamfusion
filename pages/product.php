@@ -120,13 +120,16 @@
                         let unitPrice_' . $index . ' = ' . $unitPrice . ';
                         let variationName_' . $index . ' = "' . $variationName . '";
                         let quantity_' . $index . ' = ' . $cart->quantity . ';
+                        let inStock_' . $index . ' = ' . $InStock . ';
+
 
                         cart.push({
                             variationID: variationID_' . $index . ', 
                             productName: productName_' . $index . ',
                             unitPrice: unitPrice_' . $index . ', 
                             variationName: variationName_' . $index . ', 
-                            quantity: quantity_' . $index . '
+                            quantity: quantity_' . $index . ',
+                            inStock: inStock_' . $index . '
                         });
                     ';
                 }
@@ -219,8 +222,9 @@
                     const productName = productElement.querySelector('.product-name').textContent;
                     const variationName = productElement.querySelector('.variation-name').textContent;
                     const unitPrice = parseFloat(productElement.querySelector('.variation-price').textContent.replace('₱', ''));
+                    const inStock = maxStock;
 
-                    cart.push({ variationID, productName, unitPrice, variationName, quantity });
+                    cart.push({ variationID, productName, unitPrice, variationName, quantity, inStock });
                 }
                 updateCartUI();
 
@@ -248,13 +252,12 @@
 
 
         function editCartItem(variationID) {
-            const newQuantity = parseInt(prompt('Enter new quantity:'));
+            let newQuantity = parseInt(prompt('Enter new quantity:'));
             if (!isNaN(newQuantity) && newQuantity > 0) {
                 const cartItem = cart.find(item => item.variationID === variationID);
                 if (cartItem) {
-                    const quantityInput = document.querySelector(`#product-${variationID} .quantity-input`);
-                    const maxStock = parseInt(quantityInput.max);
-                    cartItem.quantity = (newQuantity > maxStock ? maxStock : newQuantity);
+                    newQuantity = (newQuantity > cartItem.inStock ? parseInt(cartItem.inStock) : parseInt(newQuantity));
+                    cartItem.quantity = newQuantity;
 
                     const formData = new FormData();
                     formData.append('variationID', variationID);
@@ -304,6 +307,14 @@
         function updateCartUI() {
             const cartElement = document.querySelector('#cart');
             cartElement.innerHTML = ' ';
+
+            if(cart.length === 0) {
+                const p = document.createElement("p");
+                p.textContent = 'No items yet...';
+
+                p.classList.add('text-sm', 'text-gray-500');
+                cartElement.append(p);
+            }
 
             cart.forEach(item => {
                 const cartItemElement = document.createElement('div');

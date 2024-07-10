@@ -27,7 +27,7 @@
                             ?>
                         </button>
                         <div id="profile-dropdown" class="absolute bg-gray-300 top-8 right-0 flex flex-col items-center text-center overflow-hidden w-40 rounded-md hidden whitespace-nowrap">
-                            <a href="#" class="w-full hover:bg-white transition-colors py-2 text-gray-700 font-bold">My Profile</a>
+                            <a href="../pages/account.php" class="w-full hover:bg-white transition-colors py-2 text-gray-700 font-bold">My Profile</a>
                             <a href="../utilities/signout.php" class="w-full hover:bg-white transition-colors py-2 text-gray-700 font-bold">Sign Out</a>
                         </div>
                     </div>

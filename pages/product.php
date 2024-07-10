@@ -239,6 +239,8 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
+
+                quantityInput.value = 1;
             } else {
                 alert('Please enter a valid quantity between 1 and ' + maxStock);
             }

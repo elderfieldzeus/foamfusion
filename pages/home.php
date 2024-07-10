@@ -102,8 +102,6 @@ require_once "../utilities/var.sql.php";
                     <div class='bg-gray-200 p-6 rounded-lg shadow-lg'>
                         <img src='../assets/products/{$product['VariationImage']}' alt='{$product['VariationName']}' class='w-full h-48 object-cover mb-4 rounded'>
                         <h3 class='text-xl font-bold mb-2'>{$product['ProductName']}</h3>
-                        <h4 class='text-md font-semibold mb-1'>{$product['VariationName']}</h4>
-                        <p class='text-gray-700 mb-4'>{$product['VariationDescription']}</p>
                         <p class='text-lg font-semibold mb-2'>₱{$product['UnitPrice']}</p>
                         <a href='./product.php' class='block bg-indigo-600 text-white text-center py-2 rounded-lg hover:bg-indigo-700 transition duration-300'>View Product</a>
                     </div>";

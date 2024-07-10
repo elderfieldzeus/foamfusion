@@ -9,6 +9,15 @@ if(!$session->isSessionValid()) {
     LocationAlert("../pages/home.php", "Please Login or Signup");
 }
 
+$CustomerID = $session->ID;
+
+$result = $select->selectCustomerAddress($CustomerID);
+$row = $result->fetch_assoc();
+
+if(!$row['AddressID']) {
+    LocationAlert("../pages/account.php", "Input Address Details First.");
+}
+
 // Fetch cart items from session or database (depending on your implementation)
 // For demonstration, using a session-based cart
 

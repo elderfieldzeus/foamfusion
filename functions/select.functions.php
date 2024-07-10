@@ -354,6 +354,14 @@
 
             return $this->db->query($this->sql);
         }
+
+        function selectCustomerAddress($CustomerID) {
+            $this->sql = "SELECT AddressID
+                        FROM Customers
+                        WHERE CustomerID = $CustomerID;";
+            
+            return $this->db->query($this->sql);
+        }
     }
 
 ?>

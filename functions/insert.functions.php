@@ -149,6 +149,13 @@
             $this->db->query($this->sql);
             $this->insert_id = $this->db->conn->insert_id;
         }
+
+        function insertAddress($City, $Barangay, $Street, $PostalCode) {
+            $this->sql = "INSERT INTO Address (City, Barangay, Street, PostalCode) VALUES ('$City', '$Barangay', '$Street', '$PostalCode');";
+
+            $this->db->query($this->sql);
+            $this->insert_id = $this->db->conn->insert_id;
+        }
     }
 
 ?>

@@ -37,6 +37,8 @@
                 $update->minusStock($VariationID, $OrderedQuantity);
             }
             else {
+                $delete->deleteOrder($OrderID);
+                    
                 LocationAlert("../pages/home.php", "Invalid Ordered Quantity");
                 $success = false;
             }

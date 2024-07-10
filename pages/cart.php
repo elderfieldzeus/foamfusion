@@ -141,6 +141,7 @@ $totalPrice = 0;
 
                 // Hide total price when cart is empty
                 document.querySelector('#to-hide').style.display = 'none';
+                document.querySelector('#total-price').style.display = 'none';
             } else {
                 const proceedToCheckout = document.createElement('button');
                 proceedToCheckout.type = 'submit';
@@ -151,10 +152,11 @@ $totalPrice = 0;
                 cart.forEach(item => {
                     const cartItemElement = document.createElement('div');
                     cartItemElement.classList.add('flex', 'justify-between', 'items-center', 'border-b', 'pb-2', 'mb-2', 'text-xs');
+                    let subtotal = item.quantity * item.unitPrice;
                     cartItemElement.innerHTML = `
                         <div class="w-full flex justify-between pr-5">
                             <p>${item.productName}, ${item.variationName} - Quantity: <input type="number" class="quantity-input" value="${item.quantity}" min="1" max="${item.inStock}" onchange="updateCartQuantity(${item.variationID}, this.value)"></p>
-                            <p>₱${item.quantity * item.unitPrice}</p>
+                            <p>₱${subtotal.toFixed(2)}</p>
                         </div>
                         <div>
                             <button class="bg-red-500 text-white px-2 py-1 rounded" onclick="deleteCartItem(${item.variationID})">Delete</button>
@@ -203,7 +205,7 @@ $totalPrice = 0;
                     <p id="total-price" class="text-lg font-bold w-full flex items-center justify-end"></p>
                 </div>
                 <div id="button_area" class="flex w-full justify-center">
-                <!-- <a href="checkout.php" class="bg-green-500 text-white px-4 py-2 rounded mt-4 inline-block">Proceed to Checkout</a> -->
+                
                 </div>
             </form>
         </div>

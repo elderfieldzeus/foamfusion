@@ -44,9 +44,9 @@
                         $sale += ($total = $op['OrderedPrice'] * $op['OrderedQuantity']);
                 ?>
 
-                <div class="flex justify-between text-gray-500">
-                    <p><?= ($op['VariationID'] ? $op['ProductName'] . ', '  . $op['VariationName'] : '**DELETED PRODUCT**')  . " @Php" . $op['OrderedPrice'] . " x " . $op['OrderedQuantity'] . "pc/s" ?></p>
-                    <p>Php <?= number_format($total, 2) ?></p>
+                <div class="flex justify-between">
+                    <p class=<?= $cd_row['VariationID'] ? "text-gray-500" : "text-red-500" ?> ><?= ($cd_row['VariationID'] ? $cd_row['ProductName'] . ', '  . $cd_row['VariationName'] : '**DELETED PRODUCT**')   ?> @Php<?= $cd_row['OrderedPrice'] ?> x <?= $cd_row['OrderedQuantity'] ?>pc/s</p>
+                    <p class="text-gray-500">Php <?= number_format($sale, 2) ?></p>
                 </div>
 
                 <?php endwhile; ?>
@@ -55,6 +55,10 @@
                 <div class="flex justify-between mt-2">
                     <p>Total:</p>
                     <p>Php <?= number_format($sale, 2) ?></p>
+                </div>
+                <div class="flex justify-between">
+                        <p class="text-gray-500">Payment Method: </p>
+                        <p class="text-gray-500"><?= $row['PaymentMethod'] ?></p>
                 </div>
             </div>
             

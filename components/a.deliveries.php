@@ -118,6 +118,11 @@ $i = 0;
                     </div>
 
                     <div class="flex justify-between">
+                        <p class="text-gray-500">Payment Method: </p>
+                        <p class="text-gray-500"><?= $row['PaymentMethod'] ?></p>
+                    </div>
+
+                    <div class="flex justify-between">
                             <p class="text-gray-500">Delivery Time: </p>
                             <p class="text-gray-500"><?= ($row['DeliveryStatus'] == 'Success') ? $row['DeliveryTime'] : 'N/A' ?></p>
                     </div>

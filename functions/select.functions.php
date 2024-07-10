@@ -230,7 +230,7 @@
         }
 
         function selectOrderTable() {
-            $this->sql = "SELECT Orders.OrderID, OrderStatus, CONCAT(Name.LastName, ', ', Name.FirstName) AS CustomerName, OrderTime, Customers.CustomerID
+            $this->sql = "SELECT Orders.OrderID, OrderStatus, PaymentMethod, CONCAT(Name.LastName, ', ', Name.FirstName) AS CustomerName, OrderTime, Customers.CustomerID
                         FROM Orders
                         LEFT JOIN Customers ON Orders.CustomerID = Customers.CustomerID
                         LEFT JOIN Name ON Customers.NameID = Name.NameID
@@ -244,7 +244,7 @@
         }
 
         function selectDeliveryTable() {
-            $this->sql = "SELECT DeliveryID, DeliveryStatus, CONCAT(CustName.LastName, ', ', CustName.FirstName) AS CustomerName, 
+            $this->sql = "SELECT DeliveryID, DeliveryStatus, PaymentMethod, CONCAT(CustName.LastName, ', ', CustName.FirstName) AS CustomerName, 
                         CONCAT(EmpName.LastName, ', ', EmpName.FirstName) AS EmployeeName, Orders.CustomerID AS CustomerID,
                         DeliveryTime
                         FROM Deliveries

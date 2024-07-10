@@ -347,6 +347,9 @@
             <h1 class="text-3xl font-bold mb-6">Our Products</h1>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-6 product-grid">
                 <!-- Product grid PHP loop -->
+                <?php if(sizeof($variations) === 0) : ?>
+                    <p class="text-gray-500">No Products yet...</p>
+                <?php endif; ?>
                 <?php foreach ($variations as $variation) {
                     $disabledClass = ($variation['InStock'] == 0) ? 'disabled' : '';
 

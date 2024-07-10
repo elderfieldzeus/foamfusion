@@ -58,8 +58,8 @@
                 $total_price += $sale;
             ?>
                 <div class="flex justify-between">
-                    <p class="text-gray-500"><?= ($cd_row['VariationID'] ? $cd_row['ProductName'] . ', '  . $cd_row['VariationName'] : '**DELETED PRODUCT**')   ?> @Php<?= $cd_row['DeliveredPrice'] ?> x <?= $cd_row['DeliveredQuantity'] ?>pc/s</p>
-                    <p class="text-gray-500">Php <?= number_format($sale, 2) ?></p>
+                        <p class=<?= $cd_row['VariationID'] ? "text-gray-500" : "text-red-500" ?> ><?= ($cd_row['VariationID'] ? $cd_row['ProductName'] . ', '  . $cd_row['VariationName'] : '**DELETED PRODUCT**')   ?> @Php<?= $cd_row['DeliveredPrice'] ?> x <?= $cd_row['DeliveredQuantity'] ?>pc/s</p>
+                        <p class="text-gray-500">Php <?= number_format($sale, 2) ?></p>
                 </div>
             <?php endwhile; ?>
             <hr class="mb-1">
@@ -85,6 +85,12 @@
         
                 "><?= strtoupper($row['DeliveryStatus']) ?></p>
             </div>
+
+            <div class="flex justify-between">
+                    <p class="text-gray-500">Payment Method: </p>
+                    <p class="text-gray-500"><?= $row['PaymentMethod'] ?></p>
+            </div>
+
             <div class="flex justify-between">
                     <p class="text-gray-500">Delivery Time: </p>
                     <p class="text-gray-500"><?= ($row['DeliveryStatus'] == 'Success') ? $row['DeliveryTime'] : 'N/A' ?></p>

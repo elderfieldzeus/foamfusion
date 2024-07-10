@@ -1,49 +1,52 @@
 <?php
-require_once "../utilities/include.php";
-require_once "../utilities/var.sql.php";
+    require_once "../utilities/include.php";
+    require_once "../utilities/var.sql.php";
+    require_once "../functions/cart.functions.php";
 
-$session->continueSession();
+    $session->continueSession();
 
-// Pagination variables
-$limit = 6; // Number of variations per page
-$page = isset($_GET['page']) ? $_GET['page'] : 1; // Current page, default is 1
-$offset = ($page - 1) * $limit; // Offset calculation
+    // Pagination variables
+    $limit = 6; // Number of variations per page
+    $page = isset($_GET['page']) ? $_GET['page'] : 1; // Current page, default is 1
+    $offset = ($page - 1) * $limit; // Offset calculation
 
-// SQL query with pagination
-$sql = "
-    SELECT p.ProductID, p.ProductName, v.VariationID, v.VariationName, v.VariationDescription, v.VariationImage, v.UnitPrice, v.InStock
-    FROM Products p
-    JOIN Variations v ON p.ProductID = v.ProductID
-    LIMIT $limit OFFSET $offset
-";
+    // SQL query with pagination
+    $sql = "
+        SELECT p.ProductID, p.ProductName, v.VariationID, v.VariationName, v.VariationDescription, v.VariationImage, v.UnitPrice, v.InStock
+        FROM Products p
+        JOIN Variations v ON p.ProductID = v.ProductID
+        LIMIT $limit OFFSET $offset
+    ";
 
-$result = $db->conn->query($sql);
+    $result = $db->conn->query($sql);
 
-if (!$result) {
-    die("Query failed: " . $db->conn->error);
-}
+    if (!$result) {
+        die("Query failed: " . $db->conn->error);
+    }
 
-$variations = [];
-$i = 0;
-while ($row = $result->fetch_assoc()) {
-    $variations[$i++] = [
-        'VariationID' => $row['VariationID'],
-        'VariationName' => $row['VariationName'],
-        'VariationDescription' => $row['VariationDescription'],
-        'VariationImage' => $row['VariationImage'],
-        'UnitPrice' => $row['UnitPrice'],
-        'InStock' => $row['InStock'],
-        'ProductName' => $row['ProductName']
-    ];  
-}
+    $variations = [];
+    $i = 0;
+    while ($row = $result->fetch_assoc()) {
+        $variations[$i++] = [
+            'VariationID' => $row['VariationID'],
+            'VariationName' => $row['VariationName'],
+            'VariationDescription' => $row['VariationDescription'],
+            'VariationImage' => $row['VariationImage'],
+            'UnitPrice' => $row['UnitPrice'],
+            'InStock' => $row['InStock'],
+            'ProductName' => $row['ProductName']
+        ];  
+    }
 
-// Query to get total count
-$countQuery = "SELECT COUNT(*) AS total FROM Variations";
-$countResult = $db->conn->query($countQuery);
-$rowCount = $countResult->fetch_assoc()['total'];
+    // Query to get total count
+    $countQuery = "SELECT COUNT(*) AS total FROM Variations";
+    $countResult = $db->conn->query($countQuery);
+    $rowCount = $countResult->fetch_assoc()['total'];
 
-// Calculate total pages
-$totalPages = ceil($rowCount / $limit);
+    // Calculate total pages
+    $totalPages = ceil($rowCount / $limit);
+
+    
 ?>
 
 <!DOCTYPE html>

@@ -336,6 +336,14 @@
                     ";
             return $this->db->query($this->sql);
         }
+
+        function selectInStock($VariationID) {
+            $this->sql = "SELECT InStock
+                        FROM Variations 
+                        WHERE VariationID = $VariationID;";
+
+            $this->db->query($this->sql);
+        }
     }
 
 ?>

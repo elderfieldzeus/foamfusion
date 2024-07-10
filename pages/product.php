@@ -37,6 +37,7 @@
             'ProductName' => $row['ProductName']
         ];  
     }
+    
 
     // Query to get total count
     $countQuery = "SELECT COUNT(*) AS total FROM Variations";
@@ -97,8 +98,41 @@
             cursor: pointer;
         }
     </style>
-    <script>
+    <script defer>
         let cart = [];
+
+        <?php
+
+            //add session carts to front end cart
+            if (isset($_SESSION['cart'])) {
+                foreach($_SESSION['cart'] as $index => $cart) {
+                    $result = $select->selectVariationData($cart->variation_id);
+                    $row = $result->fetch_assoc();
+
+                    $productName = $row['ProductName'];
+                    $unitPrice = $row['UnitPrice'];
+                    $variationName = $row['VariationName'];
+                    $InStock = $row['InStock'];
+
+                    echo '
+                        let variationID_' . $index . ' = ' . $cart->variation_id . ';
+                        let productName_' . $index . ' = "' . $productName . '";
+                        let unitPrice_' . $index . ' = ' . $unitPrice . ';
+                        let variationName_' . $index . ' = "' . $variationName . '";
+                        let quantity_' . $index . ' = ' . $cart->quantity . ';
+
+                        cart.push({
+                            variationID: variationID_' . $index . ', 
+                            productName: productName_' . $index . ',
+                            unitPrice: unitPrice_' . $index . ', 
+                            variationName: variationName_' . $index . ', 
+                            quantity: quantity_' . $index . '
+                        });
+                    ';
+                }
+            }
+
+        ?>
 
         function openModal(productID) {
             const modal = document.getElementById('productModal');
@@ -179,13 +213,14 @@
             if (quantity > 0 && quantity <= maxStock) {
                 const existingCartItem = cart.find(item => item.variationID === variationID);
                 if (existingCartItem) {
-                    existingCartItem.quantity += quantity;
+                    existingCartItem.quantity = (existingCartItem.quantity + quantity > maxStock ? maxStock : existingCartItem.quantity + quantity);
                 } else {
                     const productElement = document.getElementById(`product-${variationID}`);
-                    const productName = productElement.querySelector('.variation-name').textContent;
+                    const productName = productElement.querySelector('.product-name').textContent;
+                    const variationName = productElement.querySelector('.variation-name').textContent;
                     const unitPrice = parseFloat(productElement.querySelector('.variation-price').textContent.replace('₱', ''));
 
-                    cart.push({ variationID, productName, unitPrice, quantity });
+                    cart.push({ variationID, productName, unitPrice, variationName, quantity });
                 }
                 updateCartUI();
 
@@ -193,7 +228,7 @@
                 formData.append('variationID', variationID);
                 formData.append('quantity', quantity);
 
-                fetch('add_to_cart.php', {
+                fetch('../utilities/add_to_cart.php', {
                     method: 'POST',
                     body: formData
                 })
@@ -215,7 +250,26 @@
             if (!isNaN(newQuantity) && newQuantity > 0) {
                 const cartItem = cart.find(item => item.variationID === variationID);
                 if (cartItem) {
-                    cartItem.quantity = newQuantity;
+                    const quantityInput = document.querySelector(`#product-${variationID} .quantity-input`);
+                    const maxStock = parseInt(quantityInput.max);
+                    cartItem.quantity = (newQuantity > maxStock ? maxStock : newQuantity);
+
+                    const formData = new FormData();
+                    formData.append('variationID', variationID);
+                    formData.append('quantity', newQuantity);
+
+                    fetch('../utilities/edit_cart.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
                     updateCartUI();
                 }
             } else {
@@ -225,18 +279,35 @@
 
         function deleteCartItem(variationID) {
             cart = cart.filter(item => item.variationID !== variationID);
+
+            const formData = new FormData();
+
+            formData.append('variationID', variationID);
+
+            fetch('../utilities/delete_cart.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
             updateCartUI();
         }
 
         function updateCartUI() {
             const cartElement = document.querySelector('#cart');
-            cartElement.innerHTML = '';
+            cartElement.innerHTML = ' ';
 
             cart.forEach(item => {
                 const cartItemElement = document.createElement('div');
                 cartItemElement.classList.add('flex', 'justify-between', 'items-center', 'border-b', 'pb-2', 'mb-2', 'text-xs');
                 cartItemElement.innerHTML = `
-                    <div>${item.productName} - Quantity: ${item.quantity}</div>
+                    <div>${item.productName}, ${item.variationName} - Quantity: ${item.quantity}</div>
                     <div>
                         <button class="bg-blue-500 text-white px-2 py-1 rounded mr-2" onclick="editCartItem(${item.variationID})">Edit</button>
                         <button class="bg-red-500 text-white px-2 py-1 rounded" onclick="deleteCartItem(${item.variationID})">Delete</button>
@@ -245,6 +316,11 @@
                 cartElement.appendChild(cartItemElement);
             });
         }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateCartUI();
+        })
+
     </script>
 </head>
 <body class="bg-gray-100">
@@ -263,9 +339,9 @@
 
                     echo "
                     <div id='product-{$variation['VariationID']}' class='bg-white p-6 rounded-lg shadow-md product {$disabledClass}'>
-                        <h2 class='text-xl font-bold mb-2 variation-name'>{$variation['ProductName']}</h2>
+                        <h2 class='text-xl font-bold mb-2 product-name'>{$variation['ProductName']}</h2>
                         <p class='text-gray-700 mb-2 variation-description'>{$variation['VariationDescription']}</p>
-                        <p class='text-gray-700 mb-2'>Product Name: {$variation['VariationName']}</p>
+                        <p class='text-gray-700 mb-2 variation-name'>{$variation['VariationName']}</p>
                         <img src='../assets/products/{$variation['VariationImage']}' alt='{$variation['VariationName']}' class='w-full h-48 object-cover mb-4'>
                         <p class='text-gray-700 mb-2 variation-price'>₱{$variation['UnitPrice']}</p>
                         <p class='text-gray-700 mb-2'>In Stock: {$variation['InStock']}</p>
@@ -314,7 +390,9 @@
             <!-- Cart section -->
             <div class="mt-12">
                 <h2 class="text-1xl font-bold mb-4">Cart</h2>
-                <div id="cart" class="bg-white p-4 rounded-lg shadow-md"></div>
+                <div id="cart" class="bg-white p-4 rounded-lg shadow-md">
+
+                </div>
                 <a href="cart.php" class="bg-green-500 text-white text-xs px-4 py-2 rounded mt-4 inline-block">Go to Cart</a>
             </div>
         </div>

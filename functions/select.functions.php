@@ -337,12 +337,22 @@
             return $this->db->query($this->sql);
         }
 
+        function selectVariationData($VariationID) {
+            $this->sql = "
+                        SELECT * FROM Variations
+                        LEFT JOIN Products ON Products.ProductID = Variations.ProductID
+                        WHERE VariationID = '$VariationID';
+                        ";
+
+            return $this->db->query($this->sql);
+        }
+
         function selectInStock($VariationID) {
             $this->sql = "SELECT InStock
                         FROM Variations 
                         WHERE VariationID = $VariationID;";
 
-            $this->db->query($this->sql);
+            return $this->db->query($this->sql);
         }
     }
 

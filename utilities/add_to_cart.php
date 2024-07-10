@@ -2,6 +2,7 @@
 
 require_once "../utilities/include.php";
 require_once "../utilities/var.sql.php";
+require_once "../functions/cart.functions.php";
 
 $session->continueSession();
 
@@ -16,16 +17,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         die("Invalid input.");
     }
 
-    // Perform SQL operations to add to cart (Example: Insert into Cart table or session handling)
-    // Example: Assuming $db is your database connection object
-    // Example SQL (replace with your actual schema):
-    // $sql = "INSERT INTO Cart (UserID, VariationID, Quantity) VALUES (?, ?, ?)";
-    // $stmt = $db->prepare($sql);
-    // $stmt->bind_param("iii", $userID, $variationID, $quantity);
-    // $stmt->execute();
+    $isFound = false;
 
-    // Example response
-    echo "Added to cart successfully.";
+    if(isset($_SESSION['cart'])) {
+
+        foreach($_SESSION['cart'] as $cart) {
+            if($cart->variation_id == $variationID) {
+                $isFound = true;
+
+                $cart->addQuantity($quantity);
+
+                break;
+            }
+        }
+
+    }
+    else {
+        $_SESSION['cart'] = [];
+    }
+
+    if(!$isFound) {
+        $temp = new Cart($variationID, $select);
+
+        $temp->addQuantity($quantity);
+
+        array_push($_SESSION['cart'], $temp);
+    }
+
+    echo $_SESSION['cart'][0]->quantity;
 } else {
     die("Invalid request.");
 }

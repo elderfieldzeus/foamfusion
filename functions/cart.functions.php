@@ -31,5 +31,17 @@
                 $this->quantity = 0;
             }
         }
+
+        function updateQuantity($quantity) {
+            if($quantity > $this->inStock) {
+                $this->quantity = $this->inStock;
+            }
+            else if($quantity < 0) {
+                $this->quantity = 0;
+            }
+            else {
+                $this->quantity = $quantity;
+            }
+        }
     }
 ?>

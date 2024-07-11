@@ -198,9 +198,10 @@
             const products = document.querySelectorAll('.product');
 
             products.forEach(product => {
-                const productName = product.querySelector('.variation-name').textContent.toLowerCase();
+                const productName = product.querySelector('.product-name').textContent.toLowerCase();
+                const variationName = product.querySelector('.variation-name').textContent.toLowerCase();
                 const productDesc = product.querySelector('.variation-description').textContent.toLowerCase();
-                if (productName.includes(searchTerm) || productDesc.includes(searchTerm)) {
+                if (productName.includes(searchTerm) ||  variationName.includes(searchTerm) || productDesc.includes(searchTerm)) {
                     product.style.display = 'block';
                 } else {
                     product.style.display = 'none';

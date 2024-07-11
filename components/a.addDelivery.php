@@ -39,13 +39,15 @@
                 <hr class="mb-2">
                 <?php
                     $sale = 0;
+                    
                     $o_products = $this->select->selectOrderedProducts($row['OrderID']); 
+
                     while($op = $o_products->fetch_assoc()) :
                         $sale += ($total = $op['OrderedPrice'] * $op['OrderedQuantity']);
                 ?>
 
                 <div class="flex justify-between">
-                    <p class=<?= $cd_row['VariationID'] ? "text-gray-500" : "text-red-500" ?> ><?= ($cd_row['VariationID'] ? $cd_row['ProductName'] . ', '  . $cd_row['VariationName'] : '**DELETED PRODUCT**')   ?> @Php<?= $cd_row['OrderedPrice'] ?> x <?= $cd_row['OrderedQuantity'] ?>pc/s</p>
+                    <p class=<?= $op['VariationID'] ? "text-gray-500" : "text-red-500" ?> ><?= ($op['VariationID'] ? $op['ProductName'] . ', '  . $op['VariationName'] : '**DELETED PRODUCT**')   ?> @Php<?= $op['OrderedPrice'] ?> x <?= $op['OrderedQuantity'] ?>pc/s</p>
                     <p class="text-gray-500">Php <?= number_format($sale, 2) ?></p>
                 </div>
 

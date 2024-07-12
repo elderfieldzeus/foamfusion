@@ -14,8 +14,11 @@ $error = "";
 $success = "";
 
 // Fetch address details
-$sql = "SELECT AddressID FROM Customers WHERE CustomerID = $CustomerID";
-$result = $db->conn->query($sql);
+$sql = "SELECT AddressID FROM Customers WHERE CustomerID = ?";
+$stmt = $db->conn->prepare($sql);
+$stmt->bind_param("i", $CustomerID);
+$stmt->execute();
+$result = $stmt->get_result();
 $row = $result->fetch_assoc();
 $AddressID = $row['AddressID'];
 
@@ -52,11 +55,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO Address (City, Barangay, Street, PostalCode) VALUES (?, ?, ?, ?)";
         $stmt = $db->conn->prepare($sql);
         $stmt->bind_param("ssss", $newCity, $newBarangay, $newStreet, $newPostalCode);
-        $stmt->execute();
-        $AddressID = $stmt->insert_id;
-
-        $sql = "UPDATE Customer SET AddressID = $AddressID WHERE CustomerID = $CustomerID";
-        $db->conn->query($sql);
     }
 
     if ($stmt->execute()) {
@@ -68,16 +66,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $error = "Error " . ($address ? "updating" : "creating") . " address details.";
     }
-    header("Location: ../pages/account.php");
-    exit();
 }
 
-// Fetch detailed recent orders
-$sql = "SELECT o.OrderID, o.OrderTime, o.OrderStatus, op.OrderedQuantity, op.OrderedPrice, p.ProductName 
+// Fetch detailed recent orders with DeliveryStatus
+$sql = "SELECT o.OrderID, o.OrderTime, d.DeliveryStatus, op.OrderedQuantity, op.OrderedPrice, p.ProductName 
         FROM Orders o
         JOIN OrderedProducts op ON o.OrderID = op.OrderID
         JOIN Variations v ON op.VariationID = v.VariationID
         JOIN Products p ON v.ProductID = p.ProductID
+        LEFT JOIN Deliveries d ON o.OrderID = d.OrderID
         WHERE o.CustomerID = ?
         ORDER BY o.OrderTime DESC
         LIMIT 5";
@@ -97,8 +94,9 @@ while ($row = $result->fetch_assoc()) {
     <title>Edit Address</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href='https://unpkg.com/css.gg@2.0.0/icons/css/user.css' rel='stylesheet'>
+    <link href='https://unpkg.com/css.gg@2.0.0/icons/css/search.css' rel='stylesheet'>
     <link href='https://unpkg.com/css.gg@2.0.0/icons/css/shopping-cart.css' rel='stylesheet'>
-    <link href="../styles/tailwind.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/tailwind.css">
 </head>
 <body class="bg-gray-100">
 
@@ -156,8 +154,8 @@ while ($row = $result->fetch_assoc()) {
                     <div class="mb-4 border rounded p-4 order-item">
                         <p class="text-lg font-bold"><?php echo $order['ProductName']; ?></p>
                         <p>Quantity: <?php echo $order['OrderedQuantity']; ?></p>
-                        <p>Total Price: <?php echo $order['OrderedPrice'] * $order['OrderedQuantity']; ?></p>
-                        <p>Status: <?php echo $order['OrderStatus']; ?></p>
+                        <p>Total Price: ₱<?php echo $order['OrderedPrice'] * $order['OrderedQuantity']; ?></p>
+                        <p>Status: <?php echo $order['DeliveryStatus']; ?></p>
                         <p>Order Time: <?php echo $order['OrderTime']; ?></p>
                     </div>
                 <?php endforeach; ?>
@@ -176,9 +174,9 @@ while ($row = $result->fetch_assoc()) {
 
             orderItems.forEach(function (item) {
                 const productName = item.querySelector('p.text-lg').textContent.toLowerCase();
-                const orderStatus = item.querySelector('p:nth-child(4)').textContent.toLowerCase();
+                const deliveryStatus = item.querySelector('p:nth-child(4)').textContent.toLowerCase();
 
-                if (productName.includes(searchQuery) || orderStatus.includes(searchQuery)) {
+                if (productName.includes(searchQuery) || deliveryStatus.includes(searchQuery)) {
                     item.style.display = 'block';
                 } else {
                     item.style.display = 'none';

@@ -63,6 +63,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $Barangay = $newBarangay;
         $Street = $newStreet;
         $PostalCode = $newPostalCode;
+
+        if(!$address) {
+            $insert_id = $db->conn->insert_id;
+
+            $sql = "UPDATE Customers SET AddressID = $insert_id WHERE CustomerID = $CustomerID;";
+            $db->query($sql);
+
+        }
     } else {
         $error = "Error " . ($address ? "updating" : "creating") . " address details.";
     }

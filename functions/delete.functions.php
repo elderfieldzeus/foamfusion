@@ -2,9 +2,11 @@
 
     class Delete {
         private $db;
+        private $select;
         
         function __construct($db) {
             $this->db = $db;
+            $this->select = new Select($db);
         }
 
         function delete($Table, $Column, $ID) {
@@ -37,7 +39,6 @@
         }
 
         function deleteVariation($ID, $path, $productID) {
-            global $select;
 
             //delete image from directory
             $current = __DIR__;
@@ -59,12 +60,38 @@
             $this->delete("Variations", "VariationID", $ID);
 
             //check if there are still other variations of same product
-            $res = $select->selectNumOfVariations($productID);
+            $res = $this->select->selectNumOfVariations($productID);
             $row = $res->fetch_assoc();
 
             //if no more variations, delete the product
             if($row['NumOfVariations'] == 0) {
                 $this->delete("Products", "ProductID", $productID);
+            }
+        }
+
+        function deleteType($Type, $ID) {
+            $result;
+            if($Type == 'customer') {
+                $result = $this->select->selectCustomerData($ID);
+            }
+            else {
+                $result = $this->select->selectEmployeeData($ID);
+            }
+            $row = $result->fetch_assoc();
+
+            $NameID = $row['NameID'];
+            $AccountID = $row['AccountID'];
+            $AddressID = $row['AddressID'];
+
+            $sql = "DELETE FROM " . ($Type == 'customer' ? 'Customers' : 'Employees') . " WHERE " . ($Type == 'customer' ? 'CustomerID' : 'EmployeeID') . " = $ID";
+
+            $this->db->query($sql);
+
+            $this->delete("Name", "NameID", $NameID);
+            $this->delete("Account", "AccountID", $AccountID);
+
+            if($AddressID) {
+                $this->delete("Address", "AddressID", $AddressID);
             }
         }
     }

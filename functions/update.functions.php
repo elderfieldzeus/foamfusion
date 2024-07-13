@@ -2,9 +2,11 @@
 
     class Update {
         private $db;
+        private $select;
 
         function __construct($db) {
             $this->db = $db;
+            $this->select = new Select($db);
         }
 
         //add update personal information (not really necessary)
@@ -79,6 +81,117 @@
                 ";
             
             $this->db->query($sql);
+        }
+
+        function updateCustomerData($CustomerID, $FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $Password, $City, $Barangay, $Street, $PostalCode) {
+            $result = $this->select->selectCustomerData($CustomerID);
+            $row = $result->fetch_assoc();
+
+            $NameID = $row['NameID'];
+            $AccountID = $row['AccountID'];
+            $AddressID = $row['AddressID'];
+
+            $sql = "UPDATE Name
+                    SET FirstName = '$FirstName',
+                    LastName = '$LastName'
+                    WHERE NameID = $NameID";
+
+            $this->db->query($sql);
+
+            $e_result = $this->select->selectEmail($Email);
+
+            if($e_result->num_rows > 0 && $Email != $row['Email']) {
+                return FALSE;
+            }
+
+            if($Password != $row['Password']) {
+                $HashedPassword = password_hash($Password, PASSWORD_BCRYPT);
+                $sql = "UPDATE Account
+                        SET Password = '$HashedPassword'
+                        WHERE AccountID = $AccountID;";
+
+                $this->db->query($sql);
+            }
+
+            $sql = "UPDATE Account
+                    SET Email = '$Email'
+                    WHERE AccountID = $AccountID;";
+
+            $this->db->query($sql);
+
+            if($AddressID) {
+                $sql = "UPDATE Address
+                        SET City = '$City',
+                        Barangay = '$Barangay',
+                        Street = '$Street',
+                        PostalCode = '$PostalCode'
+                        WHERE AddressID = $AddressID;";
+
+                $this->db->query($sql);
+            }
+
+            if(!$AddressID && $City != '' && $Barangay != '' && $Street != '' && $PostalCode != '') {
+                $sql = "INSERT INTO Address (City, Barangay, Street, PostalCode) VALUES ($City, $Barangay, $Street, $PostalCode);";
+
+                $this->db->query($sql);
+                $insert_id = $this->db->conn->insert_id;
+
+                $sql = "UPDATE Customers 
+                        SET AddressID = $insert_id
+                        WHERE CustomerID = $CustomerID;";
+                $this->db->query($sql);
+            }
+
+            return TRUE;
+        }
+
+        function updateEmployeeData($EmployeeID, $FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $Password, $City, $Barangay, $Street, $PostalCode, $Role) {
+            $result = $this->select->selectEmployeeData($EmployeeID);
+            $row = $result->fetch_assoc();
+
+            $NameID = $row['NameID'];
+            $AccountID = $row['AccountID'];
+            $AddressID = $row['AddressID'];
+
+            $sql = "UPDATE Name
+                    SET FirstName = '$FirstName',
+                    LastName = '$LastName'
+                    WHERE NameID = $NameID";
+
+            $this->db->query($sql);
+
+            $e_result = $this->select->selectEmail($Email);
+
+            if($e_result->num_rows > 0 && $Email != $row['Email']) {
+                return FALSE;
+            }
+
+            if($Password != $row['Password']) {
+                $HashedPassword = password_hash($Password, PASSWORD_BCRYPT);
+                $sql = "UPDATE Account
+                        SET Password = '$HashedPassword'
+                        WHERE AccountID = $AccountID;";
+
+                $this->db->query($sql);
+            }
+
+            $sql = "UPDATE Account
+                    SET Email = '$Email',
+                    Role = '$Role'
+                    WHERE AccountID = $AccountID;";
+
+            $this->db->query($sql);
+
+            $sql = "UPDATE Address
+                    SET City = '$City',
+                    Barangay = '$Barangay',
+                    Street = '$Street',
+                    PostalCode = '$PostalCode'
+                    WHERE AddressID = $AddressID;";
+
+            $this->db->query($sql);
+
+            return TRUE;
         }
     }
 

@@ -62,11 +62,15 @@
         function login($Email, $Password, &$Role) {
             $this->Result = $this->select->selectEmail($Email);
 
+            if($this->Result->num_rows == 0) {
+                $this->signout();
+                return FALSE;
+            }
+
             $this->Row = $this->Result->fetch_assoc();
             $this->HashedPassword = $this->Row['Password'];
-
-            if($this->Result->num_rows != 1
-                || !password_verify($Password, $this->HashedPassword)) {
+            
+            if(!password_verify($Password, $this->HashedPassword)) {
                 $this->signout();
                 return FALSE;
             }

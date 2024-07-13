@@ -73,47 +73,54 @@
                     <canvas id="DeliveryStatus"></canvas>
                 </a>
 
-                <a href="./admin.customer.php" class="home-card">
-                    <div>
-                        <p class="text-4xl ">Customers</p>
-                        <p class="text-xl text-gray-400">
-                            <?php
-                                $result = $select->selectCustomerCount();
-                                $row = $result->fetch_assoc();
-                                echo $row['NumOfCustomers'] . ($row['NumOfCustomers'] == 1 ? " Customer" :" Customers");
-                            ?>
-                        </p>
-                    </div>
-                    <canvas id="CustomerStatus"></canvas>
-                </a>
+                <?php 
+                    $session->continueSession();
+                    if ($session->isSessionValid() && $session->Role === 'Admin') :
+                ?> 
 
-                <a href="./admin.employee.php" class="home-card">
-                    <div>
-                        <p class="text-4xl ">Employees</p>
-                        <p class="text-xl text-gray-400">
-                            <?php
-                                $result = $select->selectEmployeeCount();
-                                $row = $result->fetch_assoc();
-                                echo $row['NumOfEmployees'] . ($row['NumOfEmployees'] == 1 ? " Employee" :" Employees");
-                            ?>
-                        </p>
-                    </div>
-                    <canvas id="EmployeeStatus"></canvas>
-                </a>
+                    <a href="./admin.customer.php" class="home-card">
+                        <div>
+                            <p class="text-4xl ">Customers</p>
+                            <p class="text-xl text-gray-400">
+                                <?php
+                                    $result = $select->selectCustomerCount();
+                                    $row = $result->fetch_assoc();
+                                    echo $row['NumOfCustomers'] . ($row['NumOfCustomers'] == 1 ? " Customer" :" Customers");
+                                ?>
+                            </p>
+                        </div>
+                        <canvas id="CustomerStatus"></canvas>
+                    </a>
 
-                <a href="./admin.delivery.php" class="home-card">
-                    <div>
-                        <p class="text-4xl ">Sales</p>
-                        <p class="text-xl text-gray-400 w-20">
-                            <?php
-                                $result = $select->selectTotalSales();
-                                $_row = $result->fetch_assoc();
-                                echo 'Php&nbsp' . (($sales = $_row['TotalSales']) ? $sales : '0.00');
-                            ?>
-                        </p>
-                    </div>
-                    <canvas id="SalesStatus"></canvas>
-                </a>
+                    <a href="./admin.employee.php" class="home-card">
+                        <div>
+                            <p class="text-4xl ">Employees</p>
+                            <p class="text-xl text-gray-400">
+                                <?php
+                                    $result = $select->selectEmployeeCount();
+                                    $row = $result->fetch_assoc();
+                                    echo $row['NumOfEmployees'] . ($row['NumOfEmployees'] == 1 ? " Employee" :" Employees");
+                                ?>
+                            </p>
+                        </div>
+                        <canvas id="EmployeeStatus"></canvas>
+                    </a>
+
+                    <a href="./admin.delivery.php" class="home-card">
+                        <div>
+                            <p class="text-4xl ">Sales</p>
+                            <p class="text-xl text-gray-400 w-20">
+                                <?php
+                                    $result = $select->selectTotalSales();
+                                    $_row = $result->fetch_assoc();
+                                    echo 'Php&nbsp' . (($sales = $_row['TotalSales']) ? $sales : '0.00');
+                                ?>
+                            </p>
+                        </div>
+                        <canvas id="SalesStatus"></canvas>
+                    </a>
+
+                <?php endif; ?>
             </div>          
         </div>
         

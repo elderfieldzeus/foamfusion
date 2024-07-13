@@ -25,7 +25,7 @@
             AccountID" . $primary_key . ",
             Email VARCHAR(255) NOT NULL,
             Password VARCHAR(255) NOT NULL,
-            Role ENUM('Customer', 'Admin') DEFAULT 'Customer',
+            Role ENUM('Customer', 'Employee', 'Admin') DEFAULT 'Customer',
             CreatedAt DATE DEFAULT CURRENT_DATE
         )",
 

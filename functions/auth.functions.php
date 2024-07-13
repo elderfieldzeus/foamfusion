@@ -36,7 +36,8 @@
             
             switch($Role) {
                 case 'Customer': $this->insert->insertCustomer($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $this->HashedPassword); break;
-                case 'Admin': $this->insert->insertEmployee($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $this->HashedPassword); break;
+                case 'Employee':
+                case 'Admin': $this->insert->insertEmployee($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $this->HashedPassword, $Role); break;
                 default: return FALSE;
             }
 
@@ -78,7 +79,7 @@
                 $row = $result->fetch_assoc();
                 $this->ID = $row['CustomerID'];
             }
-            elseif ($Role == 'Admin') {
+            elseif ($Role == 'Admin' || $Role == 'Employee') {
                 $result = $this->select->selectEmployeeAccount($Email);
                 $row = $result->fetch_assoc();
                 $this->ID = $row['EmployeeID'];

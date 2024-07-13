@@ -3,6 +3,10 @@
     require_once "../utilities/include.php";
     require_once "../utilities/var.sql.php";
 
+    $session->continueSession();
+    if(!$session->isSessionValid() || $session->Role != 'Admin') {
+        Location("../pages/admin.home.php");
+    }
 ?>
 
 <!DOCTYPE html>

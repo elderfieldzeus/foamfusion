@@ -18,7 +18,7 @@
         $Street = formalize($_POST['street_name']);
         $PostalCode = formalize($_POST['postal_code']);
 
-        if(!$auth->signup($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password, $ConfirmPassword, "Admin")) {
+        if(!$auth->signup($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password, $ConfirmPassword, "Employee")) {
             LocationAlert("../pages/admin.employee.php", "Invalid Signup Attempt!");
         }
         else {

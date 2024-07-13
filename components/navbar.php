@@ -11,12 +11,12 @@
                 <a href="../pages/contact.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">Contact</a>
             </div>
             <div class="flex items-center md:space-x-4">
-                <?php if($valid = !$session->isSessionValid()) : ?>
+                <?php if($invalid = !$session->isSessionValid() || $session->Role != 'Customer') : ?>
                     <a href="#" id="user-icon" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                         <i class="gg-user"></i>
                     </a>
                 <?php endif; ?>
-                <?php if(!$valid) : ?>
+                <?php if(!$invalid) : ?>
                     <div id="profile" class="relative">
                         <button id="profile-icon" href="#" class="text-sm bg-gray-300 size-7 font-bold flex justify-center items-center rounded-full text-gray-800 hover:bg-white">
                             <?php

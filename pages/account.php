@@ -81,14 +81,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Fetch detailed recent orders with DeliveryStatus
-$sql = "SELECT o.OrderID, o.OrderTime, o.OrderStatus, o.PaymentMethod, d.DeliveryStatus, op.OrderedQuantity, op.OrderedPrice, p.ProductName 
-        FROM Orders o
-        JOIN OrderedProducts op ON o.OrderID = op.OrderID
-        JOIN Variations v ON op.VariationID = v.VariationID
-        JOIN Products p ON v.ProductID = p.ProductID
-        LEFT JOIN Deliveries d ON o.OrderID = d.OrderID
-        WHERE o.CustomerID = ?
-        ORDER BY o.OrderTime DESC";
+$sql = "SELECT o.OrderID, o.OrderTime, o.OrderStatus, o.PaymentMethod, d.DeliveryStatus
+FROM Orders o
+LEFT JOIN Deliveries d ON o.OrderID = d.OrderID
+WHERE o.CustomerID = ?
+ORDER BY o.OrderTime DESC;";
+
 $stmt = $db->conn->prepare($sql);
 $stmt->bind_param("i", $CustomerID);
 $stmt->execute();
@@ -169,7 +167,7 @@ while ($row = $result->fetch_assoc()) {
                         $status_color = "text-blue-500";
                         switch($order['OrderStatus']) {
                             case 'Failed':
-                                $status = "Order has FAILED"; 
+                                $status = "Order rejected"; 
                                 $status_color = "text-red-500"; break;
                             case 'Pending':
                                 $status = "Order is up for approval"; break;
@@ -197,7 +195,7 @@ while ($row = $result->fetch_assoc()) {
                     $cd_result = $select->selectOrderedProducts($OrderID);
                     ?>
 
-                    <div id="dialog_<?= $OrderID ?>" class="dialog hidden">
+                    <div id="dialog_<?= $OrderID ?>" class="dialog hidden z-10">
                         <div class="inner_dialog">
                             <span id="close_dialog_<?= $order['OrderID'] ?>" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>
                             <h1 class="font-bold underline text-xl">Order #<?= $order['OrderID']?></h1>
@@ -294,7 +292,7 @@ while ($row = $result->fetch_assoc()) {
                 const deliveryStatus = item.querySelector('p:nth-child(4)').textContent.toLowerCase();
 
                 if (productName.includes(searchQuery) || deliveryStatus.includes(searchQuery)) {
-                    item.style.display = 'block';
+                    item.style.display = 'flex';
                 } else {
                     item.style.display = 'none';
                 }

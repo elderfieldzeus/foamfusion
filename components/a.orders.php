@@ -115,17 +115,24 @@ while($row = $result->fetch_assoc()): ?>
                             <p class="text-gray-500"><?= $row['OrderTime'] ?></p>
                     </div>
 
-                    <div class="w-full grid grid-cols-3 gap-2 my-4">
-                        <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Failed" class="py-2 text-center font-bold bg-red-500 hover:bg-red-800 transition-colors text-white rounded-md">FAILED</a>
-                        <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Pending" class="py-2 text-center font-bold bg-blue-500 hover:bg-blue-800 transition-colors text-white rounded-md">PENDING</a>
-                        <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Success" class="py-2 text-center font-bold bg-green-500 hover:bg-green-800 transition-colors text-white rounded-md">SUCCESS</a>
-                    </div>
+                    <?php
+                        $this->session->continueSession();
+                        if ($this->session->isSessionValid() && $this->session->Role === 'Admin') : 
+                    ?>
 
-                    <div class="flex justify-center">
-                        <a href="../utilities/deleteod.php?id=<?= $row['OrderID'] ?>&type=Order" class="font-bold bg-yellow-500 hover:bg-yellow-800 transition-colors pt-2 pb-1 px-2 rounded-md">
-                            <span class="delete--svg bg-white size-6"></span>
-                        </a>
-                    </div>
+                        <div class="w-full grid grid-cols-3 gap-2 my-4">
+                            <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Failed" class="py-2 text-center font-bold bg-red-500 hover:bg-red-800 transition-colors text-white rounded-md">FAILED</a>
+                            <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Pending" class="py-2 text-center font-bold bg-blue-500 hover:bg-blue-800 transition-colors text-white rounded-md">PENDING</a>
+                            <a href="../utilities/updatestatus.php?id=<?=$row['OrderID']?>&type=Order&status=Success" class="py-2 text-center font-bold bg-green-500 hover:bg-green-800 transition-colors text-white rounded-md">SUCCESS</a>
+                        </div>
+
+                        <div class="flex justify-center">
+                            <a href="../utilities/deleteod.php?id=<?= $row['OrderID'] ?>&type=Order" class="font-bold bg-yellow-500 hover:bg-yellow-800 transition-colors pt-2 pb-1 px-2 rounded-md">
+                                <span class="delete--svg bg-white size-6"></span>
+                            </a>
+                        </div>
+
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

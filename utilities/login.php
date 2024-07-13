@@ -18,7 +18,7 @@
             LocationAlert("../pages/home.php", "Invalid Login!");
         }
 
-        if($Role == 'Admin') {
+        if($Role == 'Admin' || $Role == 'Employee') {
             Location("../pages/admin.home.php");
         }
 

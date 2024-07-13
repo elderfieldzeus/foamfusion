@@ -1,3 +1,12 @@
+<?php
+
+    $this->session->continueSession();
+    $result = $this->select->selectEmployeeData($this->session->ID);
+    $row = $result->fetch_assoc();
+
+?>
+
+
 <nav id="admin_nav" class="fixed left-0 w-52 h-screen bg-gray-800 flex flex-col items-start py-5 gap-5 transition-all">
     <div id="dashboard__icon" class="dashboard--div mb-8">
         <span class="dashboard--svg dashboard--icon"></span>
@@ -24,26 +33,25 @@
         <p class="dashboard--header">Deliveries</p>
     </a>
 
-    <a href="./admin.customer.php" id="customer_dashboard" class="dashboard--div hovered--div <?= ($page == "Customer" ? "active--icon": "") ?>">
-        <span class="customer--svg dashboard--icon"></span>
-        <p class="dashboard--header">Customers</p>
-    </a>
+    <?php if ($row && $row['Role'] === 'Admin') : ?>
+        <a href="./admin.customer.php" id="customer_dashboard" class="dashboard--div hovered--div <?= ($page == "Customer" ? "active--icon": "") ?>">
+            <span class="customer--svg dashboard--icon"></span>
+            <p class="dashboard--header">Customers</p>
+        </a>
 
-    <a href="./admin.employee.php" id="settings_dashboard" class="dashboard--div hovered--div <?= ($page == "Employee" ? "active--icon": "") ?>">
-        <span class="employee--svg dashboard--icon"></span>
-        <p class="dashboard--header">Employees</p>
-    </a>
+        <a href="./admin.employee.php" id="settings_dashboard" class="dashboard--div hovered--div <?= ($page == "Employee" ? "active--icon": "") ?>">
+            <span class="employee--svg dashboard--icon"></span>
+            <p class="dashboard--header">Employees</p>
+        </a>
+    
+    <?php endif; ?>
 
     <button onclick="openSignout()" id="account_dashboard" class="hover:cursor-pointer flex gap-4 absolute bottom-0 p-4 w-full bg-gray-700 overflow-hidden">
         <span class="admin--svg dashboard--icon"></span>
         <p class="dashboard--header whitespace-nowrap overflow-ellipsis">
-    <?php
-                        
-            $this->session->continueSession();
-            $result = $this->select->selectEmployeeData($this->session->ID);
-            $row = $result->fetch_assoc();
+    <?php              
 
-            if($row != NULL && $this->session->Role == 'Admin') {
+            if($row && ($this->session->Role == 'Admin' || $this->session->Role == 'Employee')) {
                 echo $row["FirstName"] . " " . $row["LastName"];
             }
             else {

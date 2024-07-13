@@ -62,7 +62,7 @@
             $this->insert_id = $this->db->conn->insert_id;
         }
 
-        function insertEmployee($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password) {
+        function insertEmployee($FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $City, $Barangay, $Street, $PostalCode, $Password, $Role) {
 
             $NameID = null;
             $ContactID = null;
@@ -82,7 +82,7 @@
             $AddressID = $this->db->conn->insert_id;
 
             //insert into Account
-            $this->sql = "INSERT INTO Account (Email, Password, Role) VALUES('$Email', '$Password', 'Admin');";
+            $this->sql = "INSERT INTO Account (Email, Password, Role) VALUES('$Email', '$Password', '$Role');";
 
             $this->db->query($this->sql);
             $AccountID = $this->db->conn->insert_id;

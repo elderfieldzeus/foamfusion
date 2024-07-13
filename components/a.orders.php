@@ -127,7 +127,7 @@ while($row = $result->fetch_assoc()): ?>
                         </a>
                     </div>
                 </div>
-            <div>
+            </div>
         </div>
 
 <?php $i++; ?>

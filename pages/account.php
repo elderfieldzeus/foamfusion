@@ -8,6 +8,10 @@ require "../utilities/var.sql.php";
 
 $session->continueSession();
 
+if(!$session->isSessionValid()) {
+    LocationAlert("../pages/home.php", "Please Log in");
+}
+
 $CustomerID = $session->ID;
 
 $error = "";
@@ -77,15 +81,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Fetch detailed recent orders with DeliveryStatus
-$sql = "SELECT o.OrderID, o.OrderTime, d.DeliveryStatus, op.OrderedQuantity, op.OrderedPrice, p.ProductName 
+$sql = "SELECT o.OrderID, o.OrderTime, o.OrderStatus, o.PaymentMethod, d.DeliveryStatus, op.OrderedQuantity, op.OrderedPrice, p.ProductName 
         FROM Orders o
         JOIN OrderedProducts op ON o.OrderID = op.OrderID
         JOIN Variations v ON op.VariationID = v.VariationID
         JOIN Products p ON v.ProductID = p.ProductID
         LEFT JOIN Deliveries d ON o.OrderID = d.OrderID
         WHERE o.CustomerID = ?
-        ORDER BY o.OrderTime DESC
-        LIMIT 5";
+        ORDER BY o.OrderTime DESC";
 $stmt = $db->conn->prepare($sql);
 $stmt->bind_param("i", $CustomerID);
 $stmt->execute();
@@ -105,7 +108,9 @@ while ($row = $result->fetch_assoc()) {
     <link href='https://unpkg.com/css.gg@2.0.0/icons/css/search.css' rel='stylesheet'>
     <link href='https://unpkg.com/css.gg@2.0.0/icons/css/shopping-cart.css' rel='stylesheet'>
     <link rel="stylesheet" href="../styles/tailwind.css">
-</head>
+    <link rel="stylesheet" href="../styles/svg.css">
+    <link rel="stylesheet" href="../styles/admin.css">
+    </head>
 <body class="bg-gray-100">
 
     <!-- Navbar -->
@@ -159,12 +164,116 @@ while ($row = $result->fetch_assoc()) {
 
             <div class="overflow-y-auto max-h-96">
                 <?php foreach ($recentOrders as $order): ?>
-                    <div class="mb-4 border rounded p-4 order-item">
-                        <p class="text-lg font-bold"><?php echo $order['ProductName']; ?></p>
-                        <p>Quantity: <?php echo $order['OrderedQuantity']; ?></p>
-                        <p>Total Price: ₱<?php echo $order['OrderedPrice'] * $order['OrderedQuantity']; ?></p>
-                        <p>Status: <?php echo $order['DeliveryStatus']; ?></p>
-                        <p>Order Time: <?php echo $order['OrderTime']; ?></p>
+                    <?php
+                        $status = "NULL";
+                        $status_color = "text-blue-500";
+                        switch($order['OrderStatus']) {
+                            case 'Failed':
+                                $status = "Order has FAILED"; 
+                                $status_color = "text-red-500"; break;
+                            case 'Pending':
+                                $status = "Order is up for approval"; break;
+                            case 'Success':
+                                switch($order['DeliveryStatus']) {
+                                    case 'Failed':
+                                        $status = "Delivery has FAILED"; 
+                                        $status_color = "text-red-500"; break;
+                                    case 'Pending':
+                                        $status = "Delivery on its way"; break;
+                                    case 'Success':
+                                        $status = "Delivery has ARRIVED"; 
+                                        $status_color = "text-green-500"; break;
+                                    default:
+                                        $status = "Order APPROVED"; 
+                                }
+                        }
+
+                    $OrderID = $order['OrderID'];
+                    $result;
+
+                    $c = $select->selectCustomerData($CustomerID);
+                    $c_result = $c->fetch_assoc();
+
+                    $cd_result = $select->selectOrderedProducts($OrderID);
+                    ?>
+
+                    <div id="dialog_<?= $OrderID ?>" class="dialog hidden">
+                        <div class="inner_dialog">
+                            <span id="close_dialog_<?= $order['OrderID'] ?>" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>
+                            <h1 class="font-bold underline text-xl">Order #<?= $order['OrderID']?></h1>
+                            <div>
+                                <h1>Customer Information</h1>
+                                <hr class="mb-1">
+                                <div class="flex justify-between">
+                                    <p class="text-gray-500">Customer Name: </p>
+                                    <p class="text-gray-500"><?= $c_result['LastName'] . ', ' . $c_result['FirstName'] ?></p>
+                                </div>
+                                <div class="flex justify-between">
+                                    <p class="text-gray-500">Address: </p>
+                                    <p class="text-gray-500"><?= $c_result['FullAddress'] ?></p>
+                                </div>
+                                <div class="flex justify-between">
+                                    <p class="text-gray-500">Contact Number: </p>
+                                    <p class="text-gray-500"><?= $c_result['PhoneNum'] ?></p>
+                                </div>
+                                <div class="flex justify-between">
+                                    <p class="text-gray-500">Email:</p>
+                                    <p class="text-gray-500"><?= $c_result['Email'] ?></p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h1>Products Information</h1>
+                                <hr class="mb-1">
+                                        
+                                <?php 
+                                $total_price = 0;
+
+                                while($cd_row = $cd_result->fetch_assoc()): 
+                                    $sale = $cd_row['OrderedPrice'] * $cd_row['OrderedQuantity'];
+                                    $total_price += $sale;
+                                ?>
+                                    <div class="flex justify-between">
+                                        <p class=<?= $cd_row['VariationID'] ? "text-gray-500" : "text-red-500" ?> ><?= ($cd_row['VariationID'] ? $cd_row['ProductName'] . ', '  . $cd_row['VariationName'] : '**DELETED PRODUCT**')   ?> @Php<?= $cd_row['OrderedPrice'] ?> x <?= $cd_row['OrderedQuantity'] ?>pc/s</p>
+                                        <p class="text-gray-500">Php <?= number_format($sale, 2) ?></p>
+                                    </div>
+                                <?php endwhile; ?>
+
+                                <hr class="mb-1">
+                                <div class="flex justify-between">
+                                    <p class="text-gray-800">Total: </p>
+                                    <p class="text-gray-800">Php <?= number_format($total_price, 2) ?></p>
+                                </div>
+                            </div>
+                            <div>
+                                <h1>Order Information</h1>
+                                <hr>
+
+                                <div class="flex justify-between">
+                                    <p class="text-gray-500">Status:</p>
+                                    <p class="font-bold <?= $status_color ?>" ><?= strtoupper($status) ?></p>
+                                </div>
+
+                                <div class="flex justify-between">
+                                        <p class="text-gray-500">Payment Method: </p>
+                                        <p class="text-gray-500"><?= $order['PaymentMethod'] ?></p>
+                                </div>
+
+                                <div class="flex justify-between">
+                                        <p class="text-gray-500">Order Time: </p>
+                                        <p class="text-gray-500"><?= $order['OrderTime'] ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="order_<?= $OrderID ?>" class="mb-4 border rounded p-4 order-item flex items-center justify-between">
+                        <div>
+                            <p class="text-lg font-bold">Order ID: <?= $order['OrderID']; ?></p>
+                            <p>Total Price: ₱<?= number_format($total_price, 2) ?></p>
+                            <div class="flex gap-1"><p>Status: </p><p class="font-bold <?= $status_color ?>"><?= strtoupper($status) ?></p></div>
+                            <p>Order Time: <?php echo $order['OrderTime']; ?></p>
+                        </div>
+                        <button onclick="openDialog('<?= $OrderID ?>')" class="flex justify-center items-center rounded-full bg-black text-white size-10"><span class="details--svg size-7 bg-white"></span></button>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -192,6 +301,18 @@ while ($row = $result->fetch_assoc()) {
             });
         });
     });
+
+    function openDialog(ID) {
+        const dialogName = `dialog_${ID}`;
+        const closeName = `close_dialog_${ID}`;
+        const dialog = document.getElementById(dialogName);
+
+        dialog.classList.remove("hidden");
+
+        document.getElementById(closeName).addEventListener("click", () => {
+            dialog.classList.add("hidden");
+        });
+    }
 </script>
 
 </body>

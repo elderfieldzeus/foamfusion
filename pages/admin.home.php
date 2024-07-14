@@ -106,19 +106,58 @@
                         <canvas id="EmployeeStatus"></canvas>
                     </a>
 
-                    <a href="./admin.delivery.php" class="home-card">
+                    <button onclick="openSales()" class="home-card">
                         <div>
                             <p class="text-4xl ">Sales</p>
                             <p class="text-xl text-gray-400 w-20">
                                 <?php
                                     $result = $select->selectTotalSales();
                                     $_row = $result->fetch_assoc();
-                                    echo 'Php&nbsp' . (($sales = $_row['TotalSales']) ? $sales : '0.00');
+                                    echo 'Php&nbsp' . (($sales = $_row['TotalSales']) ? number_format($sales, 2) : '0.00');
                                 ?>
                             </p>
                         </div>
                         <canvas id="SalesStatus"></canvas>
-                    </a>
+                    </button>
+
+                    <div id="sales_dialog" class="dialog hidden">
+                        <div class="inner_dialog">
+                            <span id="close_dialog" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>
+
+                            <h1 class="text-2xl">Sales Data</h1>
+
+                            <hr>
+
+                            <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                                <div class="overflow-hidden">
+                                    <table class="min-w-full" id="delivery-table">
+                                        <thead class="bg-gray-800 text-white border-b">
+                                            <tr>
+                                                <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                                                    Variation ID
+                                                </th>
+                                                <th scope="col" class="sortable-header text-sm font-medium px-6 py-4 text-left" onclick="sortTable(2)">
+                                                    Variation Name
+                                                </th>
+                                                <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                                                    Product Name
+                                                </th>
+                                                <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
+                                                    Units Sold
+                                                </th>
+                                                <th scope="col" class="text-sm font-medium pl-6 py-4 text-left">
+                                                    Gross Income
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                                $admin->displayTotalSales();
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
 
                 <?php endif; ?>
             </div>          
@@ -145,7 +184,23 @@
 
         $sales_result = $select->selectSalesStatus();
         $admin->displayChart($sales_result, "SalesStatus", "TotalSales");
+
+        
     ?>
+
+    <script>
+        function openSales() {
+            const dialogName = `sales_dialog`;
+            const closeName = `close_dialog`;
+            const dialog = document.getElementById(dialogName);
+
+            dialog.classList.remove("hidden");
+
+            document.getElementById(closeName).addEventListener("click", () => {
+                dialog.classList.add("hidden");
+            });
+        }
+    </script>
 </body>
     
 </html>

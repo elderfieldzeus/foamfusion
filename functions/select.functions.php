@@ -219,12 +219,14 @@
         }
 
         function selectSalesStatus() {
-            $this->sql = "SELECT MONTHNAME(DeliveryTime) AS SalesStatus, SUM(DeliveredQuantity * DeliveredPrice) AS TotalSales
+            $this->sql = "SELECT CONCAT(ProductName, ', ', VariationName) AS SalesStatus, DeliveredQuantity AS TotalSales
                         FROM Deliveries
                         LEFT JOIN DeliveredProducts ON DeliveredProducts.DeliveryID = Deliveries.DeliveryID
+                        LEFT JOIN Variations ON Variations.VariationID = DeliveredProducts.VariationID
+                        LEFT JOIN Products ON Products.ProductID = Variations.ProductID
                         WHERE DeliveryStatus = 'Success'
                         GROUP BY SalesStatus
-                        ORDER BY TotalSales DESC;";
+                        ORDER BY DeliveredQuantity DESC;";
 
             return $this->db->query($this->sql);
         }
@@ -360,6 +362,19 @@
                         FROM Customers
                         WHERE CustomerID = $CustomerID;";
             
+            return $this->db->query($this->sql);
+        }
+
+        function selectProductSales() {
+            $this->sql = "SELECT v.VariationID, VariationName, ProductName, DeliveredQuantity AS UnitsSold, SUM(DeliveredQuantity * DeliveredPrice) AS TotalSales
+                        FROM Deliveries d
+                        LEFT JOIN DeliveredProducts dp ON dp.DeliveryID = d.DeliveryID
+                        LEFT JOIN Variations v ON v.VariationID = dp.VariationID
+                        LEFT JOIN Products p ON p.ProductID = v.ProductID
+                        WHERE d.DeliveryStatus = 'Success'
+                        GROUP BY v.VariationID
+                        ORDER BY TotalSales DESC";
+
             return $this->db->query($this->sql);
         }
     }

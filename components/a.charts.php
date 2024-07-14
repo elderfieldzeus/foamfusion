@@ -16,7 +16,7 @@
 
         while ($row = $result->fetch_assoc()): ?>
             <?php if ($i >= 3) break; ?>
-                xValues_<?= $name ?>.push("<?= $row[$name]  ?>");
+                xValues_<?= $name ?>.push("<?= ($row[$name]) ? $row[$name] : 'Deleted Products'  ?>");
                 yValues_<?= $name ?>.push(<?= $row[$value] ?>);
                 barColors_<?= $name ?>.push(randomColor());
             <?php $i++; ?>

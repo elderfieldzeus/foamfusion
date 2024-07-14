@@ -44,5 +44,9 @@
         function displayYourDeliveries() {
             include "../components/a.yourDeliveries.php";
         }
+
+        function displayTotalSales() {
+            include "../components/a.totalsales.php";
+        }
     }
 ?>

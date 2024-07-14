@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
                 <a href="#" class="text-white text-2xl font-bold">
-                    <img src="../assets/logo/logo_white.png" alt="">
+                    <img src="../assets/logo/logo_white.png" class="h-16" alt="">
                 </a>
             </div>
             <div class="hidden md:flex md:space-x-8">

@@ -48,7 +48,7 @@
         $_SESSION['cart'] = [];
 
         if($success) {
-            LocationAlert("../pages/home.php", "Order is successful");
+            LocationAlert("../pages/account.php", "Order is successful");
         }
     }
     else {

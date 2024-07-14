@@ -14,7 +14,12 @@
 
         if($type == "Order") {
             $delete->deleteOrder($id);
-            Location("../pages/admin.order.php");
+            if(isset($_GET['customer'])) {
+                LocationAlert("../pages/account.php", "Successfully Cancelled Order.");
+            }
+            else {
+                Location("../pages/admin.order.php");
+            }
         }
         else {
             $delete->deleteDelivery($id);

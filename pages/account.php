@@ -163,13 +163,16 @@ while ($row = $result->fetch_assoc()) {
             <div class="overflow-y-auto max-h-96">
                 <?php foreach ($recentOrders as $order): ?>
                     <?php
+                        $canCancel = false;
                         $status = "NULL";
                         $status_color = "text-blue-500";
                         switch($order['OrderStatus']) {
                             case 'Failed':
+                                $canCancel = true;
                                 $status = "Order rejected"; 
                                 $status_color = "text-red-500"; break;
                             case 'Pending':
+                                $canCancel = true;
                                 $status = "Order is up for approval"; break;
                             case 'Success':
                                 switch($order['DeliveryStatus']) {
@@ -179,7 +182,7 @@ while ($row = $result->fetch_assoc()) {
                                     case 'Pending':
                                         $status = "Delivery in progress"; break;
                                     case 'Success':
-                                        $status = "Successfuly delivered"; 
+                                        $status = "Successfully delivered"; 
                                         $status_color = "text-green-500"; break;
                                     default:
                                         $status = "Order APPROVED"; 
@@ -262,6 +265,12 @@ while ($row = $result->fetch_assoc()) {
                                         <p class="text-gray-500"><?= $order['OrderTime'] ?></p>
                                 </div>
                             </div>
+
+                            <?php if($canCancel) : ?>
+                                <div class="w-full flex items-center justify-center">
+                                    <button type="button" onclick="deleteAlert('../utilities/deleteod.php?id=<?= $OrderID ?>&type=Order&customer=true')" class="rounded-md bg-red-500 px-6 py-2 hover:bg-red-800 transition-colors text-white font-bold">Cancel Order</button>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div id="order_<?= $OrderID ?>" class="mb-4 border rounded p-4 order-item flex items-center justify-between">
@@ -310,6 +319,12 @@ while ($row = $result->fetch_assoc()) {
         document.getElementById(closeName).addEventListener("click", () => {
             dialog.classList.add("hidden");
         });
+    }
+
+    function deleteAlert(location) {
+        if(confirm("Are you sure you want to cancel?") == true) {
+            window.location.href = location;
+        }
     }
 </script>
 

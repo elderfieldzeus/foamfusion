@@ -199,7 +199,7 @@ $totalPrice = 0;
             <div id="cart">
                 <!-- Cart items will be dynamically added here -->
             </div>
-            <form action="../utilities/addorder.php" method="POST">
+            <form onsubmit="return confirmSubmission()" action="../utilities/addorder.php" method="POST">
                 <div class="flex w-full items-center mt-4">
                     <div id="to-hide" class="flex flex-col w-full">
                         <div class="flex w-full gap-2 items-center text-sm">
@@ -220,6 +220,10 @@ $totalPrice = 0;
         </div>
     </div>
 </div>
-
+<script>
+    function confirmSubmission() {
+        return confirm("Confirm Order?");
+    }
+</script>
 </body>
 </html>

@@ -17,7 +17,7 @@ $i = 0;
             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 <?= $row['UnitsSold'] ?>
             </td>
-            <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap font-bold">
+            <td class="text-sm text-gray-900 px-2 py-2 whitespace-nowrap font-light">
                 Php <?= number_format($row['TotalSales'], 2) ?>
             </td>
         </tr>

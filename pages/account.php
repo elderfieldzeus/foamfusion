@@ -174,12 +174,12 @@ while ($row = $result->fetch_assoc()) {
                             case 'Success':
                                 switch($order['DeliveryStatus']) {
                                     case 'Failed':
-                                        $status = "Delivery has FAILED"; 
+                                        $status = "Failed to deliver"; 
                                         $status_color = "text-red-500"; break;
                                     case 'Pending':
-                                        $status = "Delivery on its way"; break;
+                                        $status = "Delivery in progress"; break;
                                     case 'Success':
-                                        $status = "Delivery has ARRIVED"; 
+                                        $status = "Successfuly delivered"; 
                                         $status_color = "text-green-500"; break;
                                     default:
                                         $status = "Order APPROVED"; 

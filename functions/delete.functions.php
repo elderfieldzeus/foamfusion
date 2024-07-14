@@ -32,9 +32,35 @@
         }
 
         function deleteOrder($ID) {
+            $sql = "SELECT * FROM OrderedProducts WHERE OrderID = $ID;";
+            $result = $this->db->query($sql);
+
+            while($row = $result->fetch_assoc()) {
+                $VariationID = $row['VariationID'];
+                $Quantity = $row['OrderedQuantity'];
+                if($VariationID) {
+                    $subsql = "UPDATE Variations SET InStock = Instock + $Quantity WHERE VariationID = $VariationID;";
+
+                    $this->db->query($subsql);
+                }
+            }
+
             $sql = "DELETE FROM OrderedProducts WHERE OrderID='$ID';";
 
             $this->db->query($sql);
+
+
+            $sql = "SELECT DeliveryID FROM Deliveries WHERE OrderID = $ID";
+            $result = $this->db->query($sql);
+
+            while($row = $result->fetch_assoc()) {
+                $DeliveryID = $row['DeliveryID'];
+                $sql = "DELETE FROM DeliveredProducts WHERE DeliveryID='$DeliveryID';";
+
+                $this->db->query($sql);
+            }
+
+            $this->delete("Deliveries", "OrderID", $ID);
             $this->delete("Orders", "OrderID", $ID);
         }
 

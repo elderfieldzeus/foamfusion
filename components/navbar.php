@@ -2,7 +2,9 @@
     <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
-                <a href="#" class="text-white text-2xl font-bold">Logo</a>
+                <a href="#" class="text-white text-2xl font-bold">
+                    <img src="../assets/logo/logo_white.png" alt="">
+                </a>
             </div>
             <div class="hidden md:flex md:space-x-8">
                 <a href="../pages/home.php" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-300">Home</a>

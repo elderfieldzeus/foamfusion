@@ -274,7 +274,7 @@
 
         function selectEmployeeTable() {
             $this->sql = "SELECT EmployeeID, CONCAT(Name.LastName, ', ', Name.FirstName) AS EmployeeName,
-                        Account.Email, PhoneNum, CONCAT(Address.Street, ' ', Address.Barangay, ' ', Address.City, ', ', Address.PostalCode) AS FullAddress
+                        Account.Email, PhoneNum, CONCAT(Address.Street, ' ', Address.Barangay, ' ', Address.City, ', ', Address.PostalCode) AS FullAddress, Role
                         FROM Employees
                         LEFT JOIN Name ON Employees.NameID = Name.NameID
                         LEFT JOIN Address ON Employees.AddressID = Address.AddressID

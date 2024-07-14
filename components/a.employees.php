@@ -8,9 +8,14 @@ $result = $this->select->selectEmployeeTable();
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?=
                     $row['EmployeeID']
                 ?></td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"><?=
-                    $row['EmployeeName']
-                ?></td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap flex items-center gap-1">
+
+                <p><?=$row['EmployeeName']?></p>
+                <?php if($row['Role'] == 'Admin') : ?>
+                    <span class="check--svg bg-blue-500 size-4"></span>
+                <?php endif; ?>
+
+               </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"><?=
                     $row['Email']
                 ?></td>

@@ -34,7 +34,7 @@
         $Role = $_POST['role'];
 
         if($update->updateEmployeeData($EmployeeID, $FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $Password, $City, $Barangay, $Street, $PostalCode, $Role)) {
-            LocationAlert("../pages/admin.employee.php", "Successfully updated.");
+            Location("../pages/admin.employee.php");
         }
         else {
             LocationAlert("../pages/admin.employee.php", "Failed to update.");

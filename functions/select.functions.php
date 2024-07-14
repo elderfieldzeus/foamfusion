@@ -105,7 +105,7 @@
                         CONCAT(Ename.LastName, ', ', Ename.FirstName) AS EmployeeName,
                         CONCAT(Address.Street, ' ', Address.Barangay, ' ', Address.City, ', ', Address.PostalCode) AS FullAddress
                         FROM Deliveries
-                        LEFT JOIN Orders ON Orders.OrderID = Deliveries.DeliveryID
+                        LEFT JOIN Orders ON Orders.OrderID = Deliveries.OrderID
                         LEFT JOIN Customers ON Customers.CustomerID = Orders.CustomerID
                         LEFT JOIN Name CName ON Customers.NameID = CName.NameID
                         LEFT JOIN Employees ON Deliveries.EmployeeID = Employees.EmployeeID

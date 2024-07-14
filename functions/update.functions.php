@@ -131,9 +131,9 @@
             }
 
             if(!$AddressID && $City != '' && $Barangay != '' && $Street != '' && $PostalCode != '') {
-                $sql = "INSERT INTO Address (City, Barangay, Street, PostalCode) VALUES ($City, $Barangay, $Street, $PostalCode);";
+                $sql = "INSERT INTO Address (City, Barangay, Street, PostalCode) VALUES ('$City', '$Barangay', '$Street', '$PostalCode');";
 
-                $this->db->query($sql);
+                $this->db->conn->query($sql);
                 $insert_id = $this->db->conn->insert_id;
 
                 $sql = "UPDATE Customers 

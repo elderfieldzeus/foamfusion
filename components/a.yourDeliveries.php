@@ -58,7 +58,7 @@
                 $total_price += $sale;
             ?>
                 <div class="flex justify-between">
-                        <p class=<?= $cd_row['VariationID'] ? "text-gray-500" : "text-red-500" ?> ><?= ($cd_row['VariationID'] ? $cd_row['ProductName'] . ', '  . $cd_row['VariationName'] : '**DELETED PRODUCT**')   ?> @Php<?= $cd_row['DeliveredPrice'] ?> x <?= $cd_row['DeliveredQuantity'] ?>pc/s</p>
+                        <p class=<?= $cd_row['VariationID'] ? "text-gray-500" : "text-red-500" ?> ><?= ($cd_row['VariationID'] ? $cd_row['ProductName'] . ', '  . $cd_row['VariationName'] . ' (' . $cd_row['MassInOZ'] . 'oz)' : '**DELETED PRODUCT**')   ?> @Php<?= $cd_row['DeliveredPrice'] ?> x <?= $cd_row['DeliveredQuantity'] ?>pc/s</p>
                         <p class="text-gray-500">Php <?= number_format($sale, 2) ?></p>
                 </div>
             <?php endwhile; ?>

@@ -202,7 +202,7 @@ $totalPrice = 0;
             <div id="cart">
                 <!-- Cart items will be dynamically added here -->
             </div>
-            <form onsubmit="return confirmSubmission()" action="../utilities/addorder.php" method="POST">
+            <form class="cart" onsubmit="return confirmSubmission()" action="../utilities/addorder.php" method="POST">
                 <div class="flex w-full items-center mt-4">
                     <div id="to-hide" class="flex flex-col w-full">
                         <div class="flex w-full gap-2 items-center text-sm">
@@ -212,7 +212,7 @@ $totalPrice = 0;
                                 <option value="Online">Online</option>
                             </select>
                         </div>
-                        <p class="text-xs">Gcash: 09123456789</p>
+                        <!-- <p class="text-xs">Gcash: 09123456789</p> -->
                     </div>
                     <p id="total-price" class="text-lg font-bold w-full flex items-center justify-end"></p>
                 </div>
@@ -223,10 +223,35 @@ $totalPrice = 0;
         </div>
     </div>
 </div>
+
+<!-- QR Code Modal -->
+<div id="qrModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden">
+    <div class="bg-white p-8 rounded-lg text-center">
+        <img src="../assets/qr/Gcash_qr.JPG" src="" alt="QR Code" class="w-80 h-80">
+        <p id="paymentStatus" class="text-lg font-bold">Payment Loading...</p>
+    </div>
+</div>
+
 <script>
     function confirmSubmission() {
+        if(document.getElementById("payment_method").value == 'Online') {
+            document.getElementById('paymentStatus').textContent = 'Payment Loading...';
+            document.getElementById('qrModal').classList.remove('hidden');
+
+            setTimeout(function() {
+                document.getElementById('paymentStatus').textContent = 'Payment Successful';
+                setTimeout(() => {
+                    document.querySelector('.cart').submit();
+                }, 3000);
+            }, 10000);
+
+            return false;
+        }
+
         return confirm("Confirm Order?");
+        
     }
 </script>
+
 </body>
 </html>

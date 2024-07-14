@@ -68,36 +68,37 @@
             opacity: 0.7;
         }
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 50;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
+        display: none;
+        position: fixed;
+        z-index: 50;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+        padding-top: 60px;
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 10px; /* Adjust padding for smaller modal */
+        border: 1px solid #888;
+        max-width: 400px; /* Adjust maximum width of the modal */
+        width: 100%;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
     </style>
     <script defer>
         let cart = [];
@@ -143,10 +144,10 @@
 
         function openModal(productID) {
             const modal = document.getElementById('productModal');
-            const product = document.getElementById(`product-${productID}`);
-            const modalContent = document.getElementById('modalContent');
+            const productImage = document.getElementById(`product-img-${productID}`);
+            const modalImage = document.getElementById('modalImage');
 
-            modalContent.innerHTML = product.innerHTML;
+            modalImage.src = productImage.src;
             modal.style.display = 'block';
         }
 
@@ -337,7 +338,7 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             updateCartUI();
-        })
+        });
 
     </script>
 </head>
@@ -363,7 +364,7 @@
                         <h2 class='text-xl font-bold mb-2 product-name'>{$variation['ProductName']}</h2>
                         <p class='text-gray-700 mb-2 variation-description'>{$variation['VariationDescription']}</p>
                         <p class='text-gray-700 mb-2 variation-name'>{$variation['VariationName']}, {$variation['MassInOZ']}oz</p>
-                        <img src='../assets/products/{$variation['VariationImage']}' alt='{$variation['VariationName']}' class='w-full h-48 object-cover mb-4'>
+                        <img src='../assets/products/{$variation['VariationImage']}' alt='{$variation['VariationName']}' id='product-img-{$variation['VariationID']}' class='w-full h-48 object-cover mb-4' onclick='openModal({$variation['VariationID']})' style='cursor:pointer;'>
                         <p class='text-gray-700 mb-2 variation-price'>₱{$variation['UnitPrice']}</p>
                         <p class='text-gray-700 mb-2'>In Stock: {$variation['InStock']}</p>
                         <input type='number' value='1' min='1' max='{$variation['InStock']}' class='quantity-input w-16 p-1 border rounded mb-4'>
@@ -382,10 +383,6 @@
                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                     <a href="product.php?page=<?php echo $i; ?>" class="<?php echo ($i == $page) ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'; ?> px-4 py-2"><?php echo $i; ?></a>
                 <?php endfor; ?>
-            
-                <?php if ($page < $totalPages): ?>
-                    <a href="product.php?page=<?php echo $page + 1; ?>" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-r">Next</a>
-                <?php endif; ?>
             </div>
         </div>
 
@@ -427,6 +424,27 @@
         <div id="modalContent"></div>
     </div>
 </div>
+
+<script>
+    function openModal(variationID) {
+        const modal = document.getElementById('productModal');
+        const product = document.getElementById(`product-${variationID}`);
+        const modalContent = document.getElementById('modalContent');
+
+        // Clone the product node and add to modal content
+        const clonedProduct = product.cloneNode(true);
+        modalContent.innerHTML = ''; // Clear previous content
+        modalContent.appendChild(clonedProduct);
+
+        modal.style.display = 'block';
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('productModal');
+        modal.style.display = 'none';
+    }
+</script>
+
 
 </body>
 </html>

@@ -138,9 +138,9 @@ $i = 0;
                         </div>
 
                         <div class="flex justify-center">
-                            <a href="../utilities/deleteod.php?id=<?= $row['DeliveryID'] ?>&type=Delivery" class="font-bold bg-yellow-500 hover:bg-yellow-800 transition-colors pt-2 pb-1 px-2 rounded-md">
+                            <button type="button" onclick="deleteAlert('../utilities/deleteod.php?id=<?= $row['DeliveryID'] ?>&type=Delivery')" class="font-bold bg-yellow-500 hover:bg-yellow-800 transition-colors pt-2 pb-1 px-2 rounded-md">
                                 <span class="delete--svg bg-white size-6"></span>
-                            </a>
+                            </button>
                         </div>
                     <?php endif; ?>
                 </div>

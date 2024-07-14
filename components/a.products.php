@@ -31,9 +31,9 @@
                             <div id="inner_form" class="h-4/5 overflow-scroll">
                                 <div class="flex items-end gap-2">
                                     <p class="text-4xl"><?= $row['ProductName'] ?></p>
-                                    <a href="../utilities/deleteproduct.php?id=<?= $row['VariationID'] ?>&image=<?= $row['VariationImage'] ?>&productid=<?= $row['ProductID'] ?>">
+                                    <button type="button" onclick="deleteAlert('../utilities/deleteproduct.php?id=<?= $row['VariationID'] ?>&image=<?= $row['VariationImage'] ?>&productid=<?= $row['ProductID'] ?>')">
                                         <span class="delete--svg size-6 bg-red-400"></span>
-                                    </a>
+                                    </button>
                                 </div>
                                 <p class="text-xl text-gray-400"><input name="variation_name" class="focus:outline-none bg-opacity-0 " value="<?=$row['VariationName']?>"></p>
                                 <p class="text-lg mt-4">Mass: <input name="product_mass" type="numeric" step="0.01" class="text-gray-400 focus:outline-none bg-opacity-0" min="0" value="<?=$row['MassInOZ']?>oz"></p>

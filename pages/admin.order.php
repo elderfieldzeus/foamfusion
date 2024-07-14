@@ -108,6 +108,12 @@
                 }
             });
         }
+
+        function deleteAlert(location) {
+            if(confirm("Are you sure you want to delete?") == true) {
+                window.location.href = location;
+            }
+        }
     </script>
 </body>
 </html>

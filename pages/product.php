@@ -12,7 +12,7 @@
 
     // SQL query with pagination
     $sql = "
-        SELECT p.ProductID, p.ProductName, v.VariationID, v.VariationName, v.VariationDescription, v.VariationImage, v.UnitPrice, v.InStock
+        SELECT p.ProductID, p.ProductName, v.VariationID, v.VariationName, v.VariationDescription, v.VariationImage, v.UnitPrice, v.InStock, v.MassInOZ
         FROM Products p
         JOIN Variations v ON p.ProductID = v.ProductID
         LIMIT $limit OFFSET $offset
@@ -34,7 +34,8 @@
             'VariationImage' => $row['VariationImage'],
             'UnitPrice' => $row['UnitPrice'],
             'InStock' => $row['InStock'],
-            'ProductName' => $row['ProductName']
+            'ProductName' => $row['ProductName'],
+            'MassInOZ' => $row['MassInOZ']
         ];  
     }
     
@@ -113,6 +114,7 @@
                     $unitPrice = $row['UnitPrice'];
                     $variationName = $row['VariationName'];
                     $InStock = $row['InStock'];
+                    $MassInOZ = $row['MassInOZ'];
 
                     echo '
                         let variationID_' . $index . ' = ' . $cart->variation_id . ';
@@ -121,6 +123,7 @@
                         let variationName_' . $index . ' = "' . $variationName . '";
                         let quantity_' . $index . ' = ' . $cart->quantity . ';
                         let inStock_' . $index . ' = ' . $InStock . ';
+                        let massInOz_' . $index . ' = ' . $MassInOZ . ';
 
 
                         cart.push({
@@ -129,7 +132,8 @@
                             unitPrice: unitPrice_' . $index . ', 
                             variationName: variationName_' . $index . ', 
                             quantity: quantity_' . $index . ',
-                            inStock: inStock_' . $index . '
+                            inStock: inStock_' . $index . ',
+                            massInOz: massInOz_' . $index . '
                         });
                     ';
                 }
@@ -358,7 +362,7 @@
                     <div id='product-{$variation['VariationID']}' class='bg-white p-6 rounded-lg shadow-md product {$disabledClass}'>
                         <h2 class='text-xl font-bold mb-2 product-name'>{$variation['ProductName']}</h2>
                         <p class='text-gray-700 mb-2 variation-description'>{$variation['VariationDescription']}</p>
-                        <p class='text-gray-700 mb-2 variation-name'>{$variation['VariationName']}</p>
+                        <p class='text-gray-700 mb-2 variation-name'>{$variation['VariationName']}, {$variation['MassInOZ']} oz</p>
                         <img src='../assets/products/{$variation['VariationImage']}' alt='{$variation['VariationName']}' class='w-full h-48 object-cover mb-4'>
                         <p class='text-gray-700 mb-2 variation-price'>₱{$variation['UnitPrice']}</p>
                         <p class='text-gray-700 mb-2'>In Stock: {$variation['InStock']}</p>

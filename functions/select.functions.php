@@ -219,7 +219,7 @@
         }
 
         function selectSalesStatus() {
-            $this->sql = "SELECT CONCAT(ProductName, ', ', VariationName) AS SalesStatus, DeliveredQuantity AS TotalSales
+            $this->sql = "SELECT ProductName AS SalesStatus, SUM(DeliveredQuantity) AS TotalSales
                         FROM Deliveries
                         LEFT JOIN DeliveredProducts ON DeliveredProducts.DeliveryID = Deliveries.DeliveryID
                         LEFT JOIN Variations ON Variations.VariationID = DeliveredProducts.VariationID
@@ -366,7 +366,7 @@
         }
 
         function selectProductSales() {
-            $this->sql = "SELECT v.VariationID, VariationName, ProductName, DeliveredQuantity AS UnitsSold, SUM(DeliveredQuantity * DeliveredPrice) AS TotalSales
+            $this->sql = "SELECT v.VariationID, VariationName, ProductName, DeliveredQuantity AS UnitsSold, SUM(DeliveredQuantity * DeliveredPrice) AS TotalSales, MassInOZ
                         FROM Deliveries d
                         LEFT JOIN DeliveredProducts dp ON dp.DeliveryID = d.DeliveryID
                         LEFT JOIN Variations v ON v.VariationID = dp.VariationID

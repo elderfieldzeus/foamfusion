@@ -9,10 +9,10 @@ $i = 0;
                 <?= ($row['VariationID']) ? ($row['VariationID']) : '?' ?>
             </td>
             <td class="text-sm <?= ($row['VariationID']) ? 'text-gray-800 font-light' : 'text-red-500 font-bold' ?> px-6 py-4 whitespace-nowrap">
-                <?= ($row['VariationName']) ? ($row['VariationName']) : 'DELETED' ?>
+                <?= ($row['ProductName']) ? ($row['ProductName']) : 'DELETED' ?>
             </td>
             <td class="text-sm <?= ($row['VariationID']) ? 'text-gray-800 font-light' : 'text-red-500 font-bold' ?> px-6 py-4 whitespace-nowrap">
-                <?= ($row['ProductName']) ? ($row['ProductName']) : 'DELETED' ?>
+                <?= ($row['VariationName']) ? ($row['VariationName']) . ', ' . $row['MassInOZ'] . ' oz' : 'DELETED' ?>
             </td>
             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 <?= $row['UnitsSold'] ?>

@@ -56,6 +56,7 @@ $totalPrice = 0;
                     $unitPrice = $row['UnitPrice'];
                     $variationName = $row['VariationName'];
                     $InStock = $row['InStock'];
+                    $MassInOZ = $row['MassInOZ'];
 
                     echo '
                         let variationID_' . $index . ' = ' . $cart->variation_id . ';
@@ -64,6 +65,7 @@ $totalPrice = 0;
                         let variationName_' . $index . ' = "' . $variationName . '";
                         let quantity_' . $index . ' = ' . $cart->quantity . ';
                         let inStock_' . $index . ' = ' . $InStock . ';
+                        let massInOz_' . $index . ' = ' . $MassInOZ . ';
 
 
                         cart.push({
@@ -72,7 +74,8 @@ $totalPrice = 0;
                             unitPrice: unitPrice_' . $index . ', 
                             variationName: variationName_' . $index . ', 
                             quantity: quantity_' . $index . ',
-                            inStock: inStock_' . $index . '
+                            inStock: inStock_' . $index . ',
+                            massInOz: massInOz_' . $index . '
                         });
                     ';
                 }
@@ -164,7 +167,7 @@ $totalPrice = 0;
                     let subtotal = item.quantity * item.unitPrice;
                     cartItemElement.innerHTML = `
                         <div class="w-full flex justify-between pr-5">
-                            <p>${item.productName}, ${item.variationName} - Quantity: <input type="number" class="quantity-input" value="${item.quantity}" min="1" max="${item.inStock}" onchange="updateCartQuantity(${item.variationID}, this.value)"></p>
+                            <p>${item.productName}, ${item.variationName} ${item.massInOz}oz - Quantity: <input type="number" class="quantity-input" value="${item.quantity}" min="1" max="${item.inStock}" onchange="updateCartQuantity(${item.variationID}, this.value)"></p>
                             <p>₱${subtotal.toFixed(2)}</p>
                         </div>
                         <div>

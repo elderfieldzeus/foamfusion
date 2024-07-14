@@ -137,16 +137,16 @@
                                                     Variation ID
                                                 </th>
                                                 <th scope="col" class="sortable-header text-sm font-medium px-6 py-4 text-left" onclick="sortTable(2)">
-                                                    Variation Name
+                                                    Product Name
                                                 </th>
                                                 <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
-                                                    Product Name
+                                                    Variation
                                                 </th>
                                                 <th scope="col" class="text-sm font-medium px-6 py-4 text-left">
                                                     Units Sold
                                                 </th>
                                                 <th scope="col" class="text-sm font-medium pl-6 py-4 text-left">
-                                                    Gross Income
+                                                    Gross Earnings
                                                 </th>
                                             </tr>
                                         </thead>

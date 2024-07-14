@@ -32,7 +32,7 @@
         $PostalCode = formalize($_POST['postal_code']);
 
         if($update->updateCustomerData($CustomerID, $FirstName, $LastName, $BirthDate, $PhoneNum, $Email, $Password, $City, $Barangay, $Street, $PostalCode)) {
-            LocationAlert("../pages/admin.customer.php", "Successfully updated.");
+            Location("../pages/admin.customer.php");
         }
         else {
             LocationAlert("../pages/admin.customer.php", "Failed to update.");

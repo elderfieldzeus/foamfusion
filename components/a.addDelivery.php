@@ -20,19 +20,19 @@
 
                 <div class="flex justify-between text-gray-500">
                     <p>Customer Name:</p>
-                    <p class="text-gray-500"><?= $row['CustomerName'] ?></p>
+                    <p class="<?=$row['CustomerName'] ? 'text-gray-500 font-light' : 'text-red-500 font-bold' ?>"><?= ($row['CustomerName']) ? $row['CustomerName'] : 'DELETED' ?></p>
                 </div>
                 <div class="flex justify-between text-gray-500">
                     <p>Address:</p>
-                    <p class="text-gray-500"><?= $row['FullAddress'] ?></p>
+                    <p class="<?=$row['CustomerName'] ? 'text-gray-500 font-light' : 'text-red-500 font-bold' ?>"><?= ($row['CustomerName']) ? $row['FullAddress'] : 'DELETED' ?></p>
                 </div>
                 <div class="flex justify-between text-gray-500">
                     <p>Contact Number:</p>
-                    <p class="text-gray-500"><?= $row['PhoneNum'] ?></p>
+                    <p class="<?=$row['CustomerName'] ? 'text-gray-500 font-light' : 'text-red-500 font-bold' ?>"><?= ($row['CustomerName']) ? $row['PhoneNum'] : 'DELETED' ?></p>
                 </div>
                 <div class="flex justify-between text-gray-500">
                     <p>Email:</p>
-                    <p class="text-gray-500"><?= $row['Email'] ?></p>
+                    <p class="<?=$row['CustomerName'] ? 'text-gray-500 font-light' : 'text-red-500 font-bold' ?>"><?= ($row['CustomerName']) ? $row['Email'] : 'DELETED' ?></p>
                 </div>
 
                 <p class="mt-4">Products Information</p>

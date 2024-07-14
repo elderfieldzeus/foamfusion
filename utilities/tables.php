@@ -75,7 +75,7 @@
             OrderTime DATETIME DEFAULT CURRENT_TIMESTAMP,
             OrderStatus ENUM('Failed', 'Pending', 'Success') DEFAULT 'Pending',
             PaymentMethod ENUM('Cash', 'Online') DEFAULT 'Cash',
-            CustomerID INT NOT NULL,
+            CustomerID INT DEFAULT NULL,
             FOREIGN KEY(CustomerID) REFERENCES Customers(CustomerID)
         )",
 
@@ -83,7 +83,7 @@
             DeliveryID" . $primary_key . ",
             DeliveryTime DATETIME DEFAULT NULL,
             DeliveryStatus ENUM('Failed', 'Pending', 'Success') DEFAULT 'Pending',
-            EmployeeID INT NOT NULL,
+            EmployeeID INT DEFAULT NULL,
             OrderID INT NOT NULL,
             FOREIGN KEY(EmployeeID) REFERENCES Employees(EmployeeID),
             FOREIGN KEY(OrderID) REFERENCES Orders(OrderID)

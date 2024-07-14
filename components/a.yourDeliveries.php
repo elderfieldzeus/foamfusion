@@ -21,29 +21,29 @@
             <h1 class="font-bold underline text-lg mb-4">Delivery #<?= $row['DeliveryID'] ?></h1>
             <h1>Customer Information</h1>
             <hr class="mb-1">
-            <div class="flex justify-between">
-                <p class="text-gray-500">Customer Name: </p>
-                <p class="text-gray-500"><?= $row['CustomerName'] ?></p>
-            </div>
-            <div class="flex justify-between">
-                <p class="text-gray-500">Address: </p>
-                <p class="text-gray-500"><?= $row['FullAddress'] ?></p>
-            </div>
-            <div class="flex justify-between">
-                <p class="text-gray-500">Contact Number: </p>
-                <p class="text-gray-500"><?= $row['PhoneNum'] ?></p>
-            </div>
-            <div class="flex justify-between">
-                <p class="text-gray-500">Email:</p>
-                <p class="text-gray-500"><?= $row['Email'] ?></p>
-            </div>
+            <div class="flex justify-between text-gray-500">
+                    <p>Customer Name:</p>
+                    <p class="<?=$row['CustomerName'] ? 'text-gray-500 font-light' : 'text-red-500 font-bold' ?>"><?= ($row['CustomerName']) ? $row['CustomerName'] : 'DELETED' ?></p>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                    <p>Address:</p>
+                    <p class="<?=$row['CustomerName'] ? 'text-gray-500 font-light' : 'text-red-500 font-bold' ?>"><?= ($row['CustomerName']) ? $row['FullAddress'] : 'DELETED' ?></p>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                    <p>Contact Number:</p>
+                    <p class="<?=$row['CustomerName'] ? 'text-gray-500 font-light' : 'text-red-500 font-bold' ?>"><?= ($row['CustomerName']) ? $row['PhoneNum'] : 'DELETED' ?></p>
+                </div>
+                <div class="flex justify-between text-gray-500">
+                    <p>Email:</p>
+                    <p class="<?=$row['CustomerName'] ? 'text-gray-500 font-light' : 'text-red-500 font-bold' ?>"><?= ($row['CustomerName']) ? $row['Email'] : 'DELETED' ?></p>
+                </div>
         </div>
         <div>
             <h1>Employee Information</h1>
             <hr class="mb-1">
             <div class="flex justify-between">
                 <p class="text-gray-500">Designated Employee:</p>
-                <p class="text-gray-500"><?= $row['EmployeeName'] ?></p>
+                <p class="<?=$row['EmployeeName'] ? 'text-gray-500 font-light' : 'text-red-500 font-bold' ?>"><?= $row['EmployeeName'] ? $row['EmployeeName'] : 'DELETED' ?></p>
             </div>
         </div>
         <div>

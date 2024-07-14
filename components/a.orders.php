@@ -18,8 +18,8 @@ while($row = $result->fetch_assoc()): ?>
             font-bold px-6 py-4 whitespace-nowrap">
                 <?=strtoupper($row['OrderStatus'])?>
             </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                <?=$row['CustomerName']?>
+            <td class="text-sm <?=$row['CustomerName'] ? 'text-gray-900 font-light' : 'text-red-500 font-bold' ?>   px-6 py-4 whitespace-nowrap">
+                <?=$row['CustomerName'] ? $row['CustomerName'] : 'DELETED' ?>
             </td>
             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 <?=$row['OrderTime']?>
@@ -45,19 +45,19 @@ while($row = $result->fetch_assoc()): ?>
                     <hr class="mb-1">
                     <div class="flex justify-between">
                         <p class="text-gray-500">Customer Name: </p>
-                        <p class="text-gray-500"><?= $row['CustomerName'] ?></p>
+                        <p class="<?=$row['CustomerName'] ? 'text-gray-900 font-light' : 'text-red-500 font-bold' ?>"><?= ($row['CustomerName']) ? $row['CustomerName'] : 'DELETED' ?></p>
                     </div>
                     <div class="flex justify-between">
                         <p class="text-gray-500">Address: </p>
-                        <p class="text-gray-500"><?= $c_result['FullAddress'] ?></p>
+                        <p class="<?=$row['CustomerName'] ? 'text-gray-900 font-light' : 'text-red-500 font-bold' ?>"><?= $row['CustomerName'] ? $c_result['FullAddress'] : 'DELETED' ?></p>
                     </div>
                     <div class="flex justify-between">
                         <p class="text-gray-500">Contact Number: </p>
-                        <p class="text-gray-500"><?= $c_result['PhoneNum'] ?></p>
+                        <p class="<?=$row['CustomerName'] ? 'text-gray-900 font-light' : 'text-red-500 font-bold' ?>"><?= $row['CustomerName'] ? $c_result['PhoneNum'] : 'DELETED' ?></p>
                     </div>
                     <div class="flex justify-between">
                         <p class="text-gray-500">Email:</p>
-                        <p class="text-gray-500"><?= $c_result['Email'] ?></p>
+                        <p class="<?=$row['CustomerName'] ? 'text-gray-900 font-light' : 'text-red-500 font-bold' ?>"><?= $row['CustomerName'] ? $c_result['Email'] : 'DELETED' ?></p>
                     </div>
                 </div>
                 

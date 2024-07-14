@@ -98,9 +98,32 @@
         function deleteType($Type, $ID) {
             $result;
             if($Type == 'customer') {
+                $sql = "SELECT Orders.OrderID FROM Orders
+						LEFT JOIN Deliveries ON Deliveries.OrderID = Orders.OrderID
+                        LEFT JOIN Customers ON Customers.CustomerID = Orders.CustomerID
+                        WHERE (DeliveryStatus IS NULL OR DeliveryStatus != 'Success') AND Orders.CustomerID = $ID;";
+                    
+                $result = $this->db->query($sql);
+                if($result->num_rows > 0) {
+                    return FALSE;
+                } 
+
+                $sql = "UPDATE Orders SET CustomerID = NULL WHERE CustomerID = $ID";
+                $this->db->query($sql);
                 $result = $this->select->selectCustomerData($ID);
             }
             else {
+                $sql = "SELECT Deliveries.DeliveryID FROM Deliveries
+                        LEFT JOIN Employees ON Employees.EmployeeID = Deliveries.EmployeeID
+                        WHERE DeliveryStatus != 'Success' AND Deliveries.EmployeeID = $ID;";
+                    
+                $result = $this->db->query($sql);
+                if($result->num_rows > 0) {
+                    return FALSE;
+                }
+
+                $sql = "UPDATE Deliveries SET EmployeeID = NULL WHERE EmployeeID = $ID";
+                $this->db->query($sql);
                 $result = $this->select->selectEmployeeData($ID);
             }
             $row = $result->fetch_assoc();
@@ -119,6 +142,8 @@
             if($AddressID) {
                 $this->delete("Address", "AddressID", $AddressID);
             }
+
+            return TRUE;
         }
     }
 

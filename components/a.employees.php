@@ -43,7 +43,10 @@ $result = $this->select->selectEmployeeTable();
                     <span id="close_dialog_<?= $row['EmployeeID'] ?>" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>
                 
                     <form method="POST" action="../utilities/updateemployee.php" enctype="multipart/form-data" class="w-full px-8">
-                        <p class="font-semibold text-gray-900 text-xl">Employee #<?= $row['EmployeeID'] ?></p>
+                    <div class="flex items-center gap-1">
+                            <p class="font-semibold text-gray-900 text-xl">Employee #<?= $row['EmployeeID'] ?></p>
+                            <button type="button" onclick="deleteAlert('../utilities/deleteaccount.php?type=employee&id=<?= $row['EmployeeID'] ?>')" href="" class="delete--svg size-4 bg-red-500"></button>
+                        </div>
                         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                             <input type="hidden" name="employee_id" value="<?= $row['EmployeeID'] ?>">
                             <div class="w-full">

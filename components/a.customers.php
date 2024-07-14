@@ -38,7 +38,10 @@ $result = $this->select->selectCustomerTable();
                     <span id="close_dialog_<?= $row['CustomerID'] ?>" class="close--svg size-8 bg-red-500 absolute top-3 right-3 hover:cursor-pointer hover:bg-red-800 transition-colors"></span>
 
                     <form method="POST" action="../utilities/updatecustomer.php" enctype="multipart/form-data" class="w-full px-8">
-                        <p class="font-semibold text-gray-900 text-xl">Customer #<?= $row['CustomerID'] ?></p>
+                        <div class="flex items-center gap-1">
+                            <p class="font-semibold text-gray-900 text-xl">Customer #<?= $row['CustomerID'] ?></p>
+                            <button type="button" onclick="deleteAlert('../utilities/deleteaccount.php?type=customer&id=<?= $row['CustomerID'] ?>')" href="" class="delete--svg size-4 bg-red-500"></button>
+                        </div>
                         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                             <input type="hidden" name="customer_id" value="<?= $row['CustomerID'] ?>">
                             <div class="w-full">

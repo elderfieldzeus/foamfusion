@@ -23,11 +23,11 @@ $i = 0;
              font-bold px-6 py-4 whitespace-nowrap">
                 <?= strtoupper($row['DeliveryStatus']) ?>
             </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                <?= $row['CustomerName'] ?>
+            <td class="text-sm <?= ($row['CustomerName']) ? 'text-gray-900 font-light' : 'text-red-500 font-bold' ?> px-6 py-4 whitespace-nowrap">
+                <?= ($row['CustomerName']) ? $row['CustomerName'] : 'DELETED' ?>
             </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                <?= $row['EmployeeName'] ?>
+            <td class="text-sm <?= ($row['EmployeeName']) ? 'text-gray-900 font-light' : 'text-red-500 font-bold' ?> px-6 py-4 whitespace-nowrap">
+                <?= ($row['EmployeeName']) ? $row['EmployeeName'] : 'DELETED' ?>
             </td>
             <td class="text-sm text-gray-900 font-light px-2 py-2 whitespace-nowrap text-center">
                 <button onclick="openDialog(<?= $row['DeliveryID'] ?>)" class="bg-blue-700 text-white py-2 px-8 rounded-md">Details</button>
@@ -50,19 +50,19 @@ $i = 0;
                     <hr class="mb-1">
                     <div class="flex justify-between">
                         <p class="text-gray-500">Customer Name: </p>
-                        <p class="text-gray-500"><?= $row['CustomerName'] ?></p>
+                        <p class="<?=$row['CustomerName'] ? 'text-gray-900 font-light' : 'text-red-500 font-bold' ?>"><?= ($row['CustomerName']) ? $row['CustomerName'] : 'DELETED' ?></p>
                     </div>
                     <div class="flex justify-between">
                         <p class="text-gray-500">Address: </p>
-                        <p class="text-gray-500"><?= $c_result['FullAddress'] ?></p>
+                        <p class="<?=$row['CustomerName'] ? 'text-gray-900 font-light' : 'text-red-500 font-bold' ?>"><?= $row['CustomerName'] ? $c_result['FullAddress'] : 'DELETED' ?></p>
                     </div>
                     <div class="flex justify-between">
                         <p class="text-gray-500">Contact Number: </p>
-                        <p class="text-gray-500"><?= $c_result['PhoneNum'] ?></p>
+                        <p class="<?=$row['CustomerName'] ? 'text-gray-900 font-light' : 'text-red-500 font-bold' ?>"><?= $row['CustomerName'] ? $c_result['PhoneNum'] : 'DELETED' ?></p>
                     </div>
                     <div class="flex justify-between">
                         <p class="text-gray-500">Email:</p>
-                        <p class="text-gray-500"><?= $c_result['Email'] ?></p>
+                        <p class="<?=$row['CustomerName'] ? 'text-gray-900 font-light' : 'text-red-500 font-bold' ?>"><?= $row['CustomerName'] ? $c_result['Email'] : 'DELETED' ?></p>
                     </div>
                 </div>
                 <div>
@@ -70,7 +70,7 @@ $i = 0;
                     <hr class="mb-1">
                     <div class="flex justify-between">
                         <p class="text-gray-500">Designated Employee:</p>
-                        <p class="text-gray-500"><?= $row['EmployeeName'] ?></p>
+                        <p class="<?=$row['EmployeeName'] ? 'text-gray-500 font-light' : 'text-red-500 font-bold' ?>"><?= $row['EmployeeName'] ? $row['EmployeeName'] : 'DELETED' ?></p>
                     </div>
                 </div>
                 <div>

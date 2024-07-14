@@ -13,7 +13,16 @@
         $Type = $_GET['type'];
         $ID = $_GET['id'];
 
-        $delete->deleteType($Type, $ID);
+        $url = ($Type == 'customer') ? "../pages/admin.customer.php" : "../pages/admin.employee.php";
+
+        if($delete->deleteType($Type, $ID)) { 
+            Location($url);
+        }
+        else {
+            LocationAlert($url, "Unable to Delete User due to Active Orders/Deliveries.");
+        }
+
+        
     }
 
 ?>

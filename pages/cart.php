@@ -225,9 +225,9 @@ $totalPrice = 0;
 </div>
 
 <!-- QR Code Modal -->
-<div id="qrModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden">
+<div id="qrModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-10 hidden">
     <div class="bg-white p-8 rounded-lg text-center">
-        <img src="../assets/qr/Gcash_qr.JPG" src="" alt="QR Code" class="w-80 h-80">
+        <img src="../assets/qr/Gcash_qr.JPG" src="" alt="QR Code" class="w-80 h-[35rem] object-cover">
         <p id="paymentStatus" class="text-lg font-bold">Payment Loading...</p>
     </div>
 </div>

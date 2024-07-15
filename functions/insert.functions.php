@@ -115,8 +115,10 @@
             $ProductID = $this->insertProduct($ProductName);
 
             //inserts into Variations table with ProductID as foreign key
-            $this->sql = "INSERT INTO Variations (VariationName, VariationDescription, VariationImage, MassInOz, UnitPrice, InStock, ProductID) VALUES ('$VariationName', '$VariationDescription', '$VariationImage', '$MassInOZ', '$UnitPrice', '$InStock', '$ProductID');";
-            $this->db->conn->query($this->sql);
+            $this->sql = "INSERT INTO Variations (VariationName, VariationDescription, VariationImage, MassInOz, UnitPrice, InStock, ProductID) VALUES ('$VariationName', ?, '$VariationImage', '$MassInOZ', '$UnitPrice', '$InStock', '$ProductID');";
+            $stmt = $this->db->conn->prepare($this->sql);
+            $stmt->bind_param("s", $VariationDescription);
+            $stmt->execute();
             $this->insert_id = $this->db->conn->insert_id;
         }
 

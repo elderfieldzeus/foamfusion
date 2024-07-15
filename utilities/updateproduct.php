@@ -32,7 +32,12 @@
         $update->updateProductVariation($ID, "MassInOZ", $MassInOZ);
         $update->updateProductVariation($ID, "UnitPrice", $UnitPrice);
         $update->updateProductVariation($ID, "InStock", $InStock);
-        $update->updateProductVariation($ID, "VariationDescription", $VariationDescription);
+        // $update->updateProductVariation($ID, "VariationDescription", $VariationDescription);
+
+        $sql = "UPDATE Variations SET VariationDescription = ? WHERE VariationID = $ID";
+        $stmt = $db->conn->prepare($sql);
+        $stmt->bind_param("s", $VariationDescription);
+        $stmt->execute();
 
         // alert($_POST['variation_id'] . $_POST['variation_name'] . $_POST['product_mass'] . $_POST['unit_price'] . $_POST['in_stock']);
 

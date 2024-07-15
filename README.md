@@ -6,6 +6,7 @@ Welcome to the FoamFusion Soaps Product Management System! This application is d
 
 - [Features](#features)
 - [Technologies Used](#technologies-used)
+- [Contributors](#contributors)
 - [Contact](#contact)
 
 ## Features

@@ -256,6 +256,48 @@
             }
         }
 
+        function addToCartBig(variationID) {
+            const quantityInput = document.querySelector(`#modal_${variationID} .quantity-input`);
+            const quantity = parseInt(quantityInput.value);
+            const maxStock = parseInt(quantityInput.max); 
+
+            if (quantity > 0 && quantity <= maxStock) {
+                const existingCartItem = cart.find(item => item.variationID === variationID);
+                if (existingCartItem) {
+                    existingCartItem.quantity = (existingCartItem.quantity + quantity > maxStock ? maxStock : existingCartItem.quantity + quantity);
+                } else {
+                    const productElement = document.getElementById(`product-${variationID}`);
+                    const productName = productElement.querySelector('.product-name').textContent;
+                    const variationName = productElement.querySelector('.variation-name').textContent;
+                    const unitPrice = parseFloat(productElement.querySelector('.variation-price').textContent.replace('₱', ''));
+                    const inStock = maxStock;
+
+                    cart.push({ variationID, productName, unitPrice, variationName, quantity, inStock });
+                }
+                updateCartUI();
+
+                const formData = new FormData();
+                formData.append('variationID', variationID);
+                formData.append('quantity', quantity);
+
+                fetch('../utilities/add_to_cart.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+                quantityInput.value = 1;
+            } else {
+                alert('Please enter a valid quantity between 1 and ' + maxStock);
+            }
+        }
+
 
         function editCartItem(variationID) {
             let newQuantity = parseInt(prompt('Enter new quantity:'));
@@ -326,7 +368,7 @@
                 const cartItemElement = document.createElement('div');
                 cartItemElement.classList.add('flex', 'justify-between', 'items-center', 'border-b', 'pb-2', 'mb-2', 'text-xs');
                 cartItemElement.innerHTML = `
-                    <div>${item.productName}, ${item.variationName} - Quantity: ${item.quantity}</div>
+                    <div class="w-52 overflow-hidden">${item.productName}, ${item.variationName} - Quantity: ${item.quantity}</div>
                     <div>
                         <button class="bg-blue-500 text-white px-2 py-1 rounded mr-2" onclick="editCartItem(${item.variationID})">Edit</button>
                         <button class="bg-red-500 text-white px-2 py-1 rounded" onclick="deleteCartItem(${item.variationID})">Delete</button>
@@ -361,10 +403,10 @@
 
                     echo "
                     <div id='product-{$variation['VariationID']}' class='bg-white p-6 rounded-lg shadow-md product {$disabledClass}'>
-                        <h2 class='text-xl font-bold mb-2 product-name'>{$variation['ProductName']}</h2>
-                        <p class='text-gray-700 mb-2 variation-description'>{$variation['VariationDescription']}</p>
+                        <h2 class='text-xl font-bold mb-2 product-name overflow-hidden'>{$variation['ProductName']}</h2>
+                        <p class='text-gray-700 mb-2 variation-description overflow-hidden'>{$variation['VariationDescription']}</p>
                         <p class='text-gray-700 mb-2 variation-name'>{$variation['VariationName']}, {$variation['MassInOZ']}oz</p>
-                        <img src='../assets/products/{$variation['VariationImage']}' alt='{$variation['VariationName']}' id='product-img-{$variation['VariationID']}' class='w-full h-48 object-cover mb-4' onclick='openModal({$variation['VariationID']})' style='cursor:pointer;'>
+                        <img src='../assets/products/{$variation['VariationImage']}' alt='{$variation['VariationName']}' id='product-img-{$variation['VariationID']}' class='w-full h-48 object-cover mb-4' onclick='openModal({$variation['VariationID']}, {$variation['InStock']})' style='cursor:pointer;'>
                         <p class='text-gray-700 mb-2 variation-price'>₱{$variation['UnitPrice']}</p>
                         <p class='text-gray-700 mb-2'>In Stock: {$variation['InStock']}</p>
                         <input type='number' value='1' min='1' max='{$variation['InStock']}' class='quantity-input w-16 p-1 border rounded mb-4'>
@@ -426,15 +468,44 @@
 </div>
 
 <script>
-    function openModal(variationID) {
+    function openModal(variationID, inStock) {
         const modal = document.getElementById('productModal');
         const product = document.getElementById(`product-${variationID}`);
         const modalContent = document.getElementById('modalContent');
 
         // Clone the product node and add to modal content
         const clonedProduct = product.cloneNode(true);
+        clonedProduct.setAttribute("id", `modal_${variationID}`);
+        
+        for(let i = 0; i < 4; i++) {
+            clonedProduct.removeChild(clonedProduct.lastChild);
+        }
+
+        const bitInput = document.createElement("input");
+        bitInput.type = "number";
+        bitInput.value = 1;
+        bitInput.min = 1;
+        bitInput.max = inStock;
+        bitInput.classList.add("quantity-input", "w-16", "p-1", "border", "rounded", "mb-4");
+
+        const button = document.createElement("button");
+        button.textContent = "Add to Cart";
+        button.classList.add("bg-blue-500", "text-white", "px-4", "py-2", "rounded");
+
+        button.addEventListener("click", () => {
+            addToCartBig(variationID);
+        });
+
+        clonedProduct.appendChild(bitInput);
+        clonedProduct.appendChild(button);
+
+        // // const 
+
         modalContent.innerHTML = ''; // Clear previous content
         modalContent.appendChild(clonedProduct);
+
+        //"<input type='number' value='1' min='1' max='{$variation['InStock']}' class='quantity-input w-16 p-1 border rounded mb-4'>"
+        //"<button class='bg-blue-500 text-white px-4 py-2 rounded' onclick='addToCart({$variation['VariationID']})' {$disabledClass}>Add to Cart</button>"
 
         modal.style.display = 'block';
     }

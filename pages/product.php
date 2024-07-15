@@ -462,7 +462,7 @@
 <!-- Modal -->
 <div id="productModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
+        <span class="close z-10" onclick="closeModal()">&times;</span>
         <div id="modalContent"></div>
     </div>
 </div>
@@ -475,6 +475,7 @@
 
         // Clone the product node and add to modal content
         const clonedProduct = product.cloneNode(true);
+        clonedProduct.classList.remove("disabled");
         clonedProduct.setAttribute("id", `modal_${variationID}`);
         
         for(let i = 0; i < 4; i++) {
@@ -483,14 +484,21 @@
 
         const bitInput = document.createElement("input");
         bitInput.type = "number";
-        bitInput.value = 1;
-        bitInput.min = 1;
+        bitInput.value = (inStock == 0) ? 0 : 1;
+        bitInput.min = (inStock == 0) ? 0 : 1;
         bitInput.max = inStock;
         bitInput.classList.add("quantity-input", "w-16", "p-1", "border", "rounded", "mb-4");
 
         const button = document.createElement("button");
         button.textContent = "Add to Cart";
         button.classList.add("bg-blue-500", "text-white", "px-4", "py-2", "rounded");
+
+        if(inStock == 0) {
+            bitInput.setAttribute("disabled" , "true");
+            button.setAttribute("disabled", "true");
+            bitInput.classList.add("opacity-50");
+            button.classList.add("opacity-50");
+        }
 
         button.addEventListener("click", () => {
             addToCartBig(variationID);

@@ -404,8 +404,8 @@
                     echo "
                     <div id='product-{$variation['VariationID']}' class='bg-white p-6 rounded-lg shadow-md product {$disabledClass}'>
                         <h2 class='text-xl font-bold mb-2 product-name overflow-hidden'>{$variation['ProductName']}</h2>
-                        <p class='text-gray-700 mb-2 variation-description overflow-hidden'>{$variation['VariationDescription']}</p>
                         <p class='text-gray-700 mb-2 variation-name'>{$variation['VariationName']}, {$variation['MassInOZ']}oz</p>
+                        <p class='text-gray-700 mb-2 variation-description overflow-hidden'>{$variation['VariationDescription']}</p>
                         <img src='../assets/products/{$variation['VariationImage']}' alt='{$variation['VariationName']}' id='product-img-{$variation['VariationID']}' class='w-full h-48 object-cover mb-4' onclick='openModal({$variation['VariationID']}, {$variation['InStock']})' style='cursor:pointer;'>
                         <p class='text-gray-700 mb-2 variation-price'>₱{$variation['UnitPrice']}</p>
                         <p class='text-gray-700 mb-2'>In Stock: {$variation['InStock']}</p>

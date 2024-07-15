@@ -30,6 +30,7 @@ Welcome to the FoamFusion Soaps Product Management System! This application is d
 
 ## Contributors
 
+- Zeus Elderfield
 - Ethan Montera
 - Christine Dejito
 - Myles Oncines

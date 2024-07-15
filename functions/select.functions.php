@@ -366,7 +366,7 @@
         }
 
         function selectProductSales() {
-            $this->sql = "SELECT v.VariationID, VariationName, ProductName, DeliveredQuantity AS UnitsSold, SUM(DeliveredQuantity * DeliveredPrice) AS TotalSales, MassInOZ
+            $this->sql = "SELECT v.VariationID, VariationName, ProductName, SUM(DeliveredQuantity) AS UnitsSold, SUM(DeliveredQuantity * DeliveredPrice) AS TotalSales, MassInOZ
                         FROM Deliveries d
                         LEFT JOIN DeliveredProducts dp ON dp.DeliveryID = d.DeliveryID
                         LEFT JOIN Variations v ON v.VariationID = dp.VariationID
